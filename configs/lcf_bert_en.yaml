@@ -1,0 +1,26 @@
+# LCF-BERT config — SemEval-2014 (English)
+# Run: python models/lcf_bert/train.py --config configs/lcf_bert_en.yaml
+
+dataset: "SemEval-2014-Restaurant"
+
+train_file: "data/processed/lcf_bert/semeval14_rest_train.jsonl"
+val_file: "data/processed/lcf_bert/semeval14_rest_test.jsonl"
+
+pretrained_bert_name: "bert-base-uncased"
+bert_dim: 768
+
+max_seq_len: 128
+local_context_focus: "cdw"  # cdm | cdw
+SRD: 3 # semantic-relative distance threshold
+
+num_epoch: 5
+batch_size: 16
+learning_rate: 2.0e-5
+l2reg: 1.0e-5
+dropout: 0.1
+max_grad_norm: 1.0
+
+seed: 42
+device: "cuda"
+
+checkpoint_dir: "checkpoints/semeval14_rest"
