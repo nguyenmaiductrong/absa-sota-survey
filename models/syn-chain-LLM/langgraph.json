@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "Syn_Chain_Pipeline": "./syn_langgraph_pipeline.py:graph"
+  },
+  "env": ".env"
+}
