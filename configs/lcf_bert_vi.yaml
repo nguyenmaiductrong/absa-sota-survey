@@ -19,7 +19,7 @@ sentiment_loss_weight: 1.0
 aspect_loss_weight: 1.0
 monitor_metric: "sentiment_macro_f1"
 
-num_epoch: 5
+num_epoch: 10
 batch_size: 8
 learning_rate: 2.0e-5
 l2reg: 1.0e-5
