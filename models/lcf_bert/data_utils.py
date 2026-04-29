@@ -38,6 +38,26 @@ def _nnz_token_ids(arr: np.ndarray, pad_id: int) -> int:
     return int(np.sum(arr != pad_id))
 
 
+def semantic_relative_distance(
+    aspect_begin: int,
+    aspect_len: int,
+    text_len: int,
+) -> np.ndarray:
+    """Per-token SRD (Formula 1): SRD_i = |i - P_a| - floor(m/2).
+
+    P_a is the center position of the aspect span (multi-token aspects);
+    m is the aspect length in tokens; i is the token index in the sentence.
+    """
+    if text_len <= 0:
+        return np.zeros(0, dtype=np.float64)
+    if aspect_len <= 0:
+        return np.full(text_len, np.inf, dtype=np.float64)
+    p_a = aspect_begin + (aspect_len - 1) / 2.0
+    floor_half_m = aspect_len // 2
+    ii = np.arange(text_len, dtype=np.float64)
+    return np.abs(ii - p_a) - floor_half_m
+
+
 def get_lca_ids_and_cdm_vec(
     max_seq_len: int,
     SRD: int,
@@ -47,20 +67,21 @@ def get_lca_ids_and_cdm_vec(
     pad_id: int,
     syntactical_dist: np.ndarray | None = None,
 ) -> np.ndarray:
-    """PyABSA apc_utils.get_lca_ids_and_cdm_vec (logic aligned; lengths use != pad_id)."""
+    """CDM: mask 1 if SRD_i <= alpha, else 0 (Formulas 13–15). alpha is config SRD."""
     cdm_vec = np.zeros(max_seq_len, dtype=np.int64)
     aspect_len = _nnz_token_ids(aspect_indices, pad_id)
     text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
+    n_use = min(text_len, max_seq_len)
+    alpha = float(SRD)
     if syntactical_dist is not None:
-        for i in range(min(text_len, max_seq_len)):
-            if syntactical_dist[i] <= SRD:
-                cdm_vec[i] = 1
+        raw = np.asarray(syntactical_dist, dtype=np.float64).ravel()
+        dist = np.full(n_use, np.inf, dtype=np.float64)
+        dist[: min(n_use, raw.size)] = raw[:n_use]
     else:
-        local_context_begin = max(0, aspect_begin - SRD)
-        local_context_end = min(aspect_begin + aspect_len + SRD - 1, max_seq_len)
-        for i in range(min(text_len, max_seq_len)):
-            if local_context_begin <= i <= local_context_end:
-                cdm_vec[i] = 1
+        dist = semantic_relative_distance(aspect_begin, aspect_len, text_len)[:n_use]
+    for i in range(n_use):
+        if dist[i] <= alpha:
+            cdm_vec[i] = 1
     return cdm_vec
 
 
@@ -73,27 +94,25 @@ def get_cdw_vec(
     pad_id: int,
     syntactical_dist: np.ndarray | None = None,
 ) -> np.ndarray:
-    """PyABSA apc_utils.get_cdw_vec (logic aligned; lengths use != pad_id)."""
+    """CDW (Formulas 16–18): weight 1 if SRD_i <= alpha; else (SRD_i - alpha) / n. n = sentence length."""
     cdw_vec = np.zeros(max_seq_len, dtype=np.float32)
     aspect_len = _nnz_token_ids(aspect_indices, pad_id)
     text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
+    n_use = min(text_len, max_seq_len)
+    alpha = float(SRD)
+    n = float(text_len) if text_len > 0 else 1.0
     if syntactical_dist is not None:
-        for i in range(min(text_len, max_seq_len)):
-            if syntactical_dist[i] > SRD:
-                cdw_vec[i] = np.float32(1.0 - syntactical_dist[i] / text_len)
-            else:
-                cdw_vec[i] = np.float32(1.0)
+        raw = np.asarray(syntactical_dist, dtype=np.float64).ravel()
+        dist = np.full(n_use, np.inf, dtype=np.float64)
+        dist[: min(n_use, raw.size)] = raw[:n_use]
     else:
-        local_context_begin = max(0, aspect_begin - SRD)
-        local_context_end = min(aspect_begin + aspect_len + SRD - 1, max_seq_len)
-        for i in range(min(text_len, max_seq_len)):
-            if i < local_context_begin:
-                w = 1.0 - (local_context_begin - i) / text_len
-            elif local_context_begin <= i <= local_context_end:
-                w = 1.0
-            else:
-                w = 1.0 - (i - local_context_end) / text_len
-            cdw_vec[i] = np.float32(w)
+        dist = semantic_relative_distance(aspect_begin, aspect_len, text_len)[:n_use]
+    for i in range(n_use):
+        s = float(dist[i])
+        if s <= alpha:
+            cdw_vec[i] = np.float32(1.0)
+        else:
+            cdw_vec[i] = np.float32((s - alpha) / n)
     return cdw_vec
 
 
