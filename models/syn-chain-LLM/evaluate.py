@@ -10,7 +10,6 @@ from syntax_parser import get_syntactic_dependency_string
 from syn_chain_pipeline import run_syn_chain
 
 def evaluate(data_path: str, limit: int = None, output_log_path: str = "evaluation_logs.json"):
-    # Đọc dữ liệu test (định dạng JSON)
     with open(data_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
         

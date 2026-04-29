@@ -1,0 +1,3192 @@
+[
+    {
+        "text": "Boot time is super fast, around anywhere from 35 seconds to 1 minute.",
+        "aspect": "Boot time",
+        "sentiment": "positive"
+    },
+    {
+        "text": "tech support would not fix the problem unless I bought your plan for $150 plus.",
+        "aspect": "tech support",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Set up was easy.",
+        "aspect": "Set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Did not enjoy the new Windows 8 and touchscreen functions.",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Did not enjoy the new Windows 8 and touchscreen functions.",
+        "aspect": "touchscreen functions",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Other than not being a fan of click pads (industry standard these days) and the lousy internal speakers, it's hard for me to find things about this notebook I don't like, especially considering the $350 price tag.",
+        "aspect": "internal speakers",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Other than not being a fan of click pads (industry standard these days) and the lousy internal speakers, it's hard for me to find things about this notebook I don't like, especially considering the $350 price tag.",
+        "aspect": "price tag",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Other than not being a fan of click pads (industry standard these days) and the lousy internal speakers, it's hard for me to find things about this notebook I don't like, especially considering the $350 price tag.",
+        "aspect": "click pads",
+        "sentiment": "negative"
+    },
+    {
+        "text": "No installation disk (DVD) is included.",
+        "aspect": "installation disk (DVD)",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It's fast, light, and simple to use.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Works well, and I am extremely happy to be back to an apple OS.",
+        "aspect": "Works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Works well, and I am extremely happy to be back to an apple OS.",
+        "aspect": "apple OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Sure it's not light and slim but the features make up for it 100%.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am pleased with the fast log on, speedy WiFi connection and the long battery life (>6 hrs).",
+        "aspect": "log on",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am pleased with the fast log on, speedy WiFi connection and the long battery life (>6 hrs).",
+        "aspect": "WiFi connection",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am pleased with the fast log on, speedy WiFi connection and the long battery life (>6 hrs).",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Apple engineers have not yet discovered the delete key.",
+        "aspect": "delete key",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Made interneting (part of my business) very difficult to maintain.",
+        "aspect": "interneting",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Luckily, for all of us contemplating the decision, the Mac Mini is priced just right.",
+        "aspect": "priced",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Super light, super sexy and everything just works.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Only problem that I had was that the track pad was not very good for me, I only had a problem once or twice with it, But probably my computer was a bit defective.",
+        "aspect": "track pad",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It is super fast and has outstanding graphics.",
+        "aspect": "graphics",
+        "sentiment": "positive"
+    },
+    {
+        "text": "But the mountain lion is just too slow.",
+        "aspect": "mountain lion",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Strong build though which really adds to its durability.",
+        "aspect": "durability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Strong build though which really adds to its durability.",
+        "aspect": "build",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery life is excellent- 6-7 hours without charging.",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I've had my computer for 2 weeks already and it works perfectly.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "And I may be the only one but I am really liking Windows 8.",
+        "aspect": "Windows 8",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The baterry is very longer.",
+        "aspect": "baterry",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its size is ideal and the weight is acceptable.",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its size is ideal and the weight is acceptable.",
+        "aspect": "weight",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I can say that I am fully satisfied with the performance that the computer has supplied.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This laptop has only 2 USB ports, and they are both on the same side.",
+        "aspect": "USB ports",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It has so much more speed and the screen is very sharp.",
+        "aspect": "speed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has so much more speed and the screen is very sharp.",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Everything I wanted and everything I needed and the price was great!",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's not inexpensive but the Hardware performance is impressive for a computer this small.",
+        "aspect": "Hardware performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This thing is awesome, everything always works, everything is always easy to set up, everything is compatible, its literally everything I could ask for.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This thing is awesome, everything always works, everything is always easy to set up, everything is compatible, its literally everything I could ask for.",
+        "aspect": "set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Keyboard responds well to presses.",
+        "aspect": "Keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Lastly, Windows 8 is annoying.",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Everything is so easy and intuitive to setup or configure.",
+        "aspect": "setup",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Everything is so easy and intuitive to setup or configure.",
+        "aspect": "configure",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Biggest complaint is Windows 8 .",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Only 2 usb ports...seems kind of...limited.",
+        "aspect": "usb ports",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It has all the expected features and more +plus a wide screen and more than roomy keyboard.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has all the expected features and more +plus a wide screen and more than roomy keyboard.",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has all the expected features and more +plus a wide screen and more than roomy keyboard.",
+        "aspect": "keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Amazing Performance for anything I throw at it.",
+        "aspect": "Performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The receiver was full of superlatives for the quality and performance.",
+        "aspect": "quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The receiver was full of superlatives for the quality and performance.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was extremely happy with the OS itself.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The new MBP offers great portability and gives us confidence that we are not going to need to purchase a new laptop in 18 months.",
+        "aspect": "portability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The criticism has waned, and now I'd be the first to recommend an Air for truly portable computing.",
+        "aspect": "portable computing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I would have given it 5 starts was it not for the fact that it had Windows 8",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "MS Office 2011 for Mac is wonderful, well worth it.",
+        "aspect": "MS Office 2011 for Mac",
+        "sentiment": "positive"
+    },
+    {
+        "text": "But the performance of Mac Mini is a huge disappointment.",
+        "aspect": "performance",
+        "sentiment": "negative"
+    },
+    {
+        "text": "They don't just look good; they deliver excellent performance.",
+        "aspect": "look",
+        "sentiment": "positive"
+    },
+    {
+        "text": "They don't just look good; they deliver excellent performance.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I have had it over a year now with out a Glitch of any kind..I love the lit up keys and screen display...this thing is Fast and clear as can be.",
+        "aspect": "lit up keys",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I have had it over a year now with out a Glitch of any kind..I love the lit up keys and screen display...this thing is Fast and clear as can be.",
+        "aspect": "screen display",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Mountain Lion OS is not hard to figure out if you are familiar with Microsoft Windows.",
+        "aspect": "Mountain Lion OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Mountain Lion OS is not hard to figure out if you are familiar with Microsoft Windows.",
+        "aspect": "Microsoft Windows",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "However, I can refute that OSX is \"FAST\".",
+        "aspect": "OSX",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Enjoy using Microsoft Office!",
+        "aspect": "Microsoft Office",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Incredible graphics and brilliant colors.",
+        "aspect": "graphics",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Incredible graphics and brilliant colors.",
+        "aspect": "colors",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Built-in apps are purely amazing.",
+        "aspect": "Built-in apps",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Cons: Screen resolution.",
+        "aspect": "Screen resolution",
+        "sentiment": "negative"
+    },
+    {
+        "text": "From the speed to the multi touch gestures this operating system beats Windows easily.",
+        "aspect": "operating system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "From the speed to the multi touch gestures this operating system beats Windows easily.",
+        "aspect": "Windows",
+        "sentiment": "negative"
+    },
+    {
+        "text": "From the speed to the multi touch gestures this operating system beats Windows easily.",
+        "aspect": "speed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "From the speed to the multi touch gestures this operating system beats Windows easily.",
+        "aspect": "multi touch gestures",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I really like the size and I'm a fan of the ACERS.",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I opted for the SquareTrade 3-Year Computer Accidental Protection Warranty ($1500-2000) which also support \"accidents\" like drops and spills that are NOT covered by AppleCare.",
+        "aspect": "SquareTrade 3-Year Computer Accidental Protection Warranty",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I opted for the SquareTrade 3-Year Computer Accidental Protection Warranty ($1500-2000) which also support \"accidents\" like drops and spills that are NOT covered by AppleCare.",
+        "aspect": "AppleCare",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It's light and easy to transport.",
+        "aspect": "transport",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Once you get past learning how to use the poorly designed Windows 8 Set-Up you may feel frustrated.",
+        "aspect": "Windows 8 Set-Up",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It's been time for a new laptop, and the only debate was which size of the Mac laptops, and whether to spring for the retina display.",
+        "aspect": "size",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It's been time for a new laptop, and the only debate was which size of the Mac laptops, and whether to spring for the retina display.",
+        "aspect": "retina display",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The reason why I choose apple MacBook because of their design and the aluminum casing.",
+        "aspect": "design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The reason why I choose apple MacBook because of their design and the aluminum casing.",
+        "aspect": "aluminum casing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The aluminum body sure makes it stand out.",
+        "aspect": "aluminum body",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is very easy to integrate bluetooth devices, and USB devices are recognized almost instantly.",
+        "aspect": "integrate bluetooth devices",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is very easy to integrate bluetooth devices, and USB devices are recognized almost instantly.",
+        "aspect": "USB devices",
+        "sentiment": "positive"
+    },
+    {
+        "text": "And the fact that Apple is driving the 13\" RMBP with the Intel4000 graphic chip seems underpowered (to me.",
+        "aspect": "Intel4000 graphic chip",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Apple removed the DVD drive Firewire port (will work with adapter) and put the SDXC slot in a silly position on the back.",
+        "aspect": "DVD drive Firewire port",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Apple removed the DVD drive Firewire port (will work with adapter) and put the SDXC slot in a silly position on the back.",
+        "aspect": "adapter",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Apple removed the DVD drive Firewire port (will work with adapter) and put the SDXC slot in a silly position on the back.",
+        "aspect": "SDXC slot",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The durability of the laptop will make it worth the money.",
+        "aspect": "durability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Well designed and fast.",
+        "aspect": "designed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "But I was completely wrong, this computer is UNBELIEVABLE amazing and easy to use.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Exactly as posted plus a great value.",
+        "aspect": "value",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The specs are pretty good too.",
+        "aspect": "specs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple is unmatched in product quality,aesthetics,craftmanship, and customer service.",
+        "aspect": "product quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple is unmatched in product quality,aesthetics,craftmanship, and customer service.",
+        "aspect": "aesthetics",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple is unmatched in product quality,aesthetics,craftmanship, and customer service.",
+        "aspect": "craftmanship",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple is unmatched in product quality,aesthetics,craftmanship, and customer service.",
+        "aspect": "customer service",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is a great size and amazing windows 8 included!",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is a great size and amazing windows 8 included!",
+        "aspect": "windows 8",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I do not like too much Windows 8.",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Startup times are incredibly long: over two minutes.",
+        "aspect": "Startup times",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Also stunning colors and speedy",
+        "aspect": "colors",
+        "sentiment": "positive"
+    },
+    {
+        "text": "great price free shipping what else can i ask for!!",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "great price free shipping what else can i ask for!!",
+        "aspect": "shipping",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This mouse is terrific.",
+        "aspect": "mouse",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is really thick around the battery.",
+        "aspect": "battery",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "And windows 7 works like a charm.",
+        "aspect": "windows 7",
+        "sentiment": "positive"
+    },
+    {
+        "text": ":) Great product, great price, great delivery, and great service.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": ":) Great product, great price, great delivery, and great service.",
+        "aspect": "delivery",
+        "sentiment": "positive"
+    },
+    {
+        "text": ":) Great product, great price, great delivery, and great service.",
+        "aspect": "service",
+        "sentiment": "positive"
+    },
+    {
+        "text": ":] It arrived so fast and customer service was great.",
+        "aspect": "customer service",
+        "sentiment": "positive"
+    },
+    {
+        "text": "tried windows 8 and hated it !!!",
+        "aspect": "windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Set up was a breeze.",
+        "aspect": "Set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "But I do NOT like Win8.",
+        "aspect": "Win8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I am still in the process of learning about its features.",
+        "aspect": "features",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I had the same reasons as most PC users: the price, the overbearing restrictions of OSX and lack of support for games.",
+        "aspect": "price",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I had the same reasons as most PC users: the price, the overbearing restrictions of OSX and lack of support for games.",
+        "aspect": "OSX",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I had the same reasons as most PC users: the price, the overbearing restrictions of OSX and lack of support for games.",
+        "aspect": "support for games",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I wanted it for it's mobility and man, this little bad boy is very nice.",
+        "aspect": "mobility",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I found the mini to be:Exceptionally easy to set up",
+        "aspect": "set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Having USB3 is why I bought this Mini.",
+        "aspect": "USB3",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The sound is nice and loud; I don't have any problems with hearing anything.",
+        "aspect": "sound",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is very slim, the track pad is very much impressed with me.",
+        "aspect": "track pad",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The settings are not user-friendly either.",
+        "aspect": "settings",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Thank goodness for OpenOffice!",
+        "aspect": "OpenOffice",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Awesome form factor, great battery life, wonderful UX.",
+        "aspect": "form factor",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Awesome form factor, great battery life, wonderful UX.",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Awesome form factor, great battery life, wonderful UX.",
+        "aspect": "UX",
+        "sentiment": "positive"
+    },
+    {
+        "text": "i love the keyboard and the screen.",
+        "aspect": "keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "i love the keyboard and the screen.",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "However, there are MAJOR issues with the touchpad which render the device nearly useless.",
+        "aspect": "touchpad",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I've already upgraded o Mavericks and I am impressed with everything about this computer.",
+        "aspect": "Mavericks",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Not as fast as I would have expect for an i5.",
+        "aspect": "i5",
+        "sentiment": "negative"
+    },
+    {
+        "text": "thanks for great service and shipping!",
+        "aspect": "service",
+        "sentiment": "positive"
+    },
+    {
+        "text": "thanks for great service and shipping!",
+        "aspect": "shipping",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The performance seems quite good, and built-in applications like iPhoto work great with my phone and camera.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The performance seems quite good, and built-in applications like iPhoto work great with my phone and camera.",
+        "aspect": "built-in applications",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The performance seems quite good, and built-in applications like iPhoto work great with my phone and camera.",
+        "aspect": "iPhoto",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I did swap out the hard drive for a Samsung 830 SSD which I highly recommend.",
+        "aspect": "hard drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I did swap out the hard drive for a Samsung 830 SSD which I highly recommend.",
+        "aspect": "Samsung 830 SSD",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Starts up in a hurry and everything is ready to go.",
+        "aspect": "Starts up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Yes, that's a good thing, but it's made from aluminum that scratches easily.",
+        "aspect": "aluminum",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Quick and has built in virus control.",
+        "aspect": "built in virus control",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Took a long time trying to decide between one with retina display and one without.",
+        "aspect": "retina display",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I was also informed that the components of the Mac Book were dirty.",
+        "aspect": "components",
+        "sentiment": "negative"
+    },
+    {
+        "text": "the hardware problems have been so bad, i can't wait till it completely dies in 3 years, TOPS!",
+        "aspect": "hardware",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It's so nice that the battery last so long and that this machine has the snow lion!",
+        "aspect": "battery",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's so nice that the battery last so long and that this machine has the snow lion!",
+        "aspect": "snow lion",
+        "sentiment": "positive"
+    },
+    {
+        "text": "HOWEVER I chose two day shipping and it took over a week to arrive.",
+        "aspect": "shipping",
+        "sentiment": "negative"
+    },
+    {
+        "text": "it's exactly what i wanted, and it has all the new features and whatnot.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Can you buy any laptop that matches the quality of a MacBook?",
+        "aspect": "quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It feels cheap, the keyboard is not very sensitive.",
+        "aspect": "keyboard",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Though please note that sometimes it crashes, and the sound quality isnt superb.",
+        "aspect": "sound quality",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It is very easy to navigate even for a novice.",
+        "aspect": "navigate",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Does everything I need it to, has a wonderful battery life and I couldn't be happier.",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Great Performance and Quality.",
+        "aspect": "Performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Great Performance and Quality.",
+        "aspect": "Quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I used windows XP, windows Vista, and Windows 7 extensively.",
+        "aspect": "windows XP",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I used windows XP, windows Vista, and Windows 7 extensively.",
+        "aspect": "windows Vista",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I used windows XP, windows Vista, and Windows 7 extensively.",
+        "aspect": "Windows 7",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I did add a SSD drive and memory",
+        "aspect": "SSD drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I did add a SSD drive and memory",
+        "aspect": "memory",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "On start up it asks endless questions just so itune can sell you more of their products.",
+        "aspect": "start up",
+        "sentiment": "negative"
+    },
+    {
+        "text": "On start up it asks endless questions just so itune can sell you more of their products.",
+        "aspect": "itune",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I Have been a Pc user for a very long time now but I will get used to this new OS.",
+        "aspect": "OS",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "One more thing, this mac does NOT come with restore disks and I am not sure if you can make them direct from the mac like you can with newer PC's, also the charging cables are made of the same cheap material as the iPhone/iPod touch cables.",
+        "aspect": "restore disks",
+        "sentiment": "negative"
+    },
+    {
+        "text": "One more thing, this mac does NOT come with restore disks and I am not sure if you can make them direct from the mac like you can with newer PC's, also the charging cables are made of the same cheap material as the iPhone/iPod touch cables.",
+        "aspect": "charging cables",
+        "sentiment": "negative"
+    },
+    {
+        "text": "One more thing, this mac does NOT come with restore disks and I am not sure if you can make them direct from the mac like you can with newer PC's, also the charging cables are made of the same cheap material as the iPhone/iPod touch cables.",
+        "aspect": "material",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I bought it to my son who uses it for graphic design.",
+        "aspect": "graphic design",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I never tried any external mics with that iMac.",
+        "aspect": "external mics",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The new os is great on my macbook pro!",
+        "aspect": "os",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I have experienced no problems, works as anticipated.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "System is running great.",
+        "aspect": "System",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Easy to customize setting and even create your own bookmarks.",
+        "aspect": "customize setting",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Easy to customize setting and even create your own bookmarks.",
+        "aspect": "create your own bookmarks",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The MAC Mini, wireless keyboard / mouse and a HDMI cable is all I need to get some real work done.",
+        "aspect": "wireless keyboard / mouse",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The MAC Mini, wireless keyboard / mouse and a HDMI cable is all I need to get some real work done.",
+        "aspect": "HDMI cable",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "it has all the features that we expected and the price was good, working well so far.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "it has all the features that we expected and the price was good, working well so far.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "it has all the features that we expected and the price was good, working well so far.",
+        "aspect": "working",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I work as a designer and coder and I needed a new buddy to work with, not gaming.",
+        "aspect": "gaming",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The new operating system makes this computer into a super iPad.",
+        "aspect": "operating system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Easy to set up and go!",
+        "aspect": "set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I can't believe how quiet the hard drive is and how quick this thing boots up.",
+        "aspect": "hard drive",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I can't believe how quiet the hard drive is and how quick this thing boots up.",
+        "aspect": "boots up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The only issue came when I tried scanning to the mac.",
+        "aspect": "scanning",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I think this is about as good as it gets at anything close to this price point.",
+        "aspect": "price point",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It's just what we were looking for and it works great.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's so quick and responsive that it makes working/surfing on a computer so much more pleasurable!",
+        "aspect": "working",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's so quick and responsive that it makes working/surfing on a computer so much more pleasurable!",
+        "aspect": "surfing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It works fine, and all the software seems to run pretty well.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It works fine, and all the software seems to run pretty well.",
+        "aspect": "software",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I'm using this computer for word processing, web browsing, some gaming, and I'm learning programming.",
+        "aspect": "word processing",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I'm using this computer for word processing, web browsing, some gaming, and I'm learning programming.",
+        "aspect": "web browsing",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I'm using this computer for word processing, web browsing, some gaming, and I'm learning programming.",
+        "aspect": "gaming",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I'm using this computer for word processing, web browsing, some gaming, and I'm learning programming.",
+        "aspect": "programming",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "My wife was so excited to open the box, but quickly came to see that it did not function as it should.",
+        "aspect": "function",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I wanted a computer that was quite, fast, and that had overall great performance.",
+        "aspect": "performance",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Apple \"Help\" is a mixed bag.",
+        "aspect": "Apple \"Help\"",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It suddenly can not work.",
+        "aspect": "work",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Harddrive was in poor condition, had to replace it.",
+        "aspect": "Harddrive",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The on/off switch is a bit obscure in the rear corner.",
+        "aspect": "on/off switch",
+        "sentiment": "negative"
+    },
+    {
+        "text": "My only complaint is the total lack of instructions that come with the mac mini.",
+        "aspect": "instructions",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The only task that this computer would not be good enough for would be gaming, otherwise the integrated Intel 4000 graphics work well for other tasks.",
+        "aspect": "gaming",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I use it mostly for content creation (Audio, video, photo editing) and its reliable.",
+        "aspect": "content creation",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I use it mostly for content creation (Audio, video, photo editing) and its reliable.",
+        "aspect": "Audio",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I use it mostly for content creation (Audio, video, photo editing) and its reliable.",
+        "aspect": "video",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I use it mostly for content creation (Audio, video, photo editing) and its reliable.",
+        "aspect": "photo editing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Screen is bright and gorgeous.",
+        "aspect": "Screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The only solution is to turn the brightness down, etc.",
+        "aspect": "brightness",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "If you want more information on macs I suggest going to apple.com and heading towards the macbook page for more information on the applications.",
+        "aspect": "applications",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It is robust, with a friendly use as all Apple products.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is fast and easy to use.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "And the fact that it comes with an i5 processor definitely speeds things up",
+        "aspect": "i5 processor",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I have been PC for years but this computer is intuitive and its built in features are a great help",
+        "aspect": "built in features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Nice screen, keyboard works great!",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Nice screen, keyboard works great!",
+        "aspect": "keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was amazed at how fast the delivery was.",
+        "aspect": "delivery",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I've installed to it additional SSD and 16Gb RAM.",
+        "aspect": "SSD",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I've installed to it additional SSD and 16Gb RAM.",
+        "aspect": "16Gb RAM",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The memory was gone and it was not able to be used.",
+        "aspect": "memory",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It works great and I am so happy I bought it.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the design and ease of use with the keyboard, plenty of ports.",
+        "aspect": "design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the design and ease of use with the keyboard, plenty of ports.",
+        "aspect": "keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the design and ease of use with the keyboard, plenty of ports.",
+        "aspect": "ports",
+        "sentiment": "positive"
+    },
+    {
+        "text": "it definitely beats my old mac and the service was great.",
+        "aspect": "service",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Web browsing is very quick with Safari browser.",
+        "aspect": "Web browsing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Web browsing is very quick with Safari browser.",
+        "aspect": "Safari browser",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the lighted screen at night.",
+        "aspect": "lighted screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is really easy to use and it is quick to start up.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is really easy to use and it is quick to start up.",
+        "aspect": "start up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I've lived with the crashes and slow operation and restarts.",
+        "aspect": "operation",
+        "sentiment": "negative"
+    },
+    {
+        "text": "USB3 Peripherals are noticably less expensive than the ThunderBolt ones.",
+        "aspect": "USB3 Peripherals",
+        "sentiment": "positive"
+    },
+    {
+        "text": "USB3 Peripherals are noticably less expensive than the ThunderBolt ones.",
+        "aspect": "ThunderBolt",
+        "sentiment": "negative"
+    },
+    {
+        "text": "And mine had broke but I sent it in under warranty-no problems.",
+        "aspect": "warranty",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's fast, light, and is perfect for media editing, which is mostly why I bought it in the first place.",
+        "aspect": "media editing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery lasts as advertised (give or take 15-20 minutes), and the entire user experience is very elegant.",
+        "aspect": "battery",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery lasts as advertised (give or take 15-20 minutes), and the entire user experience is very elegant.",
+        "aspect": "user experience",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Thanks for the fast shipment and great price.",
+        "aspect": "shipment",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Thanks for the fast shipment and great price.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "!Excelent performance, usability, presentation and time response.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "!Excelent performance, usability, presentation and time response.",
+        "aspect": "usability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "!Excelent performance, usability, presentation and time response.",
+        "aspect": "presentation",
+        "sentiment": "positive"
+    },
+    {
+        "text": "!Excelent performance, usability, presentation and time response.",
+        "aspect": "time response",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The smaller size was a bonus because of space restrictions.",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I blame the Mac OS.",
+        "aspect": "Mac OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "In fact I still use manyLegacy programs (Appleworks, FileMaker Pro, Quicken, Photoshop etc)!",
+        "aspect": "Legacy programs",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "In fact I still use manyLegacy programs (Appleworks, FileMaker Pro, Quicken, Photoshop etc)!",
+        "aspect": "Appleworks",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "In fact I still use manyLegacy programs (Appleworks, FileMaker Pro, Quicken, Photoshop etc)!",
+        "aspect": "FileMaker Pro",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "In fact I still use manyLegacy programs (Appleworks, FileMaker Pro, Quicken, Photoshop etc)!",
+        "aspect": "Quicken",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "In fact I still use manyLegacy programs (Appleworks, FileMaker Pro, Quicken, Photoshop etc)!",
+        "aspect": "Photoshop",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I like the operating system.",
+        "aspect": "operating system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I love the form factor.",
+        "aspect": "form factor",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's fast at loading the internet.",
+        "aspect": "loading the internet",
+        "sentiment": "positive"
+    },
+    {
+        "text": "So much faster and sleeker looking.",
+        "aspect": "looking",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Unfortunately, it runs XP and Microsoft is dropping support next April.",
+        "aspect": "XP",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Unfortunately, it runs XP and Microsoft is dropping support next April.",
+        "aspect": "support",
+        "sentiment": "negative"
+    },
+    {
+        "text": "First off, I really do like my MBP... once used to the OS it is pretty easy to get around, and the overall build is great... eg the keyboard is one of the best to type on.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "First off, I really do like my MBP... once used to the OS it is pretty easy to get around, and the overall build is great... eg the keyboard is one of the best to type on.",
+        "aspect": "overall build",
+        "sentiment": "positive"
+    },
+    {
+        "text": "First off, I really do like my MBP... once used to the OS it is pretty easy to get around, and the overall build is great... eg the keyboard is one of the best to type on.",
+        "aspect": "keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is made of such solid construction and since I have never had a Mac using my iPhone helped me get used to the system a bit.",
+        "aspect": "construction",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is made of such solid construction and since I have never had a Mac using my iPhone helped me get used to the system a bit.",
+        "aspect": "system",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Very nice unibody construction.",
+        "aspect": "unibody construction",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This Macbook Pro is fast, powerful, and runs super quiet and cool.",
+        "aspect": "runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's ok but doesn't have a disk drive which I didn't know until after I bought it.",
+        "aspect": "disk drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "There is no HDMI receptacle, nor is there an SD card slot located anywhere on the device.",
+        "aspect": "HDMI receptacle",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "There is no HDMI receptacle, nor is there an SD card slot located anywhere on the device.",
+        "aspect": "SD card slot",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It came in brand new and works perfectly.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It shouldn't happen like that, I don't have any design app open or anything.",
+        "aspect": "design app",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "MY TRACKPAD IS NOT WORKING.",
+        "aspect": "TRACKPAD",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It looks and feels solid, with a flawless finish.",
+        "aspect": "finish",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It looks and feels solid, with a flawless finish.",
+        "aspect": "looks",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It looks and feels solid, with a flawless finish.",
+        "aspect": "feels",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Price was higher when purchased on MAC when compared to price showing on PC when I bought this product.",
+        "aspect": "Price",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Price was higher when purchased on MAC when compared to price showing on PC when I bought this product.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Then the system would many times not power down without a forced power-off.",
+        "aspect": "system",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Then the system would many times not power down without a forced power-off.",
+        "aspect": "power down",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The configuration is perfect for my needs.",
+        "aspect": "configuration",
+        "sentiment": "positive"
+    },
+    {
+        "text": "and the speakers is the worst ever.",
+        "aspect": "speakers",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Its the best, its got the looks, super easy to use and love all you can do with the trackpad!..",
+        "aspect": "looks",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its the best, its got the looks, super easy to use and love all you can do with the trackpad!..",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its the best, its got the looks, super easy to use and love all you can do with the trackpad!..",
+        "aspect": "trackpad",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Web surfuring is smooth and seamless.",
+        "aspect": "Web surfuring",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I'm overall pleased with the interface and the portability of this product.",
+        "aspect": "interface",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I'm overall pleased with the interface and the portability of this product.",
+        "aspect": "portability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This item is a beautiful piece, it works well, it is easy to carry and handle.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This item is a beautiful piece, it works well, it is easy to carry and handle.",
+        "aspect": "carry",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This item is a beautiful piece, it works well, it is easy to carry and handle.",
+        "aspect": "handle",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It was also suffering from hardware (keyboard) issues, relatively slow performance and shortening battery lifetime.",
+        "aspect": "performance",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It was also suffering from hardware (keyboard) issues, relatively slow performance and shortening battery lifetime.",
+        "aspect": "battery lifetime",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It was also suffering from hardware (keyboard) issues, relatively slow performance and shortening battery lifetime.",
+        "aspect": "hardware (keyboard)",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Runs good and does the job, can't complain about that!",
+        "aspect": "Runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's silent and has a very small footprint on my desk.",
+        "aspect": "footprint",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The exterior is absolutely gorgeous.",
+        "aspect": "exterior",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has a very high performance, just for what I needed for.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple is aware of this issue and this is either old stock or a defective design involving the intel 4000 graphics chipset.",
+        "aspect": "intel 4000 graphics chipset",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Apple is aware of this issue and this is either old stock or a defective design involving the intel 4000 graphics chipset.",
+        "aspect": "design",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "OSX Mountain Lion  soon to upgrade to Mavericks.",
+        "aspect": "OSX Mountain Lion",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "OSX Mountain Lion  soon to upgrade to Mavericks.",
+        "aspect": "Mavericks",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I just bought the new MacBook Pro, the 13\" model, and I can't believe Apple keeps making the same mistake with regard to USB ports.",
+        "aspect": "USB ports",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It wakes in less than a second when I open the lid.",
+        "aspect": "lid",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It wakes in less than a second when I open the lid.",
+        "aspect": "wakes",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is the perfect size and speed for me.",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is the perfect size and speed for me.",
+        "aspect": "speed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "THE CUSTOMER SERVICE IS TERRIFIC!!",
+        "aspect": "CUSTOMER SERVICE",
+        "sentiment": "positive"
+    },
+    {
+        "text": "My last laptop was a 17\" ASUS gaming machine, which performed admirably, but having since built my own desktop and really settling into the college life, I found myself wanting something smaller and less cumbersome, not to mention that the ASUS had been slowly developing problems ever since I bought it about 4 years ago.",
+        "aspect": "performed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "However, it did not have any scratches, ZERO battery cycle count (pretty surprised), and all the hardware seemed to be working perfectly.",
+        "aspect": "battery cycle count",
+        "sentiment": "positive"
+    },
+    {
+        "text": "However, it did not have any scratches, ZERO battery cycle count (pretty surprised), and all the hardware seemed to be working perfectly.",
+        "aspect": "hardware",
+        "sentiment": "positive"
+    },
+    {
+        "text": "After fumbling around with the OS I started searching the internet for a fix and found a number of forums on fixing the issue.",
+        "aspect": "OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "And as for all the fancy finger swipes -- I just gave up and attached a mouse.",
+        "aspect": "finger swipes",
+        "sentiment": "negative"
+    },
+    {
+        "text": "And as for all the fancy finger swipes -- I just gave up and attached a mouse.",
+        "aspect": "mouse",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I needed a laptop with big storage, a nice screen and fast so I can photoshop without any problem.",
+        "aspect": "storage",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I needed a laptop with big storage, a nice screen and fast so I can photoshop without any problem.",
+        "aspect": "screen",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I needed a laptop with big storage, a nice screen and fast so I can photoshop without any problem.",
+        "aspect": "photoshop",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I like coming back to Mac OS but this laptop is lacking in speaker quality compared to my $400  old HP laptop.",
+        "aspect": "Mac OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like coming back to Mac OS but this laptop is lacking in speaker quality compared to my $400  old HP laptop.",
+        "aspect": "speaker quality",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Shipped very quickly and safely.",
+        "aspect": "Shipped",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The thunderbolt port is awesome!",
+        "aspect": "thunderbolt port",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The performance is definitely superior to any computer I've ever put my hands on.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's great for streaming video and other entertainment uses.",
+        "aspect": "streaming video",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It's great for streaming video and other entertainment uses.",
+        "aspect": "entertainment uses",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the design and its features but there are somethings I think needs to be improved.",
+        "aspect": "design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the design and its features but there are somethings I think needs to be improved.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "There were small problems with Mac office.",
+        "aspect": "Mac office",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I understand I should call Apple Tech Support about any variables(which is my purpose of writing this con) as variables could be a bigger future problem.",
+        "aspect": "Apple Tech Support",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I ordered my 2012 mac mini after being disappointed with spec of the new 27\" Imacs.",
+        "aspect": "spec",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It still works and it's extremely user friendly, so I would recommend it for new computer user and also for those who are just looking for a more efficient way to do things",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its fast, easy to use and it looks great.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Its fast, easy to use and it looks great.",
+        "aspect": "looks",
+        "sentiment": "positive"
+    },
+    {
+        "text": "(but Office can be purchased) IF I ever need a laptop again I am for sure purchasing another Toshiba!!",
+        "aspect": "Office",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I haven't tried the one with retina display... Maybe in the future.",
+        "aspect": "retina display",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Performance is much much better on the Pro, especially if you install an SSD on it.",
+        "aspect": "Performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Performance is much much better on the Pro, especially if you install an SSD on it.",
+        "aspect": "SSD",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Note, however, that any existing MagSafe accessories you have will not work with the MagSafe 2 connection.",
+        "aspect": "MagSafe accessories",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Note, however, that any existing MagSafe accessories you have will not work with the MagSafe 2 connection.",
+        "aspect": "MagSafe 2 connection",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The only thing I dislike is the touchpad, alot of the times its unresponsive and does things I dont want it too, I would recommend using a mouse with it.",
+        "aspect": "touchpad",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The only thing I dislike is the touchpad, alot of the times its unresponsive and does things I dont want it too, I would recommend using a mouse with it.",
+        "aspect": "mouse",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Mac mini is about 8x smaller than my old computer which is a huge bonus and runs very quiet, actually the fans aren't audible unlike my old pc",
+        "aspect": "runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Mac mini is about 8x smaller than my old computer which is a huge bonus and runs very quiet, actually the fans aren't audible unlike my old pc",
+        "aspect": "fans",
+        "sentiment": "positive"
+    },
+    {
+        "text": "MAYBE The Mac OS improvement were not The product they Want to offer.",
+        "aspect": "Mac OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I thought the transition would be difficult at best and would take some time to fully familiarize myself with the new Mac ecosystem.",
+        "aspect": "Mac ecosystem",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It's absolutely wonderful and worth the price!",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am please with the products ease of use; out of the box ready; appearance and functionality.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am please with the products ease of use; out of the box ready; appearance and functionality.",
+        "aspect": "appearance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am please with the products ease of use; out of the box ready; appearance and functionality.",
+        "aspect": "functionality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Perfect for all my graphic design classes I'm taking this year in college :-)",
+        "aspect": "graphic design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I will not be using that slot again.",
+        "aspect": "slot",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The OS is fast and fluid, everything is organized and it's just beautiful.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "They are simpler to use.",
+        "aspect": "use",
+        "sentiment": "positive"
+    },
+    {
+        "text": "!so nice .. stable .. fast .. now i got my SSD !",
+        "aspect": "SSD",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Also, in using the built-in camera, my voice recording for my vlog sounds like the interplanetary transmissions in the \"Star Wars\" saga.",
+        "aspect": "built-in camera",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Also, in using the built-in camera, my voice recording for my vlog sounds like the interplanetary transmissions in the \"Star Wars\" saga.",
+        "aspect": "voice recording",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I love the quick start up.",
+        "aspect": "start up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "You just cannot beat the functionality of an Apple device.",
+        "aspect": "functionality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Yet my mac continues to function properly.",
+        "aspect": "function",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Graphics are much improved.",
+        "aspect": "Graphics",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Here are the things that made me confident with my purchase:Build Quality - Seriously, you can't beat a unibody construction.",
+        "aspect": "Build Quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Here are the things that made me confident with my purchase:Build Quality - Seriously, you can't beat a unibody construction.",
+        "aspect": "unibody construction",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It provides much more flexibility for connectivity.",
+        "aspect": "flexibility for connectivity",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I want the portability of a tablet, without the limitations of a tablet and that's where this laptop comes into play.",
+        "aspect": "portability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Mac tutorials do help.",
+        "aspect": "Mac tutorials",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The technical support was not helpful as well.",
+        "aspect": "technical support",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I got the new adapter and there was no change.",
+        "aspect": "adapter",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "so i called technical support.",
+        "aspect": "technical support",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Came with iPhoto and garage band already loaded.",
+        "aspect": "iPhoto",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Came with iPhoto and garage band already loaded.",
+        "aspect": "garage band",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Logic board utterly fried, cried, and laid down and died.",
+        "aspect": "Logic board",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The sound was crappy even when you turn up the volume still the same results.",
+        "aspect": "sound",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The sound was crappy even when you turn up the volume still the same results.",
+        "aspect": "volume",
+        "sentiment": "negative"
+    },
+    {
+        "text": "OSX Lion is a great performer..extremely fast and reliable.",
+        "aspect": "OSX Lion",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Having heard from friends and family about how reliable a Mac product is, I never expected to have an application crash within the first month, but I did.",
+        "aspect": "application",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The Macbook pro's physical form is wonderful.",
+        "aspect": "physical form",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Mini's body hasn't changed since late 2010- and for a good reason.",
+        "aspect": "body",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The unibody construction really does feel lot more solid than Apple's previous laptops.",
+        "aspect": "unibody construction",
+        "sentiment": "positive"
+    },
+    {
+        "text": "3D rendering slows it down considerably.",
+        "aspect": "3D rendering",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Got this Mac Mini with OS X Mountain Lion for my wife.",
+        "aspect": "OS X Mountain Lion",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "fast, great screen, beautiful apps for a laptop;priced at 1100 on the apple website;amazon had it for 1098+ tax -  plus i had a 10% off coupon from amazon-cost me 998 plus tax- 1070- OTD!",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "fast, great screen, beautiful apps for a laptop;priced at 1100 on the apple website;amazon had it for 1098+ tax -  plus i had a 10% off coupon from amazon-cost me 998 plus tax- 1070- OTD!",
+        "aspect": "apps",
+        "sentiment": "positive"
+    },
+    {
+        "text": "fast, great screen, beautiful apps for a laptop;priced at 1100 on the apple website;amazon had it for 1098+ tax -  plus i had a 10% off coupon from amazon-cost me 998 plus tax- 1070- OTD!",
+        "aspect": "priced",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "fast, great screen, beautiful apps for a laptop;priced at 1100 on the apple website;amazon had it for 1098+ tax -  plus i had a 10% off coupon from amazon-cost me 998 plus tax- 1070- OTD!",
+        "aspect": "cost",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "12.44 seconds to boot.",
+        "aspect": "boot",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "All the ports are much needed since this is my main computer.",
+        "aspect": "ports",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Like New condition of the iMac MC309LL/A on Amazon is at $900+ level only, and it is a Quad-Core 2.5 GHz CPU (similar to the $799 Mini), with Radeon HD 6750M 512MB graphic card (this mini is integrated Intel 4000 card), and it even comes with wireless Apple Keyboard and Mouse, all put together in neat and nice package.",
+        "aspect": "Quad-Core 2.5 GHz CPU",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Like New condition of the iMac MC309LL/A on Amazon is at $900+ level only, and it is a Quad-Core 2.5 GHz CPU (similar to the $799 Mini), with Radeon HD 6750M 512MB graphic card (this mini is integrated Intel 4000 card), and it even comes with wireless Apple Keyboard and Mouse, all put together in neat and nice package.",
+        "aspect": "Radeon HD 6750M 512MB graphic card",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Like New condition of the iMac MC309LL/A on Amazon is at $900+ level only, and it is a Quad-Core 2.5 GHz CPU (similar to the $799 Mini), with Radeon HD 6750M 512MB graphic card (this mini is integrated Intel 4000 card), and it even comes with wireless Apple Keyboard and Mouse, all put together in neat and nice package.",
+        "aspect": "integrated Intel 4000 card",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Like New condition of the iMac MC309LL/A on Amazon is at $900+ level only, and it is a Quad-Core 2.5 GHz CPU (similar to the $799 Mini), with Radeon HD 6750M 512MB graphic card (this mini is integrated Intel 4000 card), and it even comes with wireless Apple Keyboard and Mouse, all put together in neat and nice package.",
+        "aspect": "wireless Apple Keyboard and Mouse",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Like New condition of the iMac MC309LL/A on Amazon is at $900+ level only, and it is a Quad-Core 2.5 GHz CPU (similar to the $799 Mini), with Radeon HD 6750M 512MB graphic card (this mini is integrated Intel 4000 card), and it even comes with wireless Apple Keyboard and Mouse, all put together in neat and nice package.",
+        "aspect": "package",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Put a cover on it and is a little better but that is my only complaint.",
+        "aspect": "cover",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Within a few hours I was using the gestures unconsciously.",
+        "aspect": "gestures",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This mac does come with an extender cable and I'm using mine right now hoping the cable will stay nice for the many years I plan on using this mac.",
+        "aspect": "extender cable",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "This mac does come with an extender cable and I'm using mine right now hoping the cable will stay nice for the many years I plan on using this mac.",
+        "aspect": "cable",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The 2.9ghz dual-core i7 chip really out does itself.",
+        "aspect": "2.9ghz dual-core i7 chip",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It is pretty snappy and starts up in about 30 seconds which is good enough for me.",
+        "aspect": "starts up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Not sure on Windows 8.",
+        "aspect": "Windows 8",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "My one complaint is that there was no internal CD drive.",
+        "aspect": "internal CD drive",
+        "sentiment": "negative"
+    },
+    {
+        "text": "This newer netbook has no hard drive or network lights.",
+        "aspect": "hard drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "This newer netbook has no hard drive or network lights.",
+        "aspect": "network lights",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I was having a though time deciding between the 13\" MacBook Air or the MacBook Pro 13\" (Both baseline models, priced at 1,200 $ retail)",
+        "aspect": "priced",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Not too expense and has enough storage for most users and many ports.",
+        "aspect": "storage",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Not too expense and has enough storage for most users and many ports.",
+        "aspect": "ports",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The audio volume is quite low and virtually unusable in a room with any background activity.",
+        "aspect": "audio volume",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It is lightweight and the perfect size to carry to class.",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was given a demonstration of Windows 8.",
+        "aspect": "Windows 8",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The MBP is beautiful has many wonderful capabilities.",
+        "aspect": "capabilities",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I thought that it will be fine, if i do some settings.",
+        "aspect": "settings",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Runs very smoothly.",
+        "aspect": "Runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Boot-up slowed significantly after all Windows updates were installed.",
+        "aspect": "Boot-up",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Boot-up slowed significantly after all Windows updates were installed.",
+        "aspect": "Windows updates",
+        "sentiment": "negative"
+    },
+    {
+        "text": "More likely it will require replacing the logic board once they admit they have a problem and come up with a solution.",
+        "aspect": "logic board",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It was important that it was powerful enough to do all of the tasks he needed on the internet, word processing, graphic design and gaming.",
+        "aspect": "internet",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It was important that it was powerful enough to do all of the tasks he needed on the internet, word processing, graphic design and gaming.",
+        "aspect": "word processing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It was important that it was powerful enough to do all of the tasks he needed on the internet, word processing, graphic design and gaming.",
+        "aspect": "graphic design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It was important that it was powerful enough to do all of the tasks he needed on the internet, word processing, graphic design and gaming.",
+        "aspect": "gaming",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the Mini Mac it was easy to setup and install, but I am learning as I go and could use a tutorial to learn how to use some of the features I was use to on the PC especially the right mouse click menu.",
+        "aspect": "setup",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the Mini Mac it was easy to setup and install, but I am learning as I go and could use a tutorial to learn how to use some of the features I was use to on the PC especially the right mouse click menu.",
+        "aspect": "install",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the Mini Mac it was easy to setup and install, but I am learning as I go and could use a tutorial to learn how to use some of the features I was use to on the PC especially the right mouse click menu.",
+        "aspect": "tutorial",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I like the Mini Mac it was easy to setup and install, but I am learning as I go and could use a tutorial to learn how to use some of the features I was use to on the PC especially the right mouse click menu.",
+        "aspect": "features",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I like the Mini Mac it was easy to setup and install, but I am learning as I go and could use a tutorial to learn how to use some of the features I was use to on the PC especially the right mouse click menu.",
+        "aspect": "right mouse click menu",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Runs real quick.",
+        "aspect": "Runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Buy the separate RAM memory and you will have a rocket!",
+        "aspect": "RAM memory",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Since the machine's slim profile is critical to me, that was a problem.",
+        "aspect": "profile",
+        "sentiment": "negative"
+    },
+    {
+        "text": "WiFi capability, disk drive and multiple USB ports to connect scale and printers was all that was required.",
+        "aspect": "disk drive",
+        "sentiment": "positive"
+    },
+    {
+        "text": "WiFi capability, disk drive and multiple USB ports to connect scale and printers was all that was required.",
+        "aspect": "USB ports",
+        "sentiment": "positive"
+    },
+    {
+        "text": "WiFi capability, disk drive and multiple USB ports to connect scale and printers was all that was required.",
+        "aspect": "WiFi capability",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The SD card reader is slightly recessed and upside down (the nail slot on the card cannot be accessed), if this was a self ejecting slot this would not be an issue, but its not.",
+        "aspect": "SD card reader",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The SD card reader is slightly recessed and upside down (the nail slot on the card cannot be accessed), if this was a self ejecting slot this would not be an issue, but its not.",
+        "aspect": "nail slot on the card",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The SD card reader is slightly recessed and upside down (the nail slot on the card cannot be accessed), if this was a self ejecting slot this would not be an issue, but its not.",
+        "aspect": "slot",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Soft touch, anodized aluminum with laser cut precision and no flaws.",
+        "aspect": "touch",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Soft touch, anodized aluminum with laser cut precision and no flaws.",
+        "aspect": "anodized aluminum",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Simple details, crafted aluminium and real glass make this laptop blow away the other plastic ridden, bulky sticker filled laptops.",
+        "aspect": "aluminium",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Simple details, crafted aluminium and real glass make this laptop blow away the other plastic ridden, bulky sticker filled laptops.",
+        "aspect": "glass",
+        "sentiment": "positive"
+    },
+    {
+        "text": "First of all yes this is a mac and it has that nice brushed aluminum .",
+        "aspect": "aluminum",
+        "sentiment": "positive"
+    },
+    {
+        "text": "After all was said and done, I essentially used that $450 savings to buy 16GB of RAM, TWO Seagate Momentus XT hybrid drives and an OWC upgrade kit to install the second hard drive.",
+        "aspect": "16GB of RAM",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "After all was said and done, I essentially used that $450 savings to buy 16GB of RAM, TWO Seagate Momentus XT hybrid drives and an OWC upgrade kit to install the second hard drive.",
+        "aspect": "Seagate Momentus XT hybrid drives",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "After all was said and done, I essentially used that $450 savings to buy 16GB of RAM, TWO Seagate Momentus XT hybrid drives and an OWC upgrade kit to install the second hard drive.",
+        "aspect": "OWC upgrade kit",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "After all was said and done, I essentially used that $450 savings to buy 16GB of RAM, TWO Seagate Momentus XT hybrid drives and an OWC upgrade kit to install the second hard drive.",
+        "aspect": "hard drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The Dell Inspiron is fast and has a number pad on the keyboard, which I miss on my Apple laptops.",
+        "aspect": "number pad on the keyboard",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was concerned that the downgrade to the regular hard drive would make it unacceptably slow but I need not have worried - this machine is the fastest I have ever owned...",
+        "aspect": "regular hard drive",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This one still has the CD slot.",
+        "aspect": "CD slot",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "No HDMI port.",
+        "aspect": "HDMI port",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I had to install Mountain Lion and it took a good two hours.",
+        "aspect": "install Mountain Lion",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Customization on mac is impossible.",
+        "aspect": "Customization",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I am replacing the HD with a Micron SSD soon.",
+        "aspect": "HD",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I am replacing the HD with a Micron SSD soon.",
+        "aspect": "Micron SSD",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Plus two finger clicking as a replacement for the right click button is surprisingly intuitive.",
+        "aspect": "two finger clicking",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Plus two finger clicking as a replacement for the right click button is surprisingly intuitive.",
+        "aspect": "right click button",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The SuperDrive is quiet.",
+        "aspect": "SuperDrive",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The power plug has to be connected to the power adaptor to charge the battery but won't stay connected.",
+        "aspect": "power plug",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The power plug has to be connected to the power adaptor to charge the battery but won't stay connected.",
+        "aspect": "power adaptor",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The power plug has to be connected to the power adaptor to charge the battery but won't stay connected.",
+        "aspect": "battery",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The battery was completely dead, in fact it had grown about a quarter inch thick lump on the underside.",
+        "aspect": "battery",
+        "sentiment": "negative"
+    },
+    {
+        "text": "if yo like practicality this is the laptop for you.",
+        "aspect": "practicality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The OS is great.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I tried several monitors and several HDMI cables and this was the case each time.",
+        "aspect": "monitors",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I tried several monitors and several HDMI cables and this was the case each time.",
+        "aspect": "HDMI cables",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "CONS: Price is a bit ridiculous, kinda heavy.",
+        "aspect": "Price",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The troubleshooting said it was the AC adaptor so we ordered a new one.",
+        "aspect": "AC adaptor",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Fan only comes on when you are playing a game.",
+        "aspect": "Fan",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Fan only comes on when you are playing a game.",
+        "aspect": "playing a game",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Which it did not have, only 3 USB 2 ports.",
+        "aspect": "USB 2 ports",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "No startup disk was not included but that may be my fault.",
+        "aspect": "startup disk",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "There is no \"tools\" menu.",
+        "aspect": "\"tools\" menu",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It is very fast and has everything that I need except for a word program.",
+        "aspect": "word program",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Needs a CD/DVD drive and a bigger power switch.",
+        "aspect": "CD/DVD drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Needs a CD/DVD drive and a bigger power switch.",
+        "aspect": "power switch",
+        "sentiment": "negative"
+    },
+    {
+        "text": "My laptop with Windows 7 crashed and I did not want Windows 8.",
+        "aspect": "Windows 7",
+        "sentiment": "negative"
+    },
+    {
+        "text": "My laptop with Windows 7 crashed and I did not want Windows 8.",
+        "aspect": "Windows 8",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Easy to install also small to leave anywhere at your bedroom also very easy to configure for ADSl cable or wifi.",
+        "aspect": "install",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Easy to install also small to leave anywhere at your bedroom also very easy to configure for ADSl cable or wifi.",
+        "aspect": "configure for ADSl cable or wifi",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Nice packing.",
+        "aspect": "packing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I switched to this because I wanted something different, even though I miss windows.",
+        "aspect": "windows",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Apple no longer includes iDVD with the computer and furthermore, Apple doesn't even offer it anymore!",
+        "aspect": "iDVD",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I also wanted Windows 7, which this one has.",
+        "aspect": "Windows 7",
+        "sentiment": "positive"
+    },
+    {
+        "text": "At first, I feel a little bit uncomfortable in using the Mac system.",
+        "aspect": "Mac system",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I am used to computers with windows so I am having a little difficulty finding my way around.",
+        "aspect": "windows",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It just works out of the box and you have a lot of cool software included with the OS.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It just works out of the box and you have a lot of cool software included with the OS.",
+        "aspect": "software",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It just works out of the box and you have a lot of cool software included with the OS.",
+        "aspect": "OS",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "its as advertised on here..... it works great and is not a waste of money!",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Runs like a champ.....",
+        "aspect": "Runs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Premium price for the OS more than anything else.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Premium price for the OS more than anything else.",
+        "aspect": "OS",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I was a little concerned about the touch pad based on reviews, but I've found it fine to work with.",
+        "aspect": "touch pad",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The sound as mentioned earlier isn't the best, but it can be solved with headphones.",
+        "aspect": "headphones",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "However, the experience was great since the OS does not become unstable and the application will simply shutdown and reopen.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "However, the experience was great since the OS does not become unstable and the application will simply shutdown and reopen.",
+        "aspect": "application",
+        "sentiment": "positive"
+    },
+    {
+        "text": "If you ask me, for this price it should be included.",
+        "aspect": "price",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The battery is not as shown in the product photos.",
+        "aspect": "battery",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Shipping was quick and product described was the product sent and so much more...",
+        "aspect": "Shipping",
+        "sentiment": "positive"
+    },
+    {
+        "text": "the retina display display make pictures i took years ago jaw dropping.",
+        "aspect": "retina display display",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The Mac Mini is probably the simplest example of compact computing out there.",
+        "aspect": "compact computing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Instead, I'll focus more on the actual performance and feature set of the hardware itself so you can make an educated decision on which Mac to buy.",
+        "aspect": "performance and feature set of the hardware",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Other ports include FireWire 800, Gigabit Ethernet, MagSafe port, Microphone jack.",
+        "aspect": "ports",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Other ports include FireWire 800, Gigabit Ethernet, MagSafe port, Microphone jack.",
+        "aspect": "FireWire 800",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Other ports include FireWire 800, Gigabit Ethernet, MagSafe port, Microphone jack.",
+        "aspect": "Gigabit Ethernet",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Other ports include FireWire 800, Gigabit Ethernet, MagSafe port, Microphone jack.",
+        "aspect": "MagSafe port",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Other ports include FireWire 800, Gigabit Ethernet, MagSafe port, Microphone jack.",
+        "aspect": "Microphone jack",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Additionally, there is barely a ventilation system in the computer, and even the simple activity of watching videos let alone playing steam games causes the laptop to get very very hot, and in fact impossible to keep on lap.",
+        "aspect": "ventilation system",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Additionally, there is barely a ventilation system in the computer, and even the simple activity of watching videos let alone playing steam games causes the laptop to get very very hot, and in fact impossible to keep on lap.",
+        "aspect": "watching videos",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Additionally, there is barely a ventilation system in the computer, and even the simple activity of watching videos let alone playing steam games causes the laptop to get very very hot, and in fact impossible to keep on lap.",
+        "aspect": "playing steam games",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Chatting with Acer support, I was advised the problem was corrupted operating system files.",
+        "aspect": "Acer support",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Chatting with Acer support, I was advised the problem was corrupted operating system files.",
+        "aspect": "operating system files",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It's been a couple weeks since the purchase and I'm struggle with finding the correct keys (but that was expected).",
+        "aspect": "keys",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Many people complain about the new OS, and it's urgent for Apple to fix it asap!",
+        "aspect": "OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Now that I have upgraded to Lion I am much happier about MAC OS and have just bought an iMac for office.",
+        "aspect": "Lion",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Now that I have upgraded to Lion I am much happier about MAC OS and have just bought an iMac for office.",
+        "aspect": "MAC OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "User upgradeable RAM and HDD.",
+        "aspect": "RAM",
+        "sentiment": "positive"
+    },
+    {
+        "text": "User upgradeable RAM and HDD.",
+        "aspect": "HDD",
+        "sentiment": "positive"
+    },
+    {
+        "text": "But I wanted the Pro for the CD/DVD player.",
+        "aspect": "CD/DVD player",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was a little worry at first because I don't have a lot of experience with os.x and windows has always been second nature to me after many years of using windows.",
+        "aspect": "os.x",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I was a little worry at first because I don't have a lot of experience with os.x and windows has always been second nature to me after many years of using windows.",
+        "aspect": "windows",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I was a little worry at first because I don't have a lot of experience with os.x and windows has always been second nature to me after many years of using windows.",
+        "aspect": "windows",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "With the softwares supporting the use of other OS makes it much better.",
+        "aspect": "OS",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "With the softwares supporting the use of other OS makes it much better.",
+        "aspect": "softwares",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I then upgraded to Mac OS X 10.8 \"Mountain Lion\".",
+        "aspect": "Mac OS X 10.8 \"Mountain Lion\"",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I was considering buying the Air, but in reality, this one has a more powerful performance and seems much more convenient, even though it's about .20 inch thicker and 2 lbs heavier.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "At home and the office it gets plugged into an external 24\" LCD screen, so built in screen size is not terribly important.",
+        "aspect": "built in screen size",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "At home and the office it gets plugged into an external 24\" LCD screen, so built in screen size is not terribly important.",
+        "aspect": "external 24\" LCD screen",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Just beware no DVD slot so when I went to install software I had on CD I couldn't.",
+        "aspect": "install software",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Just beware no DVD slot so when I went to install software I had on CD I couldn't.",
+        "aspect": "DVD slot",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I bought it to be able to dedicate a small, portable laptop to my writing and was surprised to learn that I needed to buy a word processing program to do so.",
+        "aspect": "word processing program",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "This version of MacBook Pro runs on a third-generation CPU (\"Ivy Bridge\"), not the latest fourth-generation Haswell CPU the 2013 version has.",
+        "aspect": "third-generation CPU (\"Ivy Bridge\")",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "This version of MacBook Pro runs on a third-generation CPU (\"Ivy Bridge\"), not the latest fourth-generation Haswell CPU the 2013 version has.",
+        "aspect": "fourth-generation Haswell CPU",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "No Cd Rom in the new version there's no way I'm spending that kind of money on something has less features than the older version.",
+        "aspect": "Cd Rom",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "No Cd Rom in the new version there's no way I'm spending that kind of money on something has less features than the older version.",
+        "aspect": "features",
+        "sentiment": "negative"
+    },
+    {
+        "text": "the volume is really low to low for a laptopwas not expectin t volume to be so lowan i hate that about this computer",
+        "aspect": "volume",
+        "sentiment": "negative"
+    },
+    {
+        "text": "the volume is really low to low for a laptopwas not expectin t volume to be so lowan i hate that about this computer",
+        "aspect": "volume",
+        "sentiment": "negative"
+    },
+    {
+        "text": "and its not hard to accidentally bang it against something so i recommend getting a case to protect it.",
+        "aspect": "case",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I got this at an amazing price from Amazon and it arrived just in time.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Every time I log into the system after a few hours, there is this endlessly frustrating process that I have to go through.",
+        "aspect": "log into the system",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Put a SSD and use a 21\" LED screen, this set up is silky smooth!",
+        "aspect": "21\" LED screen",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Put a SSD and use a 21\" LED screen, this set up is silky smooth!",
+        "aspect": "SSD",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Put a SSD and use a 21\" LED screen, this set up is silky smooth!",
+        "aspect": "set up",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The case is now slightly larger than the previous generation, but the lack of an external power supply justifies the small increase in size.",
+        "aspect": "case",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The case is now slightly larger than the previous generation, but the lack of an external power supply justifies the small increase in size.",
+        "aspect": "external power supply",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I had to buy a wireless mouse to go with it, as I am old school and hate the pad, but knew that before I bought it, now it works great, need to get adjusted to the key board, as I am used to a bigger one and pounding.",
+        "aspect": "wireless mouse",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I had to buy a wireless mouse to go with it, as I am old school and hate the pad, but knew that before I bought it, now it works great, need to get adjusted to the key board, as I am used to a bigger one and pounding.",
+        "aspect": "pad",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I had to buy a wireless mouse to go with it, as I am old school and hate the pad, but knew that before I bought it, now it works great, need to get adjusted to the key board, as I am used to a bigger one and pounding.",
+        "aspect": "works",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I had to buy a wireless mouse to go with it, as I am old school and hate the pad, but knew that before I bought it, now it works great, need to get adjusted to the key board, as I am used to a bigger one and pounding.",
+        "aspect": "key board",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "When considering a Mac, look at the total cost of ownership and not just the initial price tag.",
+        "aspect": "cost of ownership",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "When considering a Mac, look at the total cost of ownership and not just the initial price tag.",
+        "aspect": "price tag",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Has all the other features I wanted including a VGA port, HDMI, ethernet and 3 USB ports.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Has all the other features I wanted including a VGA port, HDMI, ethernet and 3 USB ports.",
+        "aspect": "VGA port",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Has all the other features I wanted including a VGA port, HDMI, ethernet and 3 USB ports.",
+        "aspect": "HDMI",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Has all the other features I wanted including a VGA port, HDMI, ethernet and 3 USB ports.",
+        "aspect": "ethernet",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Has all the other features I wanted including a VGA port, HDMI, ethernet and 3 USB ports.",
+        "aspect": "USB ports",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The only thing I dislike about this laptop are the rubber pads found on the bottom of the computer for grip.",
+        "aspect": "rubber pads",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It's a decent computer for the price and hopefully it will last a long time.",
+        "aspect": "price",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The nicest  part is the low heat output and ultra quiet operation.",
+        "aspect": "heat output",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The nicest  part is the low heat output and ultra quiet operation.",
+        "aspect": "operation",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I will upgrade the ram myself (because with this model you can you can do it) later on.",
+        "aspect": "upgrade the ram",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The price is 200 dollars down.",
+        "aspect": "price",
+        "sentiment": "positive"
+    },
+    {
+        "text": "this Mac Mini does not have a built-in mic, and it would seem that its Mac OS 10.9 does not handle external microphones properly.",
+        "aspect": "built-in mic",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "this Mac Mini does not have a built-in mic, and it would seem that its Mac OS 10.9 does not handle external microphones properly.",
+        "aspect": "Mac OS 10.9",
+        "sentiment": "negative"
+    },
+    {
+        "text": "this Mac Mini does not have a built-in mic, and it would seem that its Mac OS 10.9 does not handle external microphones properly.",
+        "aspect": "external microphones",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "A lot of features and shortcuts on the MBP that I was never exposed to on a normal PC.",
+        "aspect": "features",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "A lot of features and shortcuts on the MBP that I was never exposed to on a normal PC.",
+        "aspect": "shortcuts",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Wasn't sure if I was going to like it much less love it so I went to a local best buy and played around with the IOS system on a Mac Pro and it was totally unique and different.",
+        "aspect": "IOS system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "air has higher resolution but the fonts are small.",
+        "aspect": "resolution",
+        "sentiment": "positive"
+    },
+    {
+        "text": "air has higher resolution but the fonts are small.",
+        "aspect": "fonts",
+        "sentiment": "negative"
+    },
+    {
+        "text": "working with Mac is so much easier, so many cool features.",
+        "aspect": "working",
+        "sentiment": "positive"
+    },
+    {
+        "text": "working with Mac is so much easier, so many cool features.",
+        "aspect": "features",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the brightness and adjustments.",
+        "aspect": "brightness",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like the brightness and adjustments.",
+        "aspect": "adjustments",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I only wish this mac had a CD/DVD player built in.",
+        "aspect": "CD/DVD player",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "The only thing I miss is that my old Alienware laptop had backlit keys.",
+        "aspect": "backlit keys",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The only thing I miss are the \"Home/End\" type keys and other things that I grew accustomed to after so long.",
+        "aspect": "\"Home/End\" type keys",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "So happy with this purchase, I just wish it came with Microsoft Word.",
+        "aspect": "Microsoft Word",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It has enough memory and speed to run my business with all the flexibility that comes with a laptop.",
+        "aspect": "memory",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has enough memory and speed to run my business with all the flexibility that comes with a laptop.",
+        "aspect": "speed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "It has enough memory and speed to run my business with all the flexibility that comes with a laptop.",
+        "aspect": "flexibility",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The speed, the simplicity, the design.. it is lightyears ahead of any PC I have ever owned.",
+        "aspect": "speed",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The speed, the simplicity, the design.. it is lightyears ahead of any PC I have ever owned.",
+        "aspect": "simplicity",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The speed, the simplicity, the design.. it is lightyears ahead of any PC I have ever owned.",
+        "aspect": "design",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery life is excellent, the display is excellent, and downloading apps is a  breeze.",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery life is excellent, the display is excellent, and downloading apps is a  breeze.",
+        "aspect": "display",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The battery life is excellent, the display is excellent, and downloading apps is a  breeze.",
+        "aspect": "downloading apps",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The screen, the software and the smoothness of the operating system.",
+        "aspect": "screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The screen, the software and the smoothness of the operating system.",
+        "aspect": "software",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The screen, the software and the smoothness of the operating system.",
+        "aspect": "operating system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "i have dropped mine a couple times with only a slim plastic case covering it.",
+        "aspect": "slim plastic case",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I also made a recovery USB stick.",
+        "aspect": "recovery USB stick",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "But with this laptop, the bass is very weak and the sound comes out sounding tinny.",
+        "aspect": "bass",
+        "sentiment": "negative"
+    },
+    {
+        "text": "But with this laptop, the bass is very weak and the sound comes out sounding tinny.",
+        "aspect": "sound",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The built quality is really good, I was so Happy and excited about this Product.",
+        "aspect": "built quality",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I am loving the fast performance also.",
+        "aspect": "performance",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Further, this Mac Mini has a sloppy Bluetooth interface (courtesy of the Mac OS) and the range is poor.",
+        "aspect": "Bluetooth interface",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Further, this Mac Mini has a sloppy Bluetooth interface (courtesy of the Mac OS) and the range is poor.",
+        "aspect": "Mac OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Further, this Mac Mini has a sloppy Bluetooth interface (courtesy of the Mac OS) and the range is poor.",
+        "aspect": "range",
+        "sentiment": "negative"
+    },
+    {
+        "text": "If you start on the far right side and scroll to your left the start menu will automatically come up.",
+        "aspect": "start menu",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "My only gripe would be the need to add more RAM.",
+        "aspect": "RAM",
+        "sentiment": "negative"
+    },
+    {
+        "text": "Fine if you have a touch screen.",
+        "aspect": "touch screen",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "As far as user type - I dabble in everything from games (WoW) to Photoshop, but nothing professionally.",
+        "aspect": "games",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "As far as user type - I dabble in everything from games (WoW) to Photoshop, but nothing professionally.",
+        "aspect": "Photoshop",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I re-seated the \"WLAN\" card inside and re-installed the LAN device drivers.",
+        "aspect": "\"WLAN\" card",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I re-seated the \"WLAN\" card inside and re-installed the LAN device drivers.",
+        "aspect": "LAN device drivers",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "This by far beats any computer out on the market today built well, battery life AMAZING.",
+        "aspect": "built",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This by far beats any computer out on the market today built well, battery life AMAZING.",
+        "aspect": "battery life",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The OS is easy, and offers all kinds of surprises.",
+        "aspect": "OS",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I had to get Apple Customer Support to correct the problem.",
+        "aspect": "Apple Customer Support",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "A veryimportant feature is Firewire 800 which in my experience works better then USB3 (in PC enabled with USB3)I was not originally sold on the MAC OS I felt it was inferior in many ways To Windows 7.",
+        "aspect": "Firewire 800",
+        "sentiment": "positive"
+    },
+    {
+        "text": "A veryimportant feature is Firewire 800 which in my experience works better then USB3 (in PC enabled with USB3)I was not originally sold on the MAC OS I felt it was inferior in many ways To Windows 7.",
+        "aspect": "USB3",
+        "sentiment": "negative"
+    },
+    {
+        "text": "A veryimportant feature is Firewire 800 which in my experience works better then USB3 (in PC enabled with USB3)I was not originally sold on the MAC OS I felt it was inferior in many ways To Windows 7.",
+        "aspect": "USB3",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "A veryimportant feature is Firewire 800 which in my experience works better then USB3 (in PC enabled with USB3)I was not originally sold on the MAC OS I felt it was inferior in many ways To Windows 7.",
+        "aspect": "MAC OS",
+        "sentiment": "negative"
+    },
+    {
+        "text": "A veryimportant feature is Firewire 800 which in my experience works better then USB3 (in PC enabled with USB3)I was not originally sold on the MAC OS I felt it was inferior in many ways To Windows 7.",
+        "aspect": "Windows 7",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like iTunes, the apparent security, the Mini form factor, all the nice graphics stuff.",
+        "aspect": "iTunes",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like iTunes, the apparent security, the Mini form factor, all the nice graphics stuff.",
+        "aspect": "security",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like iTunes, the apparent security, the Mini form factor, all the nice graphics stuff.",
+        "aspect": "Mini form factor",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I like iTunes, the apparent security, the Mini form factor, all the nice graphics stuff.",
+        "aspect": "graphics stuff",
+        "sentiment": "positive"
+    },
+    {
+        "text": "The first time I used the card reader it took half an hour and a pair of tweezers to remove the card.",
+        "aspect": "card reader",
+        "sentiment": "negative"
+    },
+    {
+        "text": "The first time I used the card reader it took half an hour and a pair of tweezers to remove the card.",
+        "aspect": "remove the card",
+        "sentiment": "negative"
+    },
+    {
+        "text": "After replacing the spinning hard disk with an ssd drive, my mac is just flying.",
+        "aspect": "spinning hard disk",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "After replacing the spinning hard disk with an ssd drive, my mac is just flying.",
+        "aspect": "ssd drive",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I know some people complained about HDMI issues but they released a firmware patch to address that issue.",
+        "aspect": "HDMI",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I know some people complained about HDMI issues but they released a firmware patch to address that issue.",
+        "aspect": "firmware patch",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "With the needs of a professional photographer I generally need to keep up with the best specs.",
+        "aspect": "specs",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "packing and everything was perfect",
+        "aspect": "packing",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I called Toshiba where I gave them the serial number and they informed me that they were having issues with the mother boards.",
+        "aspect": "mother boards",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I seem to be having repeat problems as the Mother Board in this one is diagnosed as faulty, related to the graphics card.",
+        "aspect": "Mother Board",
+        "sentiment": "negative"
+    },
+    {
+        "text": "I seem to be having repeat problems as the Mother Board in this one is diagnosed as faulty, related to the graphics card.",
+        "aspect": "graphics card",
+        "sentiment": "negative"
+    },
+    {
+        "text": "It also comes with 4G of RAM but if you're like me you want to max that out so I immediately put 8G of RAM in her and I've never used a computer that performs better.",
+        "aspect": "4G of RAM",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It also comes with 4G of RAM but if you're like me you want to max that out so I immediately put 8G of RAM in her and I've never used a computer that performs better.",
+        "aspect": "8G of RAM",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "It also comes with 4G of RAM but if you're like me you want to max that out so I immediately put 8G of RAM in her and I've never used a computer that performs better.",
+        "aspect": "performs",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This computer is also awesome for my sons virtual home schooling.",
+        "aspect": "virtual home schooling",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Cost is more as compared to other brands.",
+        "aspect": "Cost",
+        "sentiment": "negative"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "operating system",
+        "sentiment": "positive"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "size",
+        "sentiment": "positive"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "weight",
+        "sentiment": "positive"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "mobility",
+        "sentiment": "positive"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "durability of the battery",
+        "sentiment": "positive"
+    },
+    {
+        "text": "also...- excellent operating system- size and weight for optimal mobility- excellent durability of the battery- the functions provided by the trackpad is unmatched by any other brand-",
+        "aspect": "functions provided by the trackpad",
+        "sentiment": "positive"
+    },
+    {
+        "text": "This hardware seems to be better than the iMac in that it isn't $1400 and smaller.",
+        "aspect": "hardware",
+        "sentiment": "positive"
+    },
+    {
+        "text": "I've had it for about 2 months now and found no issues with software or updates.",
+        "aspect": "software",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "I've had it for about 2 months now and found no issues with software or updates.",
+        "aspect": "updates",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "the latest version does not have a disc drive.",
+        "aspect": "disc drive",
+        "sentiment": "neutral"
+    },
+    {
+        "text": "Screen - although some people might complain about low res which I think is ridiculous.",
+        "aspect": "Screen",
+        "sentiment": "positive"
+    },
+    {
+        "text": "Screen - although some people might complain about low res which I think is ridiculous.",
+        "aspect": "res",
+        "sentiment": "positive"
+    }
+]
