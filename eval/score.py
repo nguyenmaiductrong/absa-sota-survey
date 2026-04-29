@@ -1,13 +1,9 @@
-"""Scoring utilities: accuracy + macro-F1 for aspect and sentiment predictions."""
+"""Scoring utilities: accuracy + macro-F1 for sentiment predictions."""
 from __future__ import annotations
 
 import json
-from collections import defaultdict
 from pathlib import Path
 from typing import Any
-
-from eval.schema import PARSE_ERROR_TOKEN
-
 
 # ── Core metric helpers ──────────────────────────────────────────────────────
 
@@ -41,16 +37,12 @@ def score_predictions(path: str | Path) -> dict[str, Any]:
     """
     Read a predictions JSONL file and return a metrics dict with:
       - sentiment_accuracy, sentiment_macro_f1
-      - aspect_accuracy, aspect_macro_f1
-      - joint_accuracy   (both aspect AND sentiment correct)
       - parse_error_rate
-      - n_samples, method, dataset
+      - n_samples, method, paradigm, backbone, dataset
     """
     path = Path(path)
     gold_sents: list[str] = []
     pred_sents: list[str] = []
-    gold_asps:  list[str] = []
-    pred_asps:  list[str] = []
     n_parse_errors = 0
     method = dataset = paradigm = backbone = ""
 
@@ -65,40 +57,27 @@ def score_predictions(path: str | Path) -> dict[str, Any]:
             paradigm = rec.get("paradigm", paradigm)
             backbone = rec.get("backbone", backbone)
 
-            g_asp  = rec["gold"]["aspect"]
             g_sent = rec["gold"]["sentiment"]
-            p_asp  = rec["pred"]["aspect"]
             p_sent = rec["pred"]["sentiment"]
 
             if not rec.get("parse_ok", True):
                 n_parse_errors += 1
-                # count as wrong — replace with a guaranteed-wrong token
-                p_asp  = "__WRONG__"
                 p_sent = "__WRONG__"
 
-            gold_asps.append(g_asp)
-            pred_asps.append(p_asp)
             gold_sents.append(g_sent)
             pred_sents.append(p_sent)
 
     n = len(gold_sents)
-    joint_correct = sum(
-        ga == pa and gs == ps
-        for ga, pa, gs, ps in zip(gold_asps, pred_asps, gold_sents, pred_sents)
-    )
 
     return {
-        "method":               method,
-        "paradigm":             paradigm,
-        "backbone":             backbone,
-        "dataset":              dataset,
-        "n_samples":            n,
-        "sentiment_accuracy":   round(_accuracy(gold_sents, pred_sents), 4),
-        "sentiment_macro_f1":   round(_macro_f1(gold_sents, pred_sents), 4),
-        "aspect_accuracy":      round(_accuracy(gold_asps,  pred_asps),  4),
-        "aspect_macro_f1":      round(_macro_f1(gold_asps,  pred_asps),  4),
-        "joint_accuracy":       round(joint_correct / n, 4) if n > 0 else 0.0,
-        "parse_error_rate":     round(n_parse_errors / n, 4) if n > 0 else 0.0,
+        "method":             method,
+        "paradigm":           paradigm,
+        "backbone":           backbone,
+        "dataset":            dataset,
+        "n_samples":          n,
+        "sentiment_accuracy": round(_accuracy(gold_sents, pred_sents), 4),
+        "sentiment_macro_f1": round(_macro_f1(gold_sents, pred_sents), 4),
+        "parse_error_rate":   round(n_parse_errors / n, 4) if n > 0 else 0.0,
     }
 
 
