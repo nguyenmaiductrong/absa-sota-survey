@@ -16,7 +16,6 @@ llm = ChatOpenAI(
     temperature=0.0
 )
 
-# Bước 1: Prompt Phân tích Cú pháp
 prompt1 = ChatPromptTemplate.from_messages([
     ("system", "You are an expert linguist."),
     ("human", """
@@ -31,7 +30,6 @@ prompt1 = ChatPromptTemplate.from_messages([
         """)
 ])
 
-# Bước 2: Prompt Trích xuất Quan điểm
 prompt2 = ChatPromptTemplate.from_messages([
     ("system", "You are an expert at extracting opinions."),
     ("human", """
@@ -45,7 +43,6 @@ prompt2 = ChatPromptTemplate.from_messages([
         """)
 ])
 
-# Bước 3: Prompt Dự đoán Cảm xúc
 prompt3 = ChatPromptTemplate.from_messages([
     ("system", "You are a sentiment analysis expert. Output ONLY ONE word: Positive, Negative, or Neutral."),
     ("human", """
@@ -58,7 +55,6 @@ prompt3 = ChatPromptTemplate.from_messages([
 
 parser = StrOutputParser()
 
-# Khai báo các LangChain chain
 chain1 = prompt1 | llm | parser
 chain2 = prompt2 | llm | parser
 chain3 = prompt3 | llm | parser
@@ -70,13 +66,10 @@ def run_syn_chain(text: str, aspect: str, dependency_seq: str) -> dict:
     """
     Chạy 3 bước Syn-Chain để dự đoán cảm xúc của các khía cạnh.
     """
-    # Step 1: Syntax Analysis
     step1_out = chain1.invoke({"text": text, "aspect": aspect, "dependency_seq": dependency_seq})
-    
-    # Step 2: Opinion Extraction
+
     step2_out = chain2.invoke({"text": text, "aspect": aspect, "step1_output": step1_out})
-    
-    # Step 3: Sentiment Classification
+
     step3_out = chain3.invoke({"aspect": aspect, "step2_output": step2_out})
     
     return {

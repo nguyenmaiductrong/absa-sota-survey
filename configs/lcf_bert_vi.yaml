@@ -3,6 +3,8 @@
 
 dataset: "UIT-VSFC"
 
+aspect_map: null
+
 train_file: "data/processed/lcf_bert/vsfc_train.jsonl"
 val_file: "data/processed/lcf_bert/vsfc_val.jsonl"
 

@@ -20,22 +20,18 @@ def evaluate(data_path: str, limit: int = None, output_log_path: str = "evaluati
     y_true = []
     y_pred = []
     logs = []
-    
-    # Duyệt qua từng câu
+
     for item in tqdm(data, desc="Evaluating Syn-Chain"):
         text = item['text']
         aspect = item['aspect']
         true_sentiment = item['sentiment'].lower()
-        
-        # 1. Phân tích cú pháp với SpaCy
+
         dep_seq = get_syntactic_dependency_string(text)
-        
-        # 2. Chạy chuỗi suy luận 3 bước với LLM
+
         try:
             result = run_syn_chain(text, aspect, dep_seq)
             pred_raw = result['step3_sentiment'].lower()
-            
-            # Chuẩn hóa kết quả dự đoán của LLM
+
             if "positive" in pred_raw:
                 pred = "positive"
             elif "negative" in pred_raw:
@@ -45,8 +41,7 @@ def evaluate(data_path: str, limit: int = None, output_log_path: str = "evaluati
                 
             y_true.append(true_sentiment)
             y_pred.append(pred)
-            
-            # Lưu lại log suy luận
+
             logs.append({
                 "text": text,
                 "aspect": aspect,
@@ -58,7 +53,6 @@ def evaluate(data_path: str, limit: int = None, output_log_path: str = "evaluati
             print(f"\nLỗi khi xử lý câu '{text}': {e}")
             continue
 
-    # Đánh giá Metrics
     if len(y_true) > 0:
         acc = accuracy_score(y_true, y_pred)
         f1 = f1_score(y_true, y_pred, average='macro')

@@ -25,20 +25,9 @@ class DOTPredictor:
     def __init__(self, checkpoint: str | None = None, device: str = "cuda"):
         self._device = device
         self._checkpoint = checkpoint
-        # TODO: load DOT model from checkpoint
-        # from transformers import T5ForConditionalGeneration, T5Tokenizer
-        # self._tokenizer = T5Tokenizer.from_pretrained(self.backbone)
-        # self._model = T5ForConditionalGeneration.from_pretrained(checkpoint).to(device)
 
     def warmup(self, text: str) -> None:
         self.predict(text)
 
     def predict(self, text: str, aspect: str | None = None) -> tuple[str, str, str]:
-        # TODO: replace with real inference
-        # prompt = f"extract aspect and sentiment: {text}"
-        # inputs = self._tokenizer(prompt, return_tensors="pt").to(self._device)
-        # outputs = self._model.generate(**inputs, max_new_tokens=32)
-        # decoded = self._tokenizer.decode(outputs[0], skip_special_tokens=True)
-        # pred_aspect, pred_sentiment = _parse(decoded)
-        # return pred_aspect, pred_sentiment, decoded
         return PARSE_ERROR, PARSE_ERROR, "<<DOT not implemented>>"

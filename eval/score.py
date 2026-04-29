@@ -5,8 +5,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-# ── Core metric helpers ──────────────────────────────────────────────────────
-
 def _accuracy(gold: list[str], pred: list[str]) -> float:
     if not gold:
         return 0.0
@@ -30,8 +28,6 @@ def _macro_f1(gold: list[str], pred: list[str]) -> float:
         f1s.append(f1)
     return sum(f1s) / len(f1s)
 
-
-# ── Main scorer ──────────────────────────────────────────────────────────────
 
 def score_predictions(path: str | Path) -> dict[str, Any]:
     """

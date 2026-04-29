@@ -56,11 +56,11 @@ class LCF_BERT(nn.Module):
     def __init__(self, bert: nn.Module, opt: SimpleNamespace):
         super().__init__()
         self.bert_spc = bert
-        self.bert_local = bert  # shared encoder, as in many compact LCF-BERT repos
+        self.bert_local = bert
         self.opt = opt
 
-        hidden_size = int(getattr(opt, "bert_dim", getattr(bert.config, "hidden_size", 768)))
-        self.dropout = nn.Dropout(float(getattr(opt, "dropout", 0.1)))
+        hidden_size = int(opt.bert_dim)
+        self.dropout = nn.Dropout(float(opt.dropout))
         self.bert_SA = SelfAttention(hidden_size)
         self.linear_cat = nn.Linear(hidden_size * 2, hidden_size)
 
@@ -105,8 +105,8 @@ class LCF_BERT(nn.Module):
             dtype=torch.float32,
             device=attention_mask.device,
         )
-        focus = str(getattr(self.opt, "local_context_focus", "cdw")).lower()
-        srd = int(getattr(self.opt, "SRD", 3))
+        focus = str(self.opt.local_context_focus).lower()
+        srd = int(self.opt.SRD)
 
         for b in range(batch_size):
             valid_len = int(attention_mask[b].sum().item())
@@ -115,7 +115,6 @@ class LCF_BERT(nn.Module):
             if valid_len <= 0:
                 continue
             if begin < 0 or length <= 0:
-                # Aspect string not found in text. Keep all valid tokens.
                 weights[b, valid_len:] = 0.0
                 continue
 

@@ -23,7 +23,6 @@ from sklearn.metrics import accuracy_score, f1_score
 from torch.utils.data import DataLoader
 from transformers import AutoModel, PreTrainedModel
 
-# Allow running from repo root: python models/lcf_bert/train.py
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from models.lcf_bert.data_utils import ABSADatasetJSONL, Tokenizer4Bert
@@ -55,8 +54,7 @@ sentiment_map: dict[str, int] = {
     "conflict": 3,
 }
 
-# Closed aspect/category sets used by this repo. Laptop terms are open-ended, so
-# they are built dynamically when needed.
+
 fixed_aspect_maps: dict[str, dict[str, int]] = {
     "SemEval-2014-Restaurant": {
         "food": 0,
@@ -73,26 +71,32 @@ fixed_aspect_maps: dict[str, dict[str, int]] = {
     },
 }
 
-defaults: dict[str, Any] = {
-    "bert_dim": None,
-    "max_seq_len": 128,
-    "local_context_focus": "cdw",
-    "SRD": 3,
-    "num_epoch": 5,
-    "batch_size": 16,
-    "learning_rate": 2.0e-5,
-    "l2reg": 1.0e-5,
-    "dropout": 0.1,
-    "max_grad_norm": 1.0,
-    "seed": 42,
-    "device": "cuda",
-    "use_amp": True,
-    "use_gold_aspect_input": True,
-    "sentiment_loss_weight": 1.0,
-    "aspect_loss_weight": 1.0,
-    "monitor_metric": "sentiment_macro_f1",
-    "num_workers": 0,
-}
+REQUIRED_TRAIN_CONFIG_KEYS: tuple[str, ...] = (
+    "dataset",
+    "train_file",
+    "val_file",
+    "pretrained_bert_name",
+    "bert_dim",
+    "max_seq_len",
+    "local_context_focus",
+    "SRD",
+    "use_gold_aspect_input",
+    "sentiment_loss_weight",
+    "aspect_loss_weight",
+    "monitor_metric",
+    "num_epoch",
+    "batch_size",
+    "learning_rate",
+    "l2reg",
+    "dropout",
+    "max_grad_norm",
+    "use_amp",
+    "num_workers",
+    "seed",
+    "device",
+    "checkpoint_dir",
+    "aspect_map",
+)
 
 
 def set_seed(seed: int) -> None:
@@ -105,19 +109,22 @@ def set_seed(seed: int) -> None:
 
 def _load_yaml(path: str | Path) -> SimpleNamespace:
     with Path(path).open("r", encoding="utf-8") as fh:
-        raw = yaml.safe_load(fh) or {}
-    cfg = {**defaults, **raw}
-    required = [
-        "dataset",
-        "train_file",
-        "val_file",
-        "pretrained_bert_name",
-        "checkpoint_dir",
-    ]
-    missing = [k for k in required if not cfg.get(k)]
+        raw = yaml.safe_load(fh)
+    if not raw:
+        raise ValueError(f"Config file is empty or invalid: {path}")
+    missing = [k for k in REQUIRED_TRAIN_CONFIG_KEYS if k not in raw]
     if missing:
-        raise ValueError(f"Missing required config keys: {missing}")
-    return SimpleNamespace(**cfg)
+        raise ValueError(
+            f"Missing required config keys (declare all in YAML, no code defaults): {missing}"
+        )
+    empty_string_keys = [
+        k
+        for k in ("dataset", "train_file", "val_file", "pretrained_bert_name", "checkpoint_dir")
+        if not str(raw.get(k, "")).strip()
+    ]
+    if empty_string_keys:
+        raise ValueError(f"These config keys must be non-empty strings: {empty_string_keys}")
+    return SimpleNamespace(**raw)
 
 
 def _read_aspect_labels(paths: list[str | Path]) -> list[str]:
@@ -135,7 +142,7 @@ def _read_aspect_labels(paths: list[str | Path]) -> list[str]:
 
 
 def build_aspect_map(cfg: SimpleNamespace) -> dict[str, int]:
-    if getattr(cfg, "aspect_map", None):
+    if cfg.aspect_map is not None:
         return {str(k): int(v) for k, v in cfg.aspect_map.items()}
     if cfg.dataset in fixed_aspect_maps:
         return dict(fixed_aspect_maps[cfg.dataset])
@@ -279,9 +286,9 @@ def train(cfg: SimpleNamespace) -> Path:
 
     bert = _load_pretrained_encoder(cfg.pretrained_bert_name)
     hidden_size = int(getattr(bert.config, "hidden_size", 768))
-    if cfg.bert_dim is not None and int(cfg.bert_dim) != hidden_size:
+    if int(cfg.bert_dim) != hidden_size:
         logger.warning(
-            "Config bert_dim=%s differs from model hidden_size=%s. Using hidden_size.",
+            "Config bert_dim=%s differs from model hidden_size=%s. Using hidden_size from checkpoint.",
             cfg.bert_dim,
             hidden_size,
         )
@@ -366,7 +373,12 @@ def train(cfg: SimpleNamespace) -> Path:
             metrics["sentiment_macro_f1"],
         )
 
-        monitor_value = float(metrics.get(monitor_metric, metrics["sentiment_macro_f1"]))
+        if monitor_metric not in metrics:
+            raise ValueError(
+                f"monitor_metric {monitor_metric!r} not found in val metrics {sorted(metrics)}. "
+                "Set monitor_metric in YAML to one of those keys."
+            )
+        monitor_value = float(metrics[monitor_metric])
         if monitor_value > best_value:
             best_value = monitor_value
             _save_checkpoint(

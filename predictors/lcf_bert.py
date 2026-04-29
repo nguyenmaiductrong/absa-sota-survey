@@ -27,13 +27,33 @@ from eval.schema import PARSE_ERROR_TOKEN as PARSE_ERROR
 from models.lcf_bert.data_utils import Tokenizer4Bert
 from models.lcf_bert.lcf_bert import LCF_BERT
 
+REQUIRED_MODEL_CONFIG_KEYS: tuple[str, ...] = (
+    "bert_dim",
+    "dropout",
+    "max_seq_len",
+    "local_context_focus",
+    "SRD",
+    "polarities_dim",
+    "aspects_dim",
+    "pretrained_bert_name",
+    "use_gold_aspect_input",
+    "device",
+)
+
 
 def _torch_load_checkpoint(path: Path, device: torch.device) -> dict[str, Any]:
-    """Load both new and older project checkpoints."""
+    """Load checkpoint; model_config phải đủ khóa (checkpoint sau khi train với train.py hiện tại)."""
     try:
         return torch.load(path, map_location=device, weights_only=False)
     except TypeError:
         return torch.load(path, map_location=device)
+
+
+def _resolve_predictor_device(name: str) -> torch.device:
+    n = str(name).lower()
+    if n.startswith("cuda"):
+        return torch.device(name if torch.cuda.is_available() else "cpu")
+    return torch.device(name)
 
 
 class LCFBertPredictor:
@@ -45,31 +65,28 @@ class LCFBertPredictor:
         ckpt_path = Path(checkpoint)
         if not ckpt_path.exists():
             raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
-        self._device = torch.device(device if device else ("cuda" if torch.cuda.is_available() else "cpu"))
+        self._device_override = device
         self._load(ckpt_path)
 
     def _load(self, ckpt_path: Path) -> None:
-        ckpt = _torch_load_checkpoint(ckpt_path, self._device)
+        ckpt = _torch_load_checkpoint(ckpt_path, torch.device("cpu"))
         self._sentiment_map: dict[str, int] = ckpt["sentiment_map"]
         self._aspect_map: dict[str, int] = ckpt["aspect_map"]
         self._idx2sentiment = {int(v): str(k) for k, v in self._sentiment_map.items()}
         self._idx2aspect = {int(v): str(k) for k, v in self._aspect_map.items()}
 
         raw_opt = dict(ckpt.get("model_config") or {})
-        pretrained = (
-            raw_opt.get("pretrained_bert_name")
-            or ckpt.get("pretrained_bert_name")
-            or "bert-base-uncased"
-        )
-        raw_opt["pretrained_bert_name"] = pretrained
+        missing = [k for k in REQUIRED_MODEL_CONFIG_KEYS if k not in raw_opt]
+        if missing:
+            raise ValueError(
+                f"Checkpoint thiếu khóa trong model_config (cần huấn luyện lại với train.py hiện tại): {missing}"
+            )
+        pretrained = str(raw_opt["pretrained_bert_name"])
+        if self._device_override is not None:
+            raw_opt = {**raw_opt, "device": str(self._device_override)}
+        req_dev = str(raw_opt["device"])
+        self._device = _resolve_predictor_device(req_dev)
         raw_opt["device"] = str(self._device)
-        raw_opt.setdefault("use_gold_aspect_input", False)
-        raw_opt.setdefault("dropout", 0.1)
-        raw_opt.setdefault("local_context_focus", "cdw")
-        raw_opt.setdefault("SRD", 3)
-        raw_opt.setdefault("polarities_dim", len(self._sentiment_map))
-        raw_opt.setdefault("aspects_dim", len(self._aspect_map))
-        raw_opt.setdefault("max_seq_len", 128)
 
         mu_log = logging.getLogger("transformers.modeling_utils")
         _lvl = mu_log.level
@@ -78,12 +95,16 @@ class LCFBertPredictor:
             bert = AutoModel.from_pretrained(pretrained)
         finally:
             mu_log.setLevel(_lvl)
-        raw_opt["bert_dim"] = int(raw_opt.get("bert_dim") or getattr(bert.config, "hidden_size", 768))
+        if int(raw_opt["bert_dim"]) != int(getattr(bert.config, "hidden_size", -1)):
+            raise ValueError(
+                f"bert_dim={raw_opt['bert_dim']} trong checkpoint không khớp hidden_size={bert.config.hidden_size} của {pretrained}"
+            )
+
         opt = SimpleNamespace(**raw_opt)
 
-        self.backbone = str(pretrained)
-        self._use_gold_aspect_input = bool(raw_opt.get("use_gold_aspect_input", False))
-        self._tokenizer = Tokenizer4Bert(int(opt.max_seq_len), str(pretrained))
+        self.backbone = pretrained
+        self._use_gold_aspect_input = bool(raw_opt["use_gold_aspect_input"])
+        self._tokenizer = Tokenizer4Bert(int(opt.max_seq_len), pretrained)
         self._model = LCF_BERT(bert, opt).to(self._device)
         self._model.load_state_dict(ckpt["model_state"], strict=True)
         self._model.eval()

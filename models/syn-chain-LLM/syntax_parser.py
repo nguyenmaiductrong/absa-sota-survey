@@ -1,7 +1,6 @@
 import spacy
 import pandas as pd
 
-# Load or download the spaCy english model
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
@@ -27,7 +26,6 @@ def get_syntactic_dependency_string(text: str) -> str:
     return df.to_string(index=False)
 
 if __name__ == "__main__":
-    # Test block
     sample = "The food was great but the service was terrible."
     print(f"Testing on: {sample}\n")
     print(get_syntactic_dependency_string(sample))

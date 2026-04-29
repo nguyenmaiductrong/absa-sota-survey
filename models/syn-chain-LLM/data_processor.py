@@ -3,7 +3,6 @@ import json
 import csv
 import xml.etree.ElementTree as ET
 
-# Lấy thư mục gốc của project (nằm trên 2 level so với file hiện tại)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RAW_DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "data", "processed", "syn-chain")
@@ -84,20 +83,17 @@ def process_and_save():
         os.makedirs(OUTPUT_DIR)
         
     print(f"Processing raw datasets...")
-    
-    # Laptops
+
     laptops_raw = os.path.join(RAW_DATA_DIR, "semeval14", "Laptops_Test_Gold.xml")
     laptops_out = os.path.join(OUTPUT_DIR, "laptops_test.json")
     print(f"Processing {laptops_raw}...")
     process_semeval_xml(laptops_raw, laptops_out)
-    
-    # Restaurants
+
     rest_raw = os.path.join(RAW_DATA_DIR, "semeval14", "Restaurants_Test_Gold.xml")
     rest_out = os.path.join(OUTPUT_DIR, "restaurants_test.json")
     print(f"Processing {rest_raw}...")
     process_semeval_xml(rest_raw, rest_out)
-    
-    # UIT-VSFC
+
     vsfc_raw = os.path.join(RAW_DATA_DIR, "uit-vsfc", "test.csv")
     vsfc_out = os.path.join(OUTPUT_DIR, "uit-vsfc_test.json")
     print(f"Processing {vsfc_raw}...")

@@ -19,21 +19,17 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
 
-# ── Colour / marker scheme ────────────────────────────────────────────────────
-
-# One colour per model method (auto-assigned if unseen)
 _PALETTE = [
-    "#2196F3",  # blue
-    "#E91E63",  # pink
-    "#4CAF50",  # green
-    "#FF9800",  # orange
-    "#9C27B0",  # purple
-    "#00BCD4",  # cyan
-    "#F44336",  # red
-    "#8BC34A",  # light-green
+    "#2196F3",
+    "#E91E63",
+    "#4CAF50",
+    "#FF9800",
+    "#9C27B0",
+    "#00BCD4",
+    "#F44336",
+    "#8BC34A",
 ]
 
-# One marker per dataset
 _DATASET_MARKERS = {
     "SemEval-2014-Restaurant": "o",
     "SemEval-2014-Laptop":     "s",
@@ -41,8 +37,6 @@ _DATASET_MARKERS = {
 }
 _DEFAULT_MARKER = "D"
 
-
-# ── Load metrics ──────────────────────────────────────────────────────────────
 
 def load_metrics(metrics_dir: Path) -> list[dict]:
     """Return a list of metric dicts from all *.json files in metrics_dir."""
@@ -57,14 +51,11 @@ def load_metrics(metrics_dir: Path) -> list[dict]:
     return records
 
 
-# ── Plot ──────────────────────────────────────────────────────────────────────
-
 def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
     if not records:
         print("No metrics found. Run evaluate.py for at least one model first.")
         return
 
-    # Collect unique methods → colour
     methods = list(dict.fromkeys(r.get("method", "?") for r in records))
     method_colour = {m: _PALETTE[i % len(_PALETTE)] for i, m in enumerate(methods)}
 
@@ -86,7 +77,6 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
         ax.scatter(x, y, s=180, color=colour, marker=marker,
                    edgecolors="white", linewidths=0.8, zorder=3)
 
-        # Annotate with method name slightly offset
         ax.annotate(
             f"{method}\n({dataset.replace('SemEval-2014-', 'SE14-')})",
             xy=(x, y),
@@ -96,7 +86,6 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
             color=colour,
         )
 
-    # ── Axes ─────────────────────────────────────────────────────────────────
     ax.set_xlabel("Average Latency per Sample (ms)", fontsize=12)
     ax.set_ylabel("Sentiment Accuracy", fontsize=12)
     ax.set_title("Accuracy vs. Latency Trade-off — ABSA Models", fontsize=13, fontweight="bold")
@@ -104,13 +93,11 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0%}"))
     ax.grid(True, linestyle="--", alpha=0.4)
 
-    # ── Legend: models (colours) ──────────────────────────────────────────────
     model_handles = [
         mpatches.Patch(color=method_colour[m], label=m)
         for m in methods if m in method_colour
     ]
 
-    # ── Legend: datasets (markers) ────────────────────────────────────────────
     dataset_handles = [
         plt.Line2D([0], [0], marker=mk, color="grey", linestyle="None",
                    markersize=9, label=ds)
@@ -124,7 +111,6 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
     ax.legend(handles=dataset_handles, title="Dataset", loc="lower left",
               fontsize=8, title_fontsize=9)
 
-    # ── Ideal corner annotation ───────────────────────────────────────────────
     ax.annotate("← faster\n↑ more accurate",
                 xy=(0.01, 0.97), xycoords="axes fraction",
                 fontsize=8, color="grey", va="top")
@@ -137,8 +123,6 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
     else:
         plt.show()
 
-
-# ── CLI ────────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     p = argparse.ArgumentParser(

@@ -41,13 +41,11 @@ _SYSTEM_PROMPT = (
 
 def _parse_llm_output(raw: str) -> tuple[str, str]:
     """Extract (aspect, sentiment) from a JSON-formatted LLM response."""
-    # Try direct JSON parse
     try:
         obj = json.loads(raw.strip())
         return str(obj.get("aspect", PARSE_ERROR)), str(obj.get("sentiment", PARSE_ERROR))
     except json.JSONDecodeError:
         pass
-    # Fallback: find JSON-like fragment
     m = re.search(r'\{[^}]+\}', raw)
     if m:
         try:
@@ -61,14 +59,14 @@ def _parse_llm_output(raw: str) -> tuple[str, str]:
 class LLMReasoningPredictor:
     method   = "LLM-Reasoning"
     paradigm = "LLM-Reasoning"
-    backbone = "gpt-4o"   # updated by constructor
+    backbone = "gpt-4o"
 
     def __init__(
         self,
         backend: str = "openai",
         model: str = "gpt-4o",
         api_key: str | None = None,
-        base_url: str = "http://localhost:11434",  # Ollama default
+        base_url: str = "http://localhost:11434",
         temperature: float = 0.0,
         max_tokens: int = 64,
     ):
@@ -84,7 +82,7 @@ class LLMReasoningPredictor:
         if backend == "openai":
             self._init_openai()
         elif backend == "ollama":
-            pass   # requests-based, no init needed
+            pass
         else:
             raise ValueError(f"Unknown backend {backend!r}. Use 'openai' or 'ollama'.")
 

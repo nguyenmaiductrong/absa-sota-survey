@@ -51,7 +51,6 @@ class Tokenizer4Bert:
             use_fast=True,
         )
         if self.tokenizer.pad_token_id is None:
-            # Rare fallback for tokenizers without an explicit pad token.
             self.tokenizer.pad_token = self.tokenizer.eos_token or self.tokenizer.sep_token
         self.pad_token_id = int(self.tokenizer.pad_token_id or 0)
 
@@ -98,8 +97,9 @@ class Tokenizer4Bert:
     def encode_for_lcf(
         self,
         text: str,
-        aspect: str | None = None,
-        use_aspect_input: bool = True,
+        aspect: str | None,
+        *,
+        use_aspect_input: bool,
     ) -> dict[str, np.ndarray | np.int64]:
         """Encode a sample for LCF-BERT.
 
@@ -108,7 +108,7 @@ class Tokenizer4Bert:
         text:
             Sentence/review text.
         aspect:
-            Gold target aspect/category when using given-aspect ABSC.
+            Gold target / category (có thể chuỗi rỗng khi không ghép aspect).
         use_aspect_input:
             If True and aspect is non-empty, encode text-aspect pair. If False,
             encode text only, suitable for text-only joint aspect+sentiment runs.
@@ -161,7 +161,7 @@ class ABSADatasetJSONL(Dataset):
         tokenizer: Tokenizer4Bert,
         sentiment_map: dict[str, int],
         aspect_map: dict[str, int],
-        use_gold_aspect_input: bool = True,
+        use_gold_aspect_input: bool,
     ):
         self.path = Path(path)
         self.tokenizer = tokenizer

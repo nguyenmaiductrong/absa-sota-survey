@@ -58,7 +58,6 @@ def parse_xml(xml_path: Path, dataset_name: str) -> list[dict]:
             continue
         text = text_el.text.strip()
 
-        # --- aspect categories (Restaurant) ---
         cats_el = sentence.find("aspectCategories")
         if cats_el is not None:
             for cat_el in cats_el.findall("aspectCategory"):
@@ -69,9 +68,8 @@ def parse_xml(xml_path: Path, dataset_name: str) -> list[dict]:
                     continue
                 records.append(_make_record(sid, dataset_name, text,
                                             aspect, polarity, "cat"))
-            continue  
+            continue
 
-        # --- aspect terms fallback (Laptop) ---
         terms_el = sentence.find("aspectTerms")
         if terms_el is None:
             continue
