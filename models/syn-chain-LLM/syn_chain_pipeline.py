@@ -5,20 +5,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
-
-# Cấu hình API cho LLM. Mặc định dùng localhost (cho vLLM/Ollama chạy local).
-# Nếu bạn chạy Qwen trên Colab qua ngrok, hãy thay đổi QWEN_API_BASE thành URL ngrok của bạn.
-# Ví dụ: QWEN_API_BASE = "https://1234-abcd.ngrok-free.app/v1"
 QWEN_API_BASE = os.getenv("QWEN_API_BASE", "http://localhost:8000/v1")
-QWEN_API_KEY = os.getenv("QWEN_API_KEY", "EMPTY") # Không cần đổi nếu server không yêu cầu token
-MODEL_NAME = os.getenv("MODEL_NAME", "qwen2.5-7b-instruct") # Thay đổi tên model tương ứng với Colab
+QWEN_API_KEY = os.getenv("QWEN_API_KEY", "EMPTY")
+MODEL_NAME = os.getenv("MODEL_NAME", "qwen2.5-7b-instruct")
 
-# Khởi tạo LLM. Sử dụng ChatOpenAI wrapper vì các server Colab thường hỗ trợ OpenAI format
 llm = ChatOpenAI(
     model=MODEL_NAME,
     api_key=QWEN_API_KEY,
     base_url=QWEN_API_BASE,
-    temperature=0.0 # Giữ temperature = 0 để output mang tính ổn định
+    temperature=0.0
 )
 
 # Bước 1: Prompt Phân tích Cú pháp
