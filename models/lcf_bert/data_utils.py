@@ -22,6 +22,81 @@ def _as_int64_array(values: list[int], max_len: int, pad_value: int = 0) -> np.n
     return arr
 
 
+def _pad_token_ids(token_ids: list[int], max_len: int, pad_id: int) -> np.ndarray:
+    out = np.full(max_len, pad_id, dtype=np.int64)
+    n = min(len(token_ids), max_len)
+    if n:
+        out[:n] = np.asarray(token_ids[:n], dtype=np.int64)
+    return out
+
+
+def _token_ids_for_text(tokenizer: PreTrainedTokenizerBase, text: str) -> list[int]:
+    return tokenizer.convert_tokens_to_ids(tokenizer.tokenize(text))
+
+
+def _nnz_token_ids(arr: np.ndarray, pad_id: int) -> int:
+    return int(np.sum(arr != pad_id))
+
+
+def get_lca_ids_and_cdm_vec(
+    max_seq_len: int,
+    SRD: int,
+    bert_spc_indices: np.ndarray,
+    aspect_indices: np.ndarray,
+    aspect_begin: int,
+    pad_id: int,
+    syntactical_dist: np.ndarray | None = None,
+) -> np.ndarray:
+    """PyABSA apc_utils.get_lca_ids_and_cdm_vec (logic aligned; lengths use != pad_id)."""
+    cdm_vec = np.zeros(max_seq_len, dtype=np.int64)
+    aspect_len = _nnz_token_ids(aspect_indices, pad_id)
+    text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
+    if syntactical_dist is not None:
+        for i in range(min(text_len, max_seq_len)):
+            if syntactical_dist[i] <= SRD:
+                cdm_vec[i] = 1
+    else:
+        local_context_begin = max(0, aspect_begin - SRD)
+        local_context_end = min(aspect_begin + aspect_len + SRD - 1, max_seq_len)
+        for i in range(min(text_len, max_seq_len)):
+            if local_context_begin <= i <= local_context_end:
+                cdm_vec[i] = 1
+    return cdm_vec
+
+
+def get_cdw_vec(
+    max_seq_len: int,
+    SRD: int,
+    bert_spc_indices: np.ndarray,
+    aspect_indices: np.ndarray,
+    aspect_begin: int,
+    pad_id: int,
+    syntactical_dist: np.ndarray | None = None,
+) -> np.ndarray:
+    """PyABSA apc_utils.get_cdw_vec (logic aligned; lengths use != pad_id)."""
+    cdw_vec = np.zeros(max_seq_len, dtype=np.float32)
+    aspect_len = _nnz_token_ids(aspect_indices, pad_id)
+    text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
+    if syntactical_dist is not None:
+        for i in range(min(text_len, max_seq_len)):
+            if syntactical_dist[i] > SRD:
+                cdw_vec[i] = np.float32(1.0 - syntactical_dist[i] / text_len)
+            else:
+                cdw_vec[i] = np.float32(1.0)
+    else:
+        local_context_begin = max(0, aspect_begin - SRD)
+        local_context_end = min(aspect_begin + aspect_len + SRD - 1, max_seq_len)
+        for i in range(min(text_len, max_seq_len)):
+            if i < local_context_begin:
+                w = 1.0 - (local_context_begin - i) / text_len
+            elif local_context_begin <= i <= local_context_end:
+                w = 1.0
+            else:
+                w = 1.0 - (i - local_context_end) / text_len
+            cdw_vec[i] = np.float32(w)
+    return cdw_vec
+
+
 def _find_subsequence(source: list[int], target: list[int], valid_len: int) -> int:
     """Return start index of target in source[:valid_len], or -1 if missing."""
     if not target:
@@ -43,9 +118,17 @@ class Tokenizer4Bert:
     tokens and returns all tensors needed by LCF-BERT.
     """
 
-    def __init__(self, max_seq_len: int, pretrained_bert_name: str):
+    def __init__(
+        self,
+        max_seq_len: int,
+        pretrained_bert_name: str,
+        srd: int = 3,
+        local_context_focus: str = "cdw",
+    ):
         self.max_seq_len = int(max_seq_len)
         self.pretrained_bert_name = pretrained_bert_name
+        self.srd = int(srd)
+        self.local_context_focus = str(local_context_focus).lower()
         self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(
             pretrained_bert_name,
             use_fast=True,
@@ -129,11 +212,75 @@ class Tokenizer4Bert:
 
         local = self._encode_single(text)
 
-        aspect_plain_ids = self.tokenizer.encode(aspect, add_special_tokens=False) if has_aspect else []
-        local_ids_list = local["input_ids"].astype(int).tolist()
-        local_valid_len = int(local["attention_mask"].sum())
-        aspect_begin = _find_subsequence(local_ids_list, aspect_plain_ids, local_valid_len)
-        aspect_len = len(aspect_plain_ids) if aspect_begin >= 0 else 0
+        pad_id = self.pad_token_id
+        if not has_aspect:
+            lcf_w = np.zeros(self.max_seq_len, dtype=np.float32)
+            vlen = int(local["attention_mask"].sum())
+            lcf_w[:vlen] = 1.0
+            aspect_plain_ids: list[int] = []
+            aspect_begin = np.int64(-1)
+            aspect_len = np.int64(0)
+        else:
+            asp = aspect.strip()
+            pos = text.find(asp)
+            if pos >= 0:
+                text_left = text[:pos]
+                text_right = text[pos + len(asp) :]
+            else:
+                text_left = ""
+                text_right = text
+            parts = [text_left.strip(), asp, text_right.strip()]
+            text_raw = " ".join(p for p in parts if p).strip()
+            if not text_raw:
+                text_raw = text.strip()
+
+            bos = self.tokenizer.bos_token or "[CLS]"
+            eos = self.tokenizer.sep_token or "[SEP]"
+            text_spc_str = f"{bos} {text_raw} {eos} {asp} {eos}"
+            spc_ids = _token_ids_for_text(self.tokenizer, text_spc_str)
+            text_indices = _pad_token_ids(spc_ids, self.max_seq_len, pad_id)
+
+            aspect_sub_ids = self.tokenizer.encode(asp, add_special_tokens=False)
+            aspect_indices = _pad_token_ids(aspect_sub_ids, self.max_seq_len, pad_id)
+
+            aspect_begin_py = len(self.tokenizer.tokenize(bos + " " + text_left))
+
+            if pos < 0:
+                local_ids_list = local["input_ids"].astype(int).tolist()
+                local_valid_len = int(local["attention_mask"].sum())
+                fb = _find_subsequence(local_ids_list, aspect_sub_ids, local_valid_len)
+                if fb >= 0:
+                    aspect_begin_py = fb
+
+            if self.local_context_focus == "cdm":
+                raw_vec = get_lca_ids_and_cdm_vec(
+                    self.max_seq_len,
+                    self.srd,
+                    text_indices,
+                    aspect_indices,
+                    aspect_begin_py,
+                    pad_id,
+                    None,
+                )
+                lcf_w = raw_vec.astype(np.float32)
+            else:
+                lcf_w = get_cdw_vec(
+                    self.max_seq_len,
+                    self.srd,
+                    text_indices,
+                    aspect_indices,
+                    aspect_begin_py,
+                    pad_id,
+                    None,
+                )
+
+            aspect_plain_ids = aspect_sub_ids
+            local_ids_list = local["input_ids"].astype(int).tolist()
+            local_valid_len = int(local["attention_mask"].sum())
+            aspect_begin = np.int64(
+                _find_subsequence(local_ids_list, aspect_plain_ids, local_valid_len)
+            )
+            aspect_len = np.int64(len(aspect_plain_ids) if aspect_begin >= 0 else 0)
 
         return {
             "concat_bert_indices": pair["input_ids"],
@@ -141,8 +288,9 @@ class Tokenizer4Bert:
             "concat_attention_mask": pair["attention_mask"],
             "text_local_indices": local["input_ids"],
             "text_local_attention_mask": local["attention_mask"],
-            "aspect_begin": np.int64(aspect_begin),
-            "aspect_len": np.int64(aspect_len),
+            "lcf_context_weight": lcf_w,
+            "aspect_begin": aspect_begin,
+            "aspect_len": aspect_len,
         }
 
 

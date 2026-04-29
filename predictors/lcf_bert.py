@@ -104,7 +104,12 @@ class LCFBertPredictor:
 
         self.backbone = pretrained
         self._use_gold_aspect_input = bool(raw_opt["use_gold_aspect_input"])
-        self._tokenizer = Tokenizer4Bert(int(opt.max_seq_len), pretrained)
+        self._tokenizer = Tokenizer4Bert(
+            int(opt.max_seq_len),
+            pretrained,
+            int(raw_opt["SRD"]),
+            str(raw_opt["local_context_focus"]),
+        )
         self._model = LCF_BERT(bert, opt).to(self._device)
         self._model.load_state_dict(ckpt["model_state"], strict=True)
         self._model.eval()
@@ -136,6 +141,9 @@ class LCFBertPredictor:
                 self._tensor(features["text_local_attention_mask"]),
                 self._tensor_scalar(features["aspect_begin"]),
                 self._tensor_scalar(features["aspect_len"]),
+                torch.tensor(features["lcf_context_weight"], dtype=torch.float32)
+                .unsqueeze(0)
+                .to(self._device),
             ]
 
             sent_logits, asp_logits = self._model(inputs)

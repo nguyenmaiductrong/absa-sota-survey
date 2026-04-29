@@ -158,7 +158,10 @@ def collate(batch: list[dict[str, Any]]) -> dict[str, torch.Tensor]:
         values = [item[key] for item in batch]
         first = values[0]
         if isinstance(first, np.ndarray):
-            out[key] = torch.tensor(np.stack(values), dtype=torch.long)
+            if np.issubdtype(first.dtype, np.floating):
+                out[key] = torch.tensor(np.stack(values), dtype=torch.float32)
+            else:
+                out[key] = torch.tensor(np.stack(values), dtype=torch.long)
         else:
             out[key] = torch.tensor(values, dtype=torch.long)
     return out
@@ -173,6 +176,7 @@ def _batch_to_inputs(batch: dict[str, torch.Tensor], device: torch.device) -> li
         batch["text_local_attention_mask"].to(device),
         batch["aspect_begin"].to(device),
         batch["aspect_len"].to(device),
+        batch["lcf_context_weight"].to(device),
     ]
 
 
@@ -238,7 +242,12 @@ def train(cfg: SimpleNamespace) -> Path:
     logger.info("Sentiments: %d | Aspects: %d", n_sentiments, n_aspects)
     logger.info("use_gold_aspect_input: %s", bool(cfg.use_gold_aspect_input))
 
-    tokenizer = Tokenizer4Bert(int(cfg.max_seq_len), cfg.pretrained_bert_name)
+    tokenizer = Tokenizer4Bert(
+        int(cfg.max_seq_len),
+        cfg.pretrained_bert_name,
+        int(cfg.SRD),
+        str(cfg.local_context_focus),
+    )
 
     train_ds = ABSADatasetJSONL(
         cfg.train_file,

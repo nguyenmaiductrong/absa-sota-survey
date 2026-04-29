@@ -40,17 +40,9 @@ class SelfAttention(nn.Module):
 class LCF_BERT(nn.Module):
     """LCF-BERT with two heads: sentiment and aspect category.
 
-    Expected input list:
-      0 concat_bert_indices          LongTensor [B, L]
-      1 concat_segments_indices      LongTensor [B, L]
-      2 concat_attention_mask        LongTensor [B, L]
-      3 text_local_indices           LongTensor [B, L]
-      4 text_local_attention_mask    LongTensor [B, L]
-      5 aspect_begin                 LongTensor [B]
-      6 aspect_len                   LongTensor [B]
-
-    Returns:
-      sentiment_logits, aspect_logits
+    Inputs (8 tensors):
+      0–4 as before; 5 aspect_begin; 6 aspect_len (aux); 7 lcf_context_weight [B,L] float
+      (PyABSA CDM/CDW precomputed in the dataset).
     """
 
     def __init__(self, bert: nn.Module, opt: SimpleNamespace):
@@ -86,58 +78,6 @@ class LCF_BERT(nn.Module):
             kwargs["token_type_ids"] = token_type_ids
         return self.bert_spc(**kwargs).last_hidden_state
 
-    def _local_context_weight(
-        self,
-        attention_mask: torch.Tensor,
-        aspect_begin: torch.Tensor,
-        aspect_len: torch.Tensor,
-    ) -> torch.Tensor:
-        """Build CDM/CDW weights using precomputed aspect span positions.
-
-        If an aspect span is not found in the text, the sample keeps weight 1 on
-        valid tokens. This is important for category labels such as food/service
-        that may not appear literally in the sentence.
-        """
-        batch_size, seq_len = attention_mask.shape
-        weights = torch.ones(
-            batch_size,
-            seq_len,
-            dtype=torch.float32,
-            device=attention_mask.device,
-        )
-        focus = str(self.opt.local_context_focus).lower()
-        srd = int(self.opt.SRD)
-
-        for b in range(batch_size):
-            valid_len = int(attention_mask[b].sum().item())
-            begin = int(aspect_begin[b].item())
-            length = int(aspect_len[b].item())
-            if valid_len <= 0:
-                continue
-            if begin < 0 or length <= 0:
-                weights[b, valid_len:] = 0.0
-                continue
-
-            end = min(seq_len, begin + length)
-            if focus == "cdm":
-                left = max(0, begin - srd)
-                right = min(seq_len, end + srd)
-                weights[b, :left] = 0.0
-                weights[b, right:] = 0.0
-            elif focus == "cdw":
-                for i in range(valid_len):
-                    if begin <= i < end:
-                        dist = 0.0
-                    else:
-                        dist = float(min(abs(i - begin), abs(i - (end - 1))))
-                    if dist > srd:
-                        weights[b, i] = max(0.0, 1.0 - (dist - srd) / max(float(valid_len), 1.0))
-                weights[b, valid_len:] = 0.0
-            else:
-                weights[b, valid_len:] = 0.0
-
-        return weights.unsqueeze(-1)
-
     @staticmethod
     def _masked_mean(x: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
         mask = attention_mask.unsqueeze(-1).to(x.dtype)
@@ -146,10 +86,10 @@ class LCF_BERT(nn.Module):
         return summed / denom
 
     def forward(self, inputs: list[torch.Tensor] | tuple[torch.Tensor, ...]):
-        if len(inputs) < 7:
+        if len(inputs) < 8:
             raise ValueError(
-                "LCF_BERT expects 7 input tensors: concat ids, segment ids, concat mask, "
-                "local ids, local mask, aspect_begin, aspect_len."
+                "LCF_BERT expects 8 input tensors: concat ids, segment ids, concat mask, "
+                "local ids, local mask, aspect_begin, aspect_len, lcf_context_weight."
             )
 
         (
@@ -158,9 +98,10 @@ class LCF_BERT(nn.Module):
             concat_mask,
             local_ids,
             local_mask,
-            aspect_begin,
-            aspect_len,
-        ) = inputs[:7]
+            _aspect_begin,
+            _aspect_len,
+            lcf_context_weight,
+        ) = inputs[:8]
 
         concat_mask = concat_mask.long()
         local_mask = local_mask.long()
@@ -181,8 +122,8 @@ class LCF_BERT(nn.Module):
         local_out = self.dropout(local_out)
         local_out = local_out * local_mask.unsqueeze(-1).to(local_out.dtype)
 
-        context_weight = self._local_context_weight(local_mask, aspect_begin, aspect_len).to(local_out.dtype)
-        local_out = local_out * context_weight
+        lcf_w = lcf_context_weight.to(dtype=local_out.dtype).unsqueeze(-1)
+        local_out = local_out * lcf_w
 
         fused = self.linear_cat(torch.cat([local_out, spc_out], dim=-1))
         fused = self.bert_SA(fused, concat_mask)
