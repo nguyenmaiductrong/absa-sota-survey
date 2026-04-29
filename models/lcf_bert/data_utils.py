@@ -1,184 +1,205 @@
-"""Data utilities for LCF-BERT.
+"""Data utilities for the drop-in LCF-BERT implementation.
 
-Two dataset classes:
-  - ABSADatasetJSONL  : reads the unified JSONL format produced by prepare_*.py
-  - ABSADataset       : legacy 3-line format (kept for backward compatibility)
+This file intentionally supports both BERT and PhoBERT/Roberta-style models by
+using Hugging Face AutoTokenizer instead of BertTokenizer.
 """
 from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 from torch.utils.data import Dataset
-from transformers import BertTokenizer
+from transformers import AutoTokenizer, PreTrainedTokenizerBase
 
 
-# ── Tokeniser helper ─────────────────────────────────────────────────────────
+def _as_int64_array(values: list[int], max_len: int, pad_value: int = 0) -> np.ndarray:
+    arr = np.full(max_len, pad_value, dtype=np.int64)
+    values = values[:max_len]
+    if values:
+        arr[: len(values)] = np.asarray(values, dtype=np.int64)
+    return arr
 
-def pad_and_truncate(sequence, maxlen, dtype="int64",
-                     padding="post", truncating="post", value=0):
-    x = (np.ones(maxlen) * value).astype(dtype)
-    trunc = sequence[-maxlen:] if truncating == "pre" else sequence[:maxlen]
-    trunc = np.asarray(trunc, dtype=dtype)
-    if padding == "post":
-        x[:len(trunc)] = trunc
-    else:
-        x[-len(trunc):] = trunc
-    return x
+
+def _find_subsequence(source: list[int], target: list[int], valid_len: int) -> int:
+    """Return start index of target in source[:valid_len], or -1 if missing."""
+    if not target:
+        return -1
+    haystack = source[:valid_len]
+    n = len(target)
+    for start in range(0, len(haystack) - n + 1):
+        if haystack[start : start + n] == target:
+            return start
+    return -1
 
 
 class Tokenizer4Bert:
-    def __init__(self, max_seq_len: int, pretrained_bert_name: str):
-        self.tokenizer   = BertTokenizer.from_pretrained(pretrained_bert_name)
-        self.max_seq_len = max_seq_len
+    """Tokenizer wrapper that works for BERT, RoBERTa, and PhoBERT.
 
-    def text_to_sequence(self, text: str, reverse: bool = False,
-                         padding: str = "post", truncating: str = "post"):
-        seq = self.tokenizer.convert_tokens_to_ids(
-            self.tokenizer.tokenize(text)
-        )
-        if not seq:
-            seq = [0]
-        if reverse:
-            seq = seq[::-1]
-        return pad_and_truncate(seq, self.max_seq_len,
-                                padding=padding, truncating=truncating)
-
-
-# ── Unified JSONL dataset ─────────────────────────────────────────────────────
-
-class ABSADatasetJSONL(Dataset):
-    """Dataset that reads the unified JSONL produced by prepare_*.py.
-
-    Each record must have:
-      text, gold.aspect, gold.sentiment
-    and optionally a ``label_maps`` dict mapping string labels → int indices.
-
-    Parameters
-    ----------
-    path : str | Path
-        Path to the JSONL file.
-    tokenizer : Tokenizer4Bert
-    sentiment_map : dict[str, int]
-        e.g. {"negative": 0, "neutral": 1, "positive": 2}
-    aspect_map : dict[str, int]
-        e.g. {"food": 0, "service": 1, ...}
+    The original project used BertTokenizer and manually inserted [CLS]/[SEP].
+    That breaks for PhoBERT because it is Roberta-based and uses different
+    special tokens. This wrapper lets the tokenizer add model-specific special
+    tokens and returns all tensors needed by LCF-BERT.
     """
 
-    def __init__(self, path: str | Path, tokenizer: Tokenizer4Bert,
-                 sentiment_map: dict[str, int], aspect_map: dict[str, int]):
-        self.tokenizer     = tokenizer
-        self.sentiment_map = sentiment_map
-        self.aspect_map    = aspect_map
-        self.data: list[dict] = []
-        self._load(Path(path))
+    def __init__(self, max_seq_len: int, pretrained_bert_name: str):
+        self.max_seq_len = int(max_seq_len)
+        self.pretrained_bert_name = pretrained_bert_name
+        self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(
+            pretrained_bert_name,
+            use_fast=True,
+        )
+        if self.tokenizer.pad_token_id is None:
+            # Rare fallback for tokenizers without an explicit pad token.
+            self.tokenizer.pad_token = self.tokenizer.eos_token or self.tokenizer.sep_token
+        self.pad_token_id = int(self.tokenizer.pad_token_id or 0)
 
-    def _load(self, path: Path) -> None:
-        with path.open("r", encoding="utf-8") as fh:
+    def _encode_single(self, text: str) -> dict[str, np.ndarray]:
+        enc = self.tokenizer(
+            str(text),
+            add_special_tokens=True,
+            max_length=self.max_seq_len,
+            padding="max_length",
+            truncation=True,
+            return_attention_mask=True,
+        )
+        input_ids = _as_int64_array(enc["input_ids"], self.max_seq_len, self.pad_token_id)
+        attention_mask = _as_int64_array(enc["attention_mask"], self.max_seq_len, 0)
+        return {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+        }
+
+    def _encode_pair(self, text: str, aspect: str) -> dict[str, np.ndarray]:
+        enc = self.tokenizer(
+            str(text),
+            str(aspect),
+            add_special_tokens=True,
+            max_length=self.max_seq_len,
+            padding="max_length",
+            truncation=True,
+            return_attention_mask=True,
+            return_token_type_ids=True,
+        )
+        input_ids = _as_int64_array(enc["input_ids"], self.max_seq_len, self.pad_token_id)
+        attention_mask = _as_int64_array(enc["attention_mask"], self.max_seq_len, 0)
+        token_type_ids = _as_int64_array(
+            enc.get("token_type_ids", [0] * self.max_seq_len),
+            self.max_seq_len,
+            0,
+        )
+        return {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "token_type_ids": token_type_ids,
+        }
+
+    def encode_for_lcf(
+        self,
+        text: str,
+        aspect: str | None = None,
+        use_aspect_input: bool = True,
+    ) -> dict[str, np.ndarray | np.int64]:
+        """Encode a sample for LCF-BERT.
+
+        Parameters
+        ----------
+        text:
+            Sentence/review text.
+        aspect:
+            Gold target aspect/category when using given-aspect ABSC.
+        use_aspect_input:
+            If True and aspect is non-empty, encode text-aspect pair. If False,
+            encode text only, suitable for text-only joint aspect+sentiment runs.
+        """
+        text = str(text)
+        aspect = "" if aspect is None else str(aspect)
+        has_aspect = bool(aspect.strip()) and bool(use_aspect_input)
+
+        if has_aspect:
+            pair = self._encode_pair(text, aspect)
+        else:
+            single = self._encode_single(text)
+            pair = {
+                "input_ids": single["input_ids"],
+                "attention_mask": single["attention_mask"],
+                "token_type_ids": np.zeros(self.max_seq_len, dtype=np.int64),
+            }
+
+        local = self._encode_single(text)
+
+        aspect_plain_ids = self.tokenizer.encode(aspect, add_special_tokens=False) if has_aspect else []
+        local_ids_list = local["input_ids"].astype(int).tolist()
+        local_valid_len = int(local["attention_mask"].sum())
+        aspect_begin = _find_subsequence(local_ids_list, aspect_plain_ids, local_valid_len)
+        aspect_len = len(aspect_plain_ids) if aspect_begin >= 0 else 0
+
+        return {
+            "concat_bert_indices": pair["input_ids"],
+            "concat_segments_indices": pair["token_type_ids"],
+            "concat_attention_mask": pair["attention_mask"],
+            "text_local_indices": local["input_ids"],
+            "text_local_attention_mask": local["attention_mask"],
+            "aspect_begin": np.int64(aspect_begin),
+            "aspect_len": np.int64(aspect_len),
+        }
+
+
+class ABSADatasetJSONL(Dataset):
+    """Dataset for the unified JSONL files in data/processed/lcf_bert.
+
+    Each JSONL record must contain:
+      - text
+      - gold.aspect
+      - gold.sentiment
+    """
+
+    def __init__(
+        self,
+        path: str | Path,
+        tokenizer: Tokenizer4Bert,
+        sentiment_map: dict[str, int],
+        aspect_map: dict[str, int],
+        use_gold_aspect_input: bool = True,
+    ):
+        self.path = Path(path)
+        self.tokenizer = tokenizer
+        self.sentiment_map = sentiment_map
+        self.aspect_map = aspect_map
+        self.use_gold_aspect_input = bool(use_gold_aspect_input)
+        self.data: list[dict[str, Any]] = []
+        self.skipped = 0
+        self._load()
+
+    def _load(self) -> None:
+        with self.path.open("r", encoding="utf-8") as fh:
             for line in fh:
                 line = line.strip()
                 if not line:
                     continue
                 rec = json.loads(line)
-                text     = rec["text"]
-                aspect   = rec["gold"]["aspect"]
-                polarity = rec["gold"]["sentiment"]
+                text = rec["text"]
+                aspect = rec["gold"]["aspect"]
+                sentiment = rec["gold"]["sentiment"]
 
-                if aspect not in self.aspect_map:
+                if aspect not in self.aspect_map or sentiment not in self.sentiment_map:
+                    self.skipped += 1
                     continue
-                if polarity not in self.sentiment_map:
-                    continue
 
-                self.data.append(self._encode(text, aspect,
-                                              self.sentiment_map[polarity],
-                                              self.aspect_map[aspect]))
+                features = self.tokenizer.encode_for_lcf(
+                    text,
+                    aspect=aspect,
+                    use_aspect_input=self.use_gold_aspect_input,
+                )
+                features["polarity"] = np.int64(self.sentiment_map[sentiment])
+                features["aspect_label"] = np.int64(self.aspect_map[aspect])
+                self.data.append(features)
 
-    def _encode(self, text: str, aspect: str,
-                polarity_idx: int, aspect_idx: int) -> dict:
-        tok = self.tokenizer
-        aspect_indices  = tok.text_to_sequence(aspect)
-        aspect_len      = int(np.sum(aspect_indices != 0))
-
-        text_bert_indices = tok.text_to_sequence(
-            f"[CLS] {text} [SEP] {aspect} [SEP]"
-        )
-        text_len = int(np.sum(text_bert_indices != 0))
-
-        concat_bert_indices = tok.text_to_sequence(
-            f"[CLS] {text} [SEP] {aspect} [SEP]"
-        )
-        concat_segments_indices = pad_and_truncate(
-            [0] * (text_len + 2) + [1] * (aspect_len + 1),
-            tok.max_seq_len,
-        )
-
-        text_local_indices = tok.text_to_sequence(f"[CLS] {text} [SEP]")
-
-        return {
-            "concat_bert_indices":    concat_bert_indices,
-            "concat_segments_indices": concat_segments_indices,
-            "text_bert_indices":      text_bert_indices,
-            "text_local_indices":     text_local_indices,
-            "aspect_indices":         aspect_indices,
-            "polarity":               polarity_idx,
-            "aspect_label":           aspect_idx,
-        }
-
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> dict[str, Any]:
         return self.data[index]
 
     def __len__(self) -> int:
         return len(self.data)
 
 
-# ── Legacy 3-line dataset (unchanged interface) ───────────────────────────────
-
-class ABSADataset(Dataset):
-    """Legacy 3-line format: text_with_$T$, aspect, polarity_int."""
-
-    def __init__(self, fname: str, tokenizer: Tokenizer4Bert):
-        with open(fname, "r", encoding="utf-8", newline="\n", errors="ignore") as fh:
-            lines = fh.readlines()
-
-        all_data: list[dict] = []
-        for i in range(0, len(lines), 3):
-            text_left, _, text_right = [
-                s.lower().strip() for s in lines[i].partition("$T$")
-            ]
-            aspect   = lines[i + 1].lower().strip()
-            polarity = int(lines[i + 2].strip()) + 1
-
-            aspect_indices  = tokenizer.text_to_sequence(aspect)
-            aspect_len      = int(np.sum(aspect_indices != 0))
-            text_bert_indices = tokenizer.text_to_sequence(
-                f"[CLS] {text_left} {aspect} {text_right} [SEP]"
-            )
-            text_len = int(np.sum(text_bert_indices != 0))
-            concat_bert_indices = tokenizer.text_to_sequence(
-                f"[CLS] {text_left} {aspect} {text_right} [SEP] {aspect} [SEP]"
-            )
-            concat_segments_indices = pad_and_truncate(
-                [0] * (text_len + 2) + [1] * (aspect_len + 1),
-                tokenizer.max_seq_len,
-            )
-            aspect_bert_indices = tokenizer.text_to_sequence(
-                f"[CLS] {aspect} [SEP]"
-            )
-            all_data.append({
-                "concat_bert_indices":     concat_bert_indices,
-                "concat_segments_indices": concat_segments_indices,
-                "text_bert_indices":       text_bert_indices,
-                "aspect_bert_indices":     aspect_bert_indices,
-                "aspect_indices":          aspect_indices,
-                "polarity":                polarity,
-                "aspect_label":            0,   # unknown in legacy format
-            })
-
-        self.data = all_data
-
-    def __getitem__(self, index: int):
-        return self.data[index]
-
-    def __len__(self) -> int:
-        return len(self.data)

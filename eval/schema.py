@@ -21,8 +21,6 @@ ALLOWED_TASKS = {
     "ACSA",         # aspect-category sentiment only
 }
 
-ALLOWED_SENTIMENTS = {"positive", "negative", "neutral", "conflict"}
-
 PARSE_ERROR_TOKEN = "__PARSE_ERROR__"
 
 
