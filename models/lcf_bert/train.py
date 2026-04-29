@@ -84,6 +84,8 @@ REQUIRED_TRAIN_CONFIG_KEYS: tuple[str, ...] = (
     "sentiment_loss_weight",
     "aspect_loss_weight",
     "monitor_metric",
+    "early_stopping_patience",
+    "early_stopping_min_delta",
     "num_epoch",
     "batch_size",
     "learning_rate",
@@ -334,6 +336,9 @@ def train(cfg: SimpleNamespace) -> Path:
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     best_path = ckpt_dir / "lcf_bert_best.pt"
     best_value = -1.0
+    early_stopping_patience = int(cfg.early_stopping_patience)
+    early_stopping_min_delta = float(cfg.early_stopping_min_delta)
+    epochs_without_improve = 0
 
     sentiment_loss_weight = float(cfg.sentiment_loss_weight)
     aspect_loss_weight = float(cfg.aspect_loss_weight)
@@ -388,8 +393,10 @@ def train(cfg: SimpleNamespace) -> Path:
                 "Set monitor_metric in YAML to one of those keys."
             )
         monitor_value = float(metrics[monitor_metric])
-        if monitor_value > best_value:
+        improved = monitor_value > best_value + early_stopping_min_delta
+        if improved:
             best_value = monitor_value
+            epochs_without_improve = 0
             _save_checkpoint(
                 best_path,
                 model,
@@ -401,6 +408,17 @@ def train(cfg: SimpleNamespace) -> Path:
                 metrics,
             )
             logger.info("Saved best checkpoint: %s (%s=%.4f)", best_path, monitor_metric, best_value)
+        elif early_stopping_patience > 0:
+            epochs_without_improve += 1
+            if epochs_without_improve >= early_stopping_patience:
+                logger.info(
+                    "Early stopping: no improvement in %s for %d epoch(s). Best %s=%.4f",
+                    monitor_metric,
+                    early_stopping_patience,
+                    monitor_metric,
+                    best_value,
+                )
+                break
 
     logger.info("Training done. Best %s: %.4f", monitor_metric, best_value)
     return best_path

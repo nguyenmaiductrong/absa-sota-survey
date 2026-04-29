@@ -18,6 +18,9 @@ use_gold_aspect_input: true
 sentiment_loss_weight: 1.0
 aspect_loss_weight: 1.0
 monitor_metric: "sentiment_macro_f1"
+# Dừng sớm nếu val không cải thiện (theo monitor_metric) qua N epoch; 0 = tắt.
+early_stopping_patience: 3
+early_stopping_min_delta: 0.0
 
 num_epoch: 10
 batch_size: 8
