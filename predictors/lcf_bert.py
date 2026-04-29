@@ -11,6 +11,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import logging
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -70,7 +71,13 @@ class LCFBertPredictor:
         raw_opt.setdefault("aspects_dim", len(self._aspect_map))
         raw_opt.setdefault("max_seq_len", 128)
 
-        bert = AutoModel.from_pretrained(pretrained)
+        mu_log = logging.getLogger("transformers.modeling_utils")
+        _lvl = mu_log.level
+        mu_log.setLevel(logging.ERROR)
+        try:
+            bert = AutoModel.from_pretrained(pretrained)
+        finally:
+            mu_log.setLevel(_lvl)
         raw_opt["bert_dim"] = int(raw_opt.get("bert_dim") or getattr(bert.config, "hidden_size", 768))
         opt = SimpleNamespace(**raw_opt)
 

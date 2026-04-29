@@ -21,7 +21,7 @@ import torch.nn as nn
 import yaml
 from sklearn.metrics import accuracy_score, f1_score
 from torch.utils.data import DataLoader
-from transformers import AutoModel
+from transformers import AutoModel, PreTrainedModel
 
 # Allow running from repo root: python models/lcf_bert/train.py
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -37,6 +37,16 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 
+
+def _load_pretrained_encoder(pretrained_name: str) -> PreTrainedModel:
+    """Load BERT backbone; suppress noisy HF LOAD REPORT when checkpoint lists unused MLM/NSP head keys."""
+    mu_log = logging.getLogger("transformers.modeling_utils")
+    prev_level = mu_log.level
+    mu_log.setLevel(logging.ERROR)
+    try:
+        return AutoModel.from_pretrained(pretrained_name)
+    finally:
+        mu_log.setLevel(prev_level)
 
 sentiment_map: dict[str, int] = {
     "negative": 0,
@@ -267,7 +277,7 @@ def train(cfg: SimpleNamespace) -> Path:
         pin_memory=(device.type == "cuda"),
     )
 
-    bert = AutoModel.from_pretrained(cfg.pretrained_bert_name)
+    bert = _load_pretrained_encoder(cfg.pretrained_bert_name)
     hidden_size = int(getattr(bert.config, "hidden_size", 768))
     if cfg.bert_dim is not None and int(cfg.bert_dim) != hidden_size:
         logger.warning(
@@ -302,7 +312,7 @@ def train(cfg: SimpleNamespace) -> Path:
     )
     loss_fn = nn.CrossEntropyLoss()
     use_amp = bool(cfg.use_amp) and device.type == "cuda"
-    scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+    scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
 
     ckpt_dir = Path(cfg.checkpoint_dir)
     ckpt_dir.mkdir(parents=True, exist_ok=True)
@@ -323,7 +333,7 @@ def train(cfg: SimpleNamespace) -> Path:
             asp_labels = batch["aspect_label"].to(device)
 
             optimizer.zero_grad(set_to_none=True)
-            with torch.cuda.amp.autocast(enabled=use_amp):
+            with torch.amp.autocast("cuda", enabled=use_amp):
                 sent_logits, asp_logits = model(inputs)
                 sent_loss = loss_fn(sent_logits, sent_labels)
                 asp_loss = loss_fn(asp_logits, asp_labels)
