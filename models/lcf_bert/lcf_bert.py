@@ -36,43 +36,20 @@ class MHSelfAttention(nn.Module):
         return self.tanh(out)
 
 
-class PointwiseConv(nn.Module):
-    """Point-wise Convolutional Transformation (paper figure: 'PCT').
-
-    Two 1x1 convolutions with ReLU between them, applied position-wise.
-    """
-
-    def __init__(self, hidden_size: int):
-        super().__init__()
-        self.conv1 = nn.Conv1d(hidden_size, hidden_size, kernel_size=1)
-        self.conv2 = nn.Conv1d(hidden_size, hidden_size, kernel_size=1)
-        self.act = nn.ReLU()
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        h = x.transpose(1, 2)
-        h = self.act(self.conv1(h))
-        h = self.conv2(h)
-        return h.transpose(1, 2)
-
-
 class LCF_BERT(nn.Module):
-    """LCF-BERT replicating the architecture diagram in paper.PNG.
+    """LCF-BERT (Zeng et al., 2019) — single-task ABSC.
 
     Local branch (text only):
-        BERT [Embedding + Pre-feature Extractor]  ->  PCT
-        ->  CDM/CDW  ->  MH Self-Attention            (Feature Extractor)
-
+        BERT_local  ->  CDM/CDW (precomputed)  ->  MH Self-Attention
     Global branch (text + aspect, BERT-SPC):
-        BERT [Embedding + Pre-feature Extractor]  ->  PCT
-        ->  MH Self-Attention                          (Feature Extractor)
+        BERT_global  ->  MH Self-Attention
+    Fusion / Output (FIL):
+        Concatenate (⊕)  ->  Linear  ->  MH Self-Attention
+        ->  pool [CLS]  ->  sentiment softmax (Equation 25–26)
 
-    Fusion / Output:
-        Concatenate (⊕)  ->  Linear  ->  MH Self-Attention   (FILL)
-        ->  pool  ->  sentiment / aspect heads               (Output Layer)
-
-    Input contract preserved (8 tensors): concat_ids, concat_segments,
-    concat_mask, local_ids, local_mask, aspect_begin, aspect_len,
-    lcf_context_weight (PyABSA CDM/CDW precomputed in the dataset).
+    BERT replaces the embedding + Pre-Feature Extractor (PFE) layer entirely
+    when used in LCF-BERT (paper §3.4 + Figure 3 caption); PCT belongs to
+    LCF-GloVe and is intentionally absent here.
     """
 
     def __init__(self, bert: nn.Module, opt: SimpleNamespace):
@@ -82,23 +59,18 @@ class LCF_BERT(nn.Module):
         self.opt = opt
 
         hidden_size = int(opt.bert_dim)
-        num_heads = int(getattr(opt, "num_attention_heads", 8))
+        num_heads = int(getattr(opt, "num_attention_heads", 12))
         dropout = float(opt.dropout)
 
         self.dropout = nn.Dropout(dropout)
-
-        self.pct_local = PointwiseConv(hidden_size)
-        self.pct_global = PointwiseConv(hidden_size)
 
         self.local_SA = MHSelfAttention(hidden_size, num_heads, dropout=dropout)
         self.global_SA = MHSelfAttention(hidden_size, num_heads, dropout=dropout)
 
         self.linear_cat = nn.Linear(hidden_size * 2, hidden_size)
-
         self.bert_SA = MHSelfAttention(hidden_size, num_heads, dropout=dropout)
 
         self.sentiment_head = nn.Linear(hidden_size, int(opt.polarities_dim))
-        self.aspect_head = nn.Linear(hidden_size, int(opt.aspects_dim))
 
         try:
             self._accepts_token_type_ids = "token_type_ids" in inspect.signature(bert.forward).parameters
@@ -119,14 +91,7 @@ class LCF_BERT(nn.Module):
             kwargs["token_type_ids"] = token_type_ids
         return self.bert_spc(**kwargs).last_hidden_state
 
-    @staticmethod
-    def _masked_mean(x: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
-        mask = attention_mask.unsqueeze(-1).to(x.dtype)
-        summed = (x * mask).sum(dim=1)
-        denom = mask.sum(dim=1).clamp(min=1.0)
-        return summed / denom
-
-    def forward(self, inputs: list[torch.Tensor] | tuple[torch.Tensor, ...]):
+    def forward(self, inputs: list[torch.Tensor] | tuple[torch.Tensor, ...]) -> torch.Tensor:
         if len(inputs) < 8:
             raise ValueError(
                 "LCF_BERT expects 8 input tensors: concat ids, segment ids, concat mask, "
@@ -147,7 +112,6 @@ class LCF_BERT(nn.Module):
         concat_mask = concat_mask.long()
         local_mask = local_mask.long()
 
-        # === BERT-shared layer alternative: Embedding + Pre-feature Extractor ===
         global_out = self._bert_forward(
             input_ids=concat_ids,
             attention_mask=concat_mask,
@@ -164,25 +128,18 @@ class LCF_BERT(nn.Module):
         local_out = self.dropout(local_out)
         local_out = local_out * local_mask.unsqueeze(-1).to(local_out.dtype)
 
-        # === PCT (Point-wise Convolutional Transformation) ===
-        local_out = self.pct_local(local_out) * local_mask.unsqueeze(-1).to(local_out.dtype)
-        global_out = self.pct_global(global_out) * concat_mask.unsqueeze(-1).to(global_out.dtype)
-
-        # === Feature Extractor ===
-        # Local: CDM/CDW (precomputed lcf_context_weight) -> MH Self-Attention
+        # Local CDM/CDW (precomputed weights) then MH Self-Attention
         lcf_w = lcf_context_weight.to(dtype=local_out.dtype).unsqueeze(-1)
         local_out = local_out * lcf_w
         local_out = self.local_SA(local_out, local_mask)
 
-        # Global: MH Self-Attention
+        # Global MH Self-Attention
         global_out = self.global_SA(global_out, concat_mask)
 
-        # === Concatenate (⊕) and project back to hidden_size ===
+        # Feature Interactive Learning: concat -> linear -> MHSA
         fused = self.linear_cat(torch.cat([local_out, global_out], dim=-1))
-
-        # === Feature Interactive Learning Layer ===
         fused = self.bert_SA(fused, concat_mask)
 
-        # === Output Layer: pool ===
-        pooled = self._masked_mean(fused, concat_mask)
-        return self.sentiment_head(pooled), self.aspect_head(pooled)
+        # Output layer: pool the [CLS] (first-token) hidden state (paper eq 25)
+        pooled = fused[:, 0, :]
+        return self.sentiment_head(pooled)

@@ -10,12 +10,14 @@ Output schema (one JSON per line):
     "text": "<sentence text>",
     "gold": {
       "aspect": "<category>",  # food / service / price / ambience / ...
-      "sentiment": "positive" | "negative" | "neutral" | "conflict"
+      "sentiment": "positive" | "negative" | "neutral"
     }
   }
 
 One record per (sentence, aspect-category) pair.
 Sentences with no <aspectCategories> block are skipped.
+Aspects labelled `conflict` are dropped to match the standard 3-class ABSC
+benchmark used by the LCF-BERT paper (Zeng et al., 2019, Table 2).
 
 Usage:
   python scripts/prepare_semeval14_lcf_bert.py \
@@ -37,7 +39,6 @@ POLARITY_MAP = {
     "positive": "positive",
     "negative": "negative",
     "neutral": "neutral",
-    "conflict": "conflict",
 }
 
 

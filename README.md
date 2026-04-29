@@ -22,7 +22,7 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 - **Task**: ABSA — predict aspect category + sentiment
 - **Nhãn aspect (Restaurant)**: `food` / `service` / `price` / `ambience` / `anecdotes/miscellaneous`
 - **Nhãn aspect (Laptop)**: open vocabulary (aspect term)
-- **Nhãn sentiment**: `positive` / `negative` / `neutral`
+- **Nhãn sentiment**: `positive` / `negative` / `neutral` (3 lớp; nhãn `conflict` bị loại)
 - **File raw**: `data/raw/semeval14/*.xml`
 
 ### UIT-VSFC (Vietnamese)

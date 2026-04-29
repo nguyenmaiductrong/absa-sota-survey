@@ -15,8 +15,6 @@ max_seq_len: 128
 local_context_focus: "cdw"  # cdm | cdw
 SRD: 3 # semantic-relative distance threshold
 use_gold_aspect_input: true
-sentiment_loss_weight: 1.0
-aspect_loss_weight: 1.0
 monitor_metric: "sentiment_macro_f1"
 early_stopping_patience: 3
 early_stopping_min_delta: 0.0

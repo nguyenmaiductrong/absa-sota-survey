@@ -34,7 +34,6 @@ REQUIRED_MODEL_CONFIG_KEYS: tuple[str, ...] = (
     "local_context_focus",
     "SRD",
     "polarities_dim",
-    "aspects_dim",
     "pretrained_bert_name",
     "use_gold_aspect_input",
     "device",
@@ -71,9 +70,7 @@ class LCFBertPredictor:
     def _load(self, ckpt_path: Path) -> None:
         ckpt = _torch_load_checkpoint(ckpt_path, torch.device("cpu"))
         self._sentiment_map: dict[str, int] = ckpt["sentiment_map"]
-        self._aspect_map: dict[str, int] = ckpt["aspect_map"]
         self._idx2sentiment = {int(v): str(k) for k, v in self._sentiment_map.items()}
-        self._idx2aspect = {int(v): str(k) for k, v in self._aspect_map.items()}
 
         raw_opt = dict(ckpt.get("model_config") or {})
         missing = [k for k in REQUIRED_MODEL_CONFIG_KEYS if k not in raw_opt]
@@ -121,9 +118,8 @@ class LCFBertPredictor:
     def predict(self, text: str, aspect: str | None = None) -> tuple[str, str, str]:
         """Return (pred_aspect, pred_sentiment, raw_json).
 
-        If aspect is supplied by evaluate.py --given-aspect, the model uses it
-        as the LCF target and returns that same aspect label. If aspect is not
-        supplied, the aspect head is used.
+        LCF-BERT is a given-aspect ABSC model: aspect is required as input.
+        pred_aspect is echoed from the supplied aspect (PARSE_ERROR if missing).
         """
         try:
             given_aspect = aspect.strip() if isinstance(aspect, str) and aspect.strip() else ""
@@ -146,12 +142,11 @@ class LCFBertPredictor:
                 .to(self._device),
             ]
 
-            sent_logits, asp_logits = self._model(inputs)
+            sent_logits = self._model(inputs)
             sent_idx = int(sent_logits.argmax(dim=-1).item())
-            asp_idx = int(asp_logits.argmax(dim=-1).item())
 
             pred_sentiment = self._idx2sentiment.get(sent_idx, PARSE_ERROR)
-            pred_aspect = given_aspect if given_aspect else self._idx2aspect.get(asp_idx, PARSE_ERROR)
+            pred_aspect = given_aspect if given_aspect else PARSE_ERROR
 
             raw = json.dumps(
                 {
@@ -159,7 +154,6 @@ class LCFBertPredictor:
                     "pred_aspect": pred_aspect,
                     "pred_sentiment": pred_sentiment,
                     "sent_probs": torch.softmax(sent_logits, dim=-1).squeeze(0).detach().cpu().tolist(),
-                    "asp_probs": torch.softmax(asp_logits, dim=-1).squeeze(0).detach().cpu().tolist(),
                 },
                 ensure_ascii=False,
             )

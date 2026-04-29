@@ -51,7 +51,6 @@ sentiment_map: dict[str, int] = {
     "negative": 0,
     "neutral": 1,
     "positive": 2,
-    "conflict": 3,
 }
 
 
@@ -81,8 +80,6 @@ REQUIRED_TRAIN_CONFIG_KEYS: tuple[str, ...] = (
     "local_context_focus",
     "SRD",
     "use_gold_aspect_input",
-    "sentiment_loss_weight",
-    "aspect_loss_weight",
     "monitor_metric",
     "early_stopping_patience",
     "early_stopping_min_delta",
@@ -190,7 +187,7 @@ def evaluate_model(model: LCF_BERT, loader: DataLoader, device: torch.device) ->
 
     for batch in loader:
         inputs = _batch_to_inputs(batch, device)
-        sent_logits, _ = model(inputs)
+        sent_logits = model(inputs)
         sent_gold.extend(batch["polarity"].tolist())
         sent_pred.extend(sent_logits.argmax(dim=-1).cpu().tolist())
 
@@ -311,7 +308,6 @@ def train(cfg: SimpleNamespace) -> Path:
         "local_context_focus": str(cfg.local_context_focus).lower(),
         "SRD": int(cfg.SRD),
         "polarities_dim": n_sentiments,
-        "aspects_dim": n_aspects,
         "device": str(device),
         "pretrained_bert_name": cfg.pretrained_bert_name,
         "use_gold_aspect_input": bool(cfg.use_gold_aspect_input),
@@ -340,8 +336,6 @@ def train(cfg: SimpleNamespace) -> Path:
     early_stopping_min_delta = float(cfg.early_stopping_min_delta)
     epochs_without_improve = 0
 
-    sentiment_loss_weight = float(cfg.sentiment_loss_weight)
-    aspect_loss_weight = float(cfg.aspect_loss_weight)
     monitor_metric = str(cfg.monitor_metric)
 
     for epoch in range(1, int(cfg.num_epoch) + 1):
@@ -351,14 +345,11 @@ def train(cfg: SimpleNamespace) -> Path:
         for step, batch in enumerate(train_loader, start=1):
             inputs = _batch_to_inputs(batch, device)
             sent_labels = batch["polarity"].to(device)
-            asp_labels = batch["aspect_label"].to(device)
 
             optimizer.zero_grad(set_to_none=True)
             with torch.amp.autocast("cuda", enabled=use_amp):
-                sent_logits, asp_logits = model(inputs)
-                sent_loss = loss_fn(sent_logits, sent_labels)
-                asp_loss = loss_fn(asp_logits, asp_labels)
-                loss = sentiment_loss_weight * sent_loss + aspect_loss_weight * asp_loss
+                sent_logits = model(inputs)
+                loss = loss_fn(sent_logits, sent_labels)
 
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
