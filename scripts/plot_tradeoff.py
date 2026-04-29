@@ -17,7 +17,6 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import numpy as np
 
 
 # ── Colour / marker scheme ────────────────────────────────────────────────────
@@ -74,9 +73,8 @@ def plot_tradeoff(records: list[dict], out_path: Path | None = None) -> None:
     for rec in records:
         method  = rec.get("method", "?")
         dataset = rec.get("dataset", "?")
-        eff     = rec.get("efficiency", {})
 
-        x = eff.get("avg_latency_ms")
+        x = rec.get("avg_latency_ms")
         y = rec.get("sentiment_accuracy")
 
         if x is None or y is None:

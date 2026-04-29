@@ -1,0 +1,32 @@
+# LCF-BERT config — SemEval-2014 Laptop (English)
+# Run: python models/lcf_bert/train.py --config configs/lcf_bert_en_laptop.yaml
+
+dataset: "SemEval-2014-Laptop"
+
+train_file: "data/processed/lcf_bert/semeval14_lap_train.jsonl"
+val_file:   "data/processed/lcf_bert/semeval14_lap_test.jsonl"
+
+pretrained_bert_name: "bert-base-uncased"
+bert_dim: 768
+
+max_seq_len: 128
+local_context_focus: "cdw"  # cdm | cdw
+SRD: 3
+use_gold_aspect_input: true
+sentiment_loss_weight: 1.0
+aspect_loss_weight: 1.0
+monitor_metric: "sentiment_macro_f1"
+
+num_epoch: 5
+batch_size: 16
+learning_rate: 2.0e-5
+l2reg: 1.0e-5
+dropout: 0.1
+max_grad_norm: 1.0
+use_amp: true
+num_workers: 0
+
+seed: 42
+device: "cuda"
+
+checkpoint_dir: "checkpoints/semeval14_lap"

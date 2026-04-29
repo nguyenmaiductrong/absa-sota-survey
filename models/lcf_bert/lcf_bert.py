@@ -1,134 +1,192 @@
+from __future__ import annotations
+
+import inspect
+from types import SimpleNamespace
+
 import torch
 import torch.nn as nn
-import numpy as np
-
-from transformers import BertModel
 
 
 class SelfAttention(nn.Module):
-    def __init__(self, hidden_size: int, max_seq_len: int, device):
+    """Light self-attention block used after local/global feature fusion."""
+
+    def __init__(self, hidden_size: int):
         super().__init__()
         self.hidden_size = hidden_size
-        self.max_seq_len = max_seq_len
-        self.device = device
-        self.query  = nn.Linear(hidden_size, hidden_size)
-        self.key    = nn.Linear(hidden_size, hidden_size)
-        self.value  = nn.Linear(hidden_size, hidden_size)
-        self.tanh   = nn.Tanh()
+        self.query = nn.Linear(hidden_size, hidden_size)
+        self.key = nn.Linear(hidden_size, hidden_size)
+        self.value = nn.Linear(hidden_size, hidden_size)
+        self.tanh = nn.Tanh()
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # x: (batch, seq_len, hidden)
+    def forward(self, x: torch.Tensor, attention_mask: torch.Tensor | None = None) -> torch.Tensor:
         q = self.query(x)
         k = self.key(x)
         v = self.value(x)
+
         scores = torch.bmm(q, k.transpose(1, 2)) / (self.hidden_size ** 0.5)
-        attn   = torch.softmax(scores, dim=-1)
-        out    = torch.bmm(attn, v)
+        if attention_mask is not None:
+            key_mask = attention_mask.unsqueeze(1).bool()
+            scores = scores.masked_fill(~key_mask, torch.finfo(scores.dtype).min)
+
+        attn = torch.softmax(scores, dim=-1)
+        attn = torch.nan_to_num(attn, nan=0.0)
+        out = torch.bmm(attn, v)
+
+        if attention_mask is not None:
+            out = out * attention_mask.unsqueeze(-1).to(out.dtype)
         return self.tanh(out)
 
 
 class LCF_BERT(nn.Module):
-    """LCF-BERT with dual output heads (aspect category + sentiment).
+    """LCF-BERT with two heads: sentiment and aspect category.
 
-    Input tensors (all shape: batch × max_seq_len):
-      0 - text_bert_indices      : [CLS] text [SEP] aspect [SEP]
-      1 - bert_segments_ids      : token-type-id segment mask
-      2 - text_local_indices     : [CLS] text [SEP]
-      3 - aspect_indices         : [CLS] aspect [SEP]
+    Expected input list:
+      0 concat_bert_indices          LongTensor [B, L]
+      1 concat_segments_indices      LongTensor [B, L]
+      2 concat_attention_mask        LongTensor [B, L]
+      3 text_local_indices           LongTensor [B, L]
+      4 text_local_attention_mask    LongTensor [B, L]
+      5 aspect_begin                 LongTensor [B]
+      6 aspect_len                   LongTensor [B]
 
-    Outputs:
-      (sentiment_logits, aspect_logits)  — each (batch, n_classes)
+    Returns:
+      sentiment_logits, aspect_logits
     """
 
-    def __init__(self, bert: BertModel, opt):
+    def __init__(self, bert: nn.Module, opt: SimpleNamespace):
         super().__init__()
-        self.bert_spc   = bert
-        self.bert_local = bert          # shared weights (single BERT)
-        self.opt        = opt
+        self.bert_spc = bert
+        self.bert_local = bert  # shared encoder, as in many compact LCF-BERT repos
+        self.opt = opt
 
-        D = opt.bert_dim
-        self.dropout    = nn.Dropout(opt.dropout)
-        self.bert_SA    = SelfAttention(D, opt.max_seq_len, opt.device)
-        self.linear_cat = nn.Linear(D * 2, D)
+        hidden_size = int(getattr(opt, "bert_dim", getattr(bert.config, "hidden_size", 768)))
+        self.dropout = nn.Dropout(float(getattr(opt, "dropout", 0.1)))
+        self.bert_SA = SelfAttention(hidden_size)
+        self.linear_cat = nn.Linear(hidden_size * 2, hidden_size)
 
-        self.sentiment_head = nn.Linear(D, opt.polarities_dim)
-        self.aspect_head    = nn.Linear(D, opt.aspects_dim)
+        self.sentiment_head = nn.Linear(hidden_size, int(opt.polarities_dim))
+        self.aspect_head = nn.Linear(hidden_size, int(opt.aspects_dim))
 
-    # ── Local context focus helpers ──────────────────────────────────────────
+        try:
+            self._accepts_token_type_ids = "token_type_ids" in inspect.signature(bert.forward).parameters
+        except (TypeError, ValueError):
+            self._accepts_token_type_ids = True
 
-    def _cdm_mask(self, text_local_indices: torch.Tensor,
-                  aspect_indices: torch.Tensor) -> torch.Tensor:
-        """Context-dependent masking (CDM)."""
-        texts = text_local_indices.cpu().numpy()
-        asps  = aspect_indices.cpu().numpy()
-        B, L, D = texts.shape[0], self.opt.max_seq_len, self.opt.bert_dim
-        mask = np.ones((B, L, D), dtype=np.float32)
-        srd  = self.opt.SRD
+    def _bert_forward(
+        self,
+        input_ids: torch.Tensor,
+        attention_mask: torch.Tensor,
+        token_type_ids: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        kwargs = {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+        }
+        if token_type_ids is not None and self._accepts_token_type_ids:
+            kwargs["token_type_ids"] = token_type_ids
+        return self.bert_spc(**kwargs).last_hidden_state
 
-        for bi in range(B):
-            asp_len = int(np.count_nonzero(asps[bi])) - 2
-            try:
-                asp_begin = int(np.argwhere(texts[bi] == asps[bi][1])[0][0])
-            except IndexError:
+    def _local_context_weight(
+        self,
+        attention_mask: torch.Tensor,
+        aspect_begin: torch.Tensor,
+        aspect_len: torch.Tensor,
+    ) -> torch.Tensor:
+        """Build CDM/CDW weights using precomputed aspect span positions.
+
+        If an aspect span is not found in the text, the sample keeps weight 1 on
+        valid tokens. This is important for category labels such as food/service
+        that may not appear literally in the sentence.
+        """
+        batch_size, seq_len = attention_mask.shape
+        weights = torch.ones(
+            batch_size,
+            seq_len,
+            dtype=torch.float32,
+            device=attention_mask.device,
+        )
+        focus = str(getattr(self.opt, "local_context_focus", "cdw")).lower()
+        srd = int(getattr(self.opt, "SRD", 3))
+
+        for b in range(batch_size):
+            valid_len = int(attention_mask[b].sum().item())
+            begin = int(aspect_begin[b].item())
+            length = int(aspect_len[b].item())
+            if valid_len <= 0:
                 continue
-            start = max(0, asp_begin - srd)
-            for i in range(start):
-                mask[bi][i] = 0
-            for j in range(asp_begin + asp_len + srd, L):
-                mask[bi][j] = 0
-
-        return torch.from_numpy(mask).to(self.opt.device)
-
-    def _cdw_weight(self, text_local_indices: torch.Tensor,
-                    aspect_indices: torch.Tensor) -> torch.Tensor:
-        """Context-dependent weighting (CDW)."""
-        texts = text_local_indices.cpu().numpy()
-        asps  = aspect_indices.cpu().numpy()
-        B, L, D = texts.shape[0], self.opt.max_seq_len, self.opt.bert_dim
-        weight = np.ones((B, L, D), dtype=np.float32)
-        srd    = self.opt.SRD
-
-        for bi in range(B):
-            asp_len = int(np.count_nonzero(asps[bi])) - 2
-            try:
-                asp_begin = int(np.argwhere(texts[bi] == asps[bi][1])[0][0])
-                asp_center = (asp_begin * 2 + asp_len) / 2
-            except IndexError:
+            if begin < 0 or length <= 0:
+                # Aspect string not found in text. Keep all valid tokens.
+                weights[b, valid_len:] = 0.0
                 continue
-            n_nonzero = int(np.count_nonzero(texts[bi]))
-            for i in range(1, n_nonzero - 1):
-                dist = abs(i - asp_center) + asp_len / 2
-                if dist > srd:
-                    weight[bi][i] *= 1 - (dist - srd) / n_nonzero
 
-        return torch.from_numpy(weight).to(self.opt.device)
+            end = min(seq_len, begin + length)
+            if focus == "cdm":
+                left = max(0, begin - srd)
+                right = min(seq_len, end + srd)
+                weights[b, :left] = 0.0
+                weights[b, right:] = 0.0
+            elif focus == "cdw":
+                for i in range(valid_len):
+                    if begin <= i < end:
+                        dist = 0.0
+                    else:
+                        dist = float(min(abs(i - begin), abs(i - (end - 1))))
+                    if dist > srd:
+                        weights[b, i] = max(0.0, 1.0 - (dist - srd) / max(float(valid_len), 1.0))
+                weights[b, valid_len:] = 0.0
+            else:
+                weights[b, valid_len:] = 0.0
 
-    # ── Forward ──────────────────────────────────────────────────────────────
+        return weights.unsqueeze(-1)
 
-    def forward(self, inputs: list[torch.Tensor]):
-        text_bert_indices, bert_segments_ids, text_local_indices, aspect_indices = inputs
+    @staticmethod
+    def _masked_mean(x: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+        mask = attention_mask.unsqueeze(-1).to(x.dtype)
+        summed = (x * mask).sum(dim=1)
+        denom = mask.sum(dim=1).clamp(min=1.0)
+        return summed / denom
 
-        # SPC branch: [CLS] text [SEP] aspect [SEP]
-        spc_out = self.bert_spc(
-            text_bert_indices, token_type_ids=bert_segments_ids
-        ).last_hidden_state
+    def forward(self, inputs: list[torch.Tensor] | tuple[torch.Tensor, ...]):
+        if len(inputs) < 7:
+            raise ValueError(
+                "LCF_BERT expects 7 input tensors: concat ids, segment ids, concat mask, "
+                "local ids, local mask, aspect_begin, aspect_len."
+            )
+
+        (
+            concat_ids,
+            concat_segments,
+            concat_mask,
+            local_ids,
+            local_mask,
+            aspect_begin,
+            aspect_len,
+        ) = inputs[:7]
+
+        concat_mask = concat_mask.long()
+        local_mask = local_mask.long()
+
+        spc_out = self._bert_forward(
+            input_ids=concat_ids,
+            attention_mask=concat_mask,
+            token_type_ids=concat_segments,
+        )
         spc_out = self.dropout(spc_out)
+        spc_out = spc_out * concat_mask.unsqueeze(-1).to(spc_out.dtype)
 
-        # Local branch: [CLS] text [SEP]
-        local_out = self.bert_local(text_local_indices).last_hidden_state
+        local_out = self._bert_forward(
+            input_ids=local_ids,
+            attention_mask=local_mask,
+            token_type_ids=None,
+        )
         local_out = self.dropout(local_out)
+        local_out = local_out * local_mask.unsqueeze(-1).to(local_out.dtype)
 
-        lcf = self.opt.local_context_focus
-        if lcf == "cdm":
-            mask = self._cdm_mask(text_local_indices, aspect_indices)
-            local_out = local_out * mask
-        elif lcf == "cdw":
-            w = self._cdw_weight(text_local_indices, aspect_indices)
-            local_out = local_out * w
+        context_weight = self._local_context_weight(local_mask, aspect_begin, aspect_len).to(local_out.dtype)
+        local_out = local_out * context_weight
 
-        # Concat → self-attention → mean pool
         fused = self.linear_cat(torch.cat([local_out, spc_out], dim=-1))
-        fused = self.bert_SA(fused)
-        pooled = fused.mean(dim=1)          # mean pooling over tokens
+        fused = self.bert_SA(fused, concat_mask)
+        pooled = self._masked_mean(fused, concat_mask)
 
         return self.sentiment_head(pooled), self.aspect_head(pooled)
