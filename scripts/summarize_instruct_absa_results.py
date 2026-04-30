@@ -20,8 +20,8 @@ DATASET_LABEL = {
     "semeval14_lap":  "SemEval-14 Laptop (en)",
     "vsfc":           "UIT-VSFC (vi)",
 }
-METHODS = ["lcf_bert", "instruct_absa"]
-METHOD_LABEL = {"lcf_bert": "LCF-BERT", "instruct_absa": "InstructABSA"}
+METHODS = ["lcf_bert", "instructabsa"]
+METHOD_LABEL = {"lcf_bert": "LCF-BERT", "instructabsa": "InstructABSA"}
 
 
 def load_metric(path: Path) -> dict | None:
