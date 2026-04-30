@@ -82,7 +82,10 @@ def main() -> None:
 
     print(f"[train] backbone={pretrained}  lang={language}  out={out_dir}")
     tokenizer = AutoTokenizer.from_pretrained(pretrained)
-    model     = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+    # Force fp32 weights at load time; mixed-precision (fp16/bf16) is opt-in via
+    # TrainingArguments. Loading some checkpoints (eg ViT5) in fp16 directly
+    # gives NaN loss on T4.
+    model     = AutoModelForSeq2SeqLM.from_pretrained(pretrained, torch_dtype=torch.float32)
 
     # ---- Load data
     train_records = read_jsonl(cfg["train_jsonl"])
@@ -116,6 +119,7 @@ def main() -> None:
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=2,
+        save_only_model=True,  # bỏ optimizer/scheduler state -> tiết kiệm dung lượng disk
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
         greater_is_better=False,
