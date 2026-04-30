@@ -1,0 +1,21 @@
+{
+  "method": "LCF-BERT",
+  "paradigm": "Discriminative",
+  "backbone": "bert-base-uncased",
+  "dataset": "SemEval-2014-Restaurant",
+  "n_samples": 973,
+  "sentiment_accuracy": 0.8941,
+  "sentiment_macro_f1": 0.8232,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 20.805,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 0.454,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}

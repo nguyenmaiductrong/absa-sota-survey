@@ -12,7 +12,6 @@ def _accuracy(gold: list[str], pred: list[str]) -> float:
 
 
 def _macro_f1(gold: list[str], pred: list[str]) -> float:
-    """Macro-averaged F1 across all classes present in gold."""
     labels = sorted(set(gold))
     if not labels:
         return 0.0
@@ -66,19 +65,18 @@ def score_predictions(path: str | Path) -> dict[str, Any]:
     n = len(gold_sents)
 
     return {
-        "method":             method,
-        "paradigm":           paradigm,
-        "backbone":           backbone,
-        "dataset":            dataset,
-        "n_samples":          n,
+        "method": method,
+        "paradigm": paradigm,
+        "backbone": backbone,
+        "dataset": dataset,
+        "n_samples": n,
         "sentiment_accuracy": round(_accuracy(gold_sents, pred_sents), 4),
         "sentiment_macro_f1": round(_macro_f1(gold_sents, pred_sents), 4),
-        "parse_error_rate":   round(n_parse_errors / n, 4) if n > 0 else 0.0,
+        "parse_error_rate": round(n_parse_errors / n, 4) if n > 0 else 0.0,
     }
 
 
 def write_metrics(metrics: dict[str, Any], path: str | Path) -> None:
-    """Write metrics dict to a JSON file (pretty-printed)."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:

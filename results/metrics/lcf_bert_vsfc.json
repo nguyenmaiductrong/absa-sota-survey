@@ -1,0 +1,21 @@
+{
+  "method": "LCF-BERT",
+  "paradigm": "Discriminative",
+  "backbone": "vinai/phobert-base",
+  "dataset": "UIT-VSFC",
+  "n_samples": 3166,
+  "sentiment_accuracy": 0.9274,
+  "sentiment_macro_f1": 0.8121,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 20.304,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 0.549,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}

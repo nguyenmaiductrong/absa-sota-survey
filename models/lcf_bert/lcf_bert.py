@@ -8,8 +8,7 @@ import torch.nn as nn
 
 
 class MHSelfAttention(nn.Module):
-    """Multi-Head Self-Attention block (paper figure: 'MH Self-Attention')."""
-
+    """Multi-Head Self-Attention block"""
     def __init__(self, hidden_size: int, num_heads: int, dropout: float = 0.0):
         super().__init__()
         if hidden_size % num_heads != 0:
@@ -48,8 +47,7 @@ class LCF_BERT(nn.Module):
         ->  pool [CLS]  ->  sentiment softmax (Equation 25–26)
 
     BERT replaces the embedding + Pre-Feature Extractor (PFE) layer entirely
-    when used in LCF-BERT (paper §3.4 + Figure 3 caption); PCT belongs to
-    LCF-GloVe and is intentionally absent here.
+    when used in LCF-BERT
     """
 
     def __init__(self, bert: nn.Module, opt: SimpleNamespace):
@@ -140,6 +138,6 @@ class LCF_BERT(nn.Module):
         fused = self.linear_cat(torch.cat([local_out, global_out], dim=-1))
         fused = self.bert_SA(fused, concat_mask)
 
-        # Output layer: pool the [CLS] (first-token) hidden state (paper eq 25)
+        # Output layer: pool the [CLS] (first-token) hidden state
         pooled = fused[:, 0, :]
         return self.sentiment_head(pooled)

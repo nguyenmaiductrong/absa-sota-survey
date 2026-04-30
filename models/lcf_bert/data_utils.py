@@ -67,7 +67,7 @@ def get_lca_ids_and_cdm_vec(
     pad_id: int,
     syntactical_dist: np.ndarray | None = None,
 ) -> np.ndarray:
-    """CDM: mask 1 if SRD_i <= alpha, else 0 (Formulas 13–15). alpha is config SRD."""
+    """CDM: mask 1 if SRD_i <= alpha, else 0 alpha is config SRD."""
     cdm_vec = np.zeros(max_seq_len, dtype=np.int64)
     aspect_len = _nnz_token_ids(aspect_indices, pad_id)
     text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
@@ -94,7 +94,7 @@ def get_cdw_vec(
     pad_id: int,
     syntactical_dist: np.ndarray | None = None,
 ) -> np.ndarray:
-    """CDW (Formulas 16–18): weight 1 if SRD_i <= alpha; else (SRD_i - alpha) / n. n = sentence length."""
+    """CDW: weight 1 if SRD_i <= alpha; else (SRD_i - alpha) / n. n = sentence length."""
     cdw_vec = np.zeros(max_seq_len, dtype=np.float32)
     aspect_len = _nnz_token_ids(aspect_indices, pad_id)
     text_len = _nnz_token_ids(bert_spc_indices, pad_id) - _nnz_token_ids(aspect_indices, pad_id) - 1
