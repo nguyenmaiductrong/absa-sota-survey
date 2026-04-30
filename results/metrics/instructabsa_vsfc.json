@@ -1,0 +1,21 @@
+{
+  "method": "InstructABSA",
+  "paradigm": "Instruction-Tuning",
+  "backbone": "checkpoints/vsfc/instruct_absa_best",
+  "dataset": "UIT-VSFC",
+  "n_samples": 3166,
+  "sentiment_accuracy": 0.6453,
+  "sentiment_macro_f1": 0.4252,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 74.143,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 2.231,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}

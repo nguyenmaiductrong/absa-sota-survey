@@ -1,0 +1,21 @@
+{
+  "method": "InstructABSA",
+  "paradigm": "Instruction-Tuning",
+  "backbone": "checkpoints/semeval14_rest/instruct_absa_best",
+  "dataset": "SemEval-2014-Restaurant",
+  "n_samples": 973,
+  "sentiment_accuracy": 0.8767,
+  "sentiment_macro_f1": 0.7718,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 61.907,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 0.955,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}
