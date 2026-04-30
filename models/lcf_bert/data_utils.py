@@ -116,6 +116,33 @@ def get_cdw_vec(
     return cdw_vec
 
 
+def resolve_aspect_surface(
+    aspect: str,
+    text: str,
+    aspect_surface_map: dict[str, list[str]] | None,
+) -> str:
+    """Map an aspect label (e.g. ``"lecturer"``) to a surface keyword present in ``text``.
+
+    LCF-BERT computes local context focus by string-finding the aspect inside the
+    sentence. When the dataset stores aspects as English category labels but the
+    text is in another language (e.g. UIT-VSFC has Vietnamese reviews), the
+    string match always fails and LCF degenerates into plain BERT-SPC. The
+    surface map provides a priority list of language-appropriate keywords per
+    label; the first one that occurs in ``text`` is returned, falling back to
+    the head of the list when none match.
+    """
+    if not aspect_surface_map:
+        return aspect
+    candidates = aspect_surface_map.get(aspect)
+    if not candidates:
+        return aspect
+    text_l = text.lower()
+    for kw in candidates:
+        if kw and kw.lower() in text_l:
+            return kw
+    return candidates[0]
+
+
 def _find_subsequence(source: list[int], target: list[int], valid_len: int) -> int:
     """Return start index of target in source[:valid_len], or -1 if missing."""
     if not target:
@@ -329,12 +356,14 @@ class ABSADatasetJSONL(Dataset):
         sentiment_map: dict[str, int],
         aspect_map: dict[str, int],
         use_gold_aspect_input: bool,
+        aspect_surface_map: dict[str, list[str]] | None = None,
     ):
         self.path = Path(path)
         self.tokenizer = tokenizer
         self.sentiment_map = sentiment_map
         self.aspect_map = aspect_map
         self.use_gold_aspect_input = bool(use_gold_aspect_input)
+        self.aspect_surface_map = aspect_surface_map
         self.data: list[dict[str, Any]] = []
         self.skipped = 0
         self._load()
@@ -354,9 +383,12 @@ class ABSADatasetJSONL(Dataset):
                     self.skipped += 1
                     continue
 
+                aspect_surface = resolve_aspect_surface(
+                    aspect, text, self.aspect_surface_map
+                )
                 features = self.tokenizer.encode_for_lcf(
                     text,
-                    aspect=aspect,
+                    aspect=aspect_surface,
                     use_aspect_input=self.use_gold_aspect_input,
                 )
                 features["polarity"] = np.int64(self.sentiment_map[sentiment])

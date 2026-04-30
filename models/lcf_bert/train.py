@@ -95,6 +95,7 @@ REQUIRED_TRAIN_CONFIG_KEYS: tuple[str, ...] = (
     "device",
     "checkpoint_dir",
     "aspect_map",
+    "aspect_surface_map",
 )
 
 
@@ -149,6 +150,30 @@ def build_aspect_map(cfg: SimpleNamespace) -> dict[str, int]:
     if not labels:
         raise ValueError(f"Could not build aspect map from {cfg.train_file} and {cfg.val_file}")
     return {label: idx for idx, label in enumerate(labels)}
+
+
+def build_aspect_surface_map(cfg: SimpleNamespace) -> dict[str, list[str]] | None:
+    raw = getattr(cfg, "aspect_surface_map", None)
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise ValueError(
+            f"aspect_surface_map must be a mapping label -> list[str], got {type(raw).__name__}"
+        )
+    out: dict[str, list[str]] = {}
+    for label, values in raw.items():
+        if isinstance(values, str):
+            keywords = [values]
+        elif isinstance(values, list):
+            keywords = [str(v).strip() for v in values if str(v).strip()]
+        else:
+            raise ValueError(
+                f"aspect_surface_map[{label!r}] must be str or list[str], got {type(values).__name__}"
+            )
+        if not keywords:
+            raise ValueError(f"aspect_surface_map[{label!r}] is empty after stripping")
+        out[str(label)] = keywords
+    return out
 
 
 def collate(batch: list[dict[str, Any]]) -> dict[str, torch.Tensor]:
@@ -211,6 +236,7 @@ def _save_checkpoint(
     model_config: dict[str, Any],
     sentiment_map: dict[str, int],
     aspect_map: dict[str, int],
+    aspect_surface_map: dict[str, list[str]] | None,
     metrics: dict[str, float],
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -222,6 +248,7 @@ def _save_checkpoint(
             "pretrained_bert_name": cfg.pretrained_bert_name,
             "sentiment_map": sentiment_map,
             "aspect_map": aspect_map,
+            "aspect_surface_map": aspect_surface_map,
             "val_metrics": metrics,
             "dataset": cfg.dataset,
         },
@@ -235,11 +262,15 @@ def train(cfg: SimpleNamespace) -> Path:
     logger.info("Device: %s", device)
 
     aspect_map = build_aspect_map(cfg)
+    aspect_surface_map = build_aspect_surface_map(cfg)
     n_sentiments = len(sentiment_map)
     n_aspects = len(aspect_map)
     logger.info("Dataset: %s", cfg.dataset)
     logger.info("Sentiments: %d | Aspects: %d", n_sentiments, n_aspects)
     logger.info("use_gold_aspect_input: %s", bool(cfg.use_gold_aspect_input))
+    if aspect_surface_map is not None:
+        preview = {k: v[:3] for k, v in aspect_surface_map.items()}
+        logger.info("aspect_surface_map active (first 3 keywords): %s", preview)
 
     tokenizer = Tokenizer4Bert(
         int(cfg.max_seq_len),
@@ -254,6 +285,7 @@ def train(cfg: SimpleNamespace) -> Path:
         sentiment_map,
         aspect_map,
         use_gold_aspect_input=bool(cfg.use_gold_aspect_input),
+        aspect_surface_map=aspect_surface_map,
     )
     val_ds = ABSADatasetJSONL(
         cfg.val_file,
@@ -261,6 +293,7 @@ def train(cfg: SimpleNamespace) -> Path:
         sentiment_map,
         aspect_map,
         use_gold_aspect_input=bool(cfg.use_gold_aspect_input),
+        aspect_surface_map=aspect_surface_map,
     )
     if len(train_ds) == 0 or len(val_ds) == 0:
         raise ValueError(
@@ -396,6 +429,7 @@ def train(cfg: SimpleNamespace) -> Path:
                 model_config,
                 sentiment_map,
                 aspect_map,
+                aspect_surface_map,
                 metrics,
             )
             logger.info("Saved best checkpoint: %s (%s=%.4f)", best_path, monitor_metric, best_value)

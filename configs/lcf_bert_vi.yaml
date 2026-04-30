@@ -5,6 +5,16 @@ dataset: "UIT-VSFC"
 
 aspect_map: null
 
+# Map nhãn topic (tiếng Anh) sang priority list keyword tiếng Việt thực sự
+# xuất hiện trong câu — để LCF-BERT định vị được aspect span và bật được
+# CDM/CDW mask. Khi không tìm thấy keyword nào trong câu, dùng phần tử đầu
+# tiên làm fallback.
+aspect_surface_map:
+  lecturer: ["giảng viên", "giảng dạy", "giảng bài", "thầy cô", "giáo viên", "thầy", "cô ", "dạy"]
+  training_program: ["môn học", "giáo trình", "bài giảng", "chương trình", "học phần", "kiến thức", "nội dung"]
+  facility: ["cơ sở vật chất", "trang thiết bị", "phòng học", "phòng máy", "phòng lab", "máy chiếu", "thiết bị", "wifi"]
+  others: ["khác"]
+
 train_file: "data/processed/lcf_bert/vsfc_train.jsonl"
 val_file: "data/processed/lcf_bert/vsfc_val.jsonl"
 

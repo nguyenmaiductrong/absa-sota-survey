@@ -4,6 +4,7 @@
 dataset: "SemEval-2014-Laptop"
 
 aspect_map: null
+aspect_surface_map: null
 
 train_file: "data/processed/lcf_bert/semeval14_lap_train.jsonl"
 val_file:   "data/processed/lcf_bert/semeval14_lap_test.jsonl"

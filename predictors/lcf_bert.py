@@ -24,7 +24,7 @@ from transformers import AutoModel
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from eval.schema import PARSE_ERROR_TOKEN as PARSE_ERROR
-from models.lcf_bert.data_utils import Tokenizer4Bert
+from models.lcf_bert.data_utils import Tokenizer4Bert, resolve_aspect_surface
 from models.lcf_bert.lcf_bert import LCF_BERT
 
 REQUIRED_MODEL_CONFIG_KEYS: tuple[str, ...] = (
@@ -71,6 +71,12 @@ class LCFBertPredictor:
         ckpt = _torch_load_checkpoint(ckpt_path, torch.device("cpu"))
         self._sentiment_map: dict[str, int] = ckpt["sentiment_map"]
         self._idx2sentiment = {int(v): str(k) for k, v in self._sentiment_map.items()}
+        raw_surface = ckpt.get("aspect_surface_map")
+        self._aspect_surface_map: dict[str, list[str]] | None = (
+            {str(k): [str(x) for x in v] for k, v in raw_surface.items()}
+            if isinstance(raw_surface, dict) and raw_surface
+            else None
+        )
 
         raw_opt = dict(ckpt.get("model_config") or {})
         missing = [k for k in REQUIRED_MODEL_CONFIG_KEYS if k not in raw_opt]
@@ -124,9 +130,12 @@ class LCFBertPredictor:
         try:
             given_aspect = aspect.strip() if isinstance(aspect, str) and aspect.strip() else ""
             use_aspect_input = bool(given_aspect)
+            aspect_surface = resolve_aspect_surface(
+                given_aspect, text, self._aspect_surface_map
+            ) if given_aspect else ""
             features = self._tokenizer.encode_for_lcf(
                 text,
-                aspect=given_aspect,
+                aspect=aspect_surface,
                 use_aspect_input=use_aspect_input,
             )
             inputs = [
