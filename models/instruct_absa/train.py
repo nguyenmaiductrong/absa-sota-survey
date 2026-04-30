@@ -127,15 +127,23 @@ def main() -> None:
 
     callbacks = [EarlyStoppingCallback(early_stopping_patience=cfg["early_stop_patience"])]
 
-    trainer = Seq2SeqTrainer(
+    # transformers >=4.46 đổi `tokenizer` → `processing_class`. Tự dò argname để
+    # tương thích cả phiên bản cũ lẫn mới.
+    import inspect
+    trainer_kwargs = dict(
         model=model,
         args=training_args,
         train_dataset=train_ds,
         eval_dataset=eval_ds,
-        tokenizer=tokenizer,
         data_collator=collator,
         callbacks=callbacks,
     )
+    sig = inspect.signature(Seq2SeqTrainer.__init__)
+    if "processing_class" in sig.parameters:
+        trainer_kwargs["processing_class"] = tokenizer
+    else:
+        trainer_kwargs["tokenizer"] = tokenizer
+    trainer = Seq2SeqTrainer(**trainer_kwargs)
 
     trainer.train()
 
