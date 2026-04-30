@@ -7,7 +7,7 @@ aspect_map: null
 aspect_surface_map: null
 
 train_file: "data/processed/lcf_bert/semeval14_lap_train.jsonl"
-val_file:   "data/processed/lcf_bert/semeval14_lap_test.jsonl"
+val_file: "data/processed/lcf_bert/semeval14_lap_test.jsonl"
 
 pretrained_bert_name: "bert-base-uncased"
 bert_dim: 768
