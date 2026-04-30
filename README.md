@@ -9,7 +9,7 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 | # | Method | Year | Paradigm | Backbone EN | Backbone VI |
 |---|--------|------|----------|-------------|-------------|
 | 1 | LCF-BERT | 2019 | Discriminative | bert-base-uncased | vinai/phobert-base |
-| 2 | InstructABSA | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | google/mt5-base |
+| 2 | InstructABSA | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | VietAI/vit5-base |
 | 3 | SSIN | 2024 | Graph (Syn+Sem) | bert-base-uncased + spaCy | phobert-base + VnCoreNLP |
 | 4 | DOT | 2025 | Generative-Seq2Seq | t5-base | VietAI/vit5-base |
 | 5 | LLM-Reasoning | 2025 | LLM-Reasoning | gpt-4o / llama3 | SeaLLMs/SeaLLM-7B-v2 |
