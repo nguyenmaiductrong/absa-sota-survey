@@ -29,7 +29,7 @@ from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from pytorch_lightning.callbacks import LearningRateMonitor
 
 from torch.optim import AdamW
-from transformers import T5Tokenizer
+from transformers import T5Tokenizer, AutoTokenizer
 from t5 import MyT5ForConditionalGeneration
 from transformers import get_linear_schedule_with_warmup
 from sklearn.metrics import mean_squared_error, accuracy_score
@@ -842,7 +842,7 @@ def train_function(args):
 
     # training process
     if args.do_train:
-        tokenizer = T5Tokenizer.from_pretrained(args.model_name)
+        tokenizer = AutoTokenizer.from_pretrained(args.model_name, use_fast=False)
 
         # sanity check
         dataset = ABSADataset(tokenizer=tokenizer,
@@ -1012,7 +1012,7 @@ def train_function(args):
             model_path2 = os.path.join(args.output_dir, "final")
             # model_path = args.model_name_or_path  # for loading ckpt
 
-            tokenizer = T5Tokenizer.from_pretrained(model_path2)
+            tokenizer = AutoTokenizer.from_pretrained(model_path2, use_fast=False)
             tfm_model1 = MyT5ForConditionalGeneration.from_pretrained(model_path1)
             tfm_model2 = MyT5ForConditionalGeneration.from_pretrained(model_path2)
             model1 = T5FineTuner_1(args, tfm_model1, tokenizer)
