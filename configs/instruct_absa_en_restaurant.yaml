@@ -1,0 +1,22 @@
+# InstructABSA — SemEval-2014 Restaurant (EN, ATSC)
+pretrained_model:    "allenai/tk-instruct-base-def-pos"
+language:            "en"
+
+train_jsonl:         "data/processed/instruct_absa/semeval14_rest_train.jsonl"
+eval_jsonl:          null    # auto split 10% từ train
+
+output_dir:          "checkpoints/semeval14_rest/instruct_absa_best"
+
+subsample_ratio:     0.5     # paper sample-efficiency
+max_input_length:    512
+max_target_length:   8
+
+num_train_epochs:    4
+batch_size:          4
+grad_accum:          4
+learning_rate:       3.0e-5
+weight_decay:        0.01
+warmup_ratio:        0.1
+fp16:                true
+early_stop_patience: 2
+seed:                42

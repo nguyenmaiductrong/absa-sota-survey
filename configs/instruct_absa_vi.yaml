@@ -1,0 +1,22 @@
+# InstructABSA — UIT-VSFC (VI, ATSC) — backbone mT5-base (multilingual)
+pretrained_model:    "google/mt5-base"
+language:            "vi"
+
+train_jsonl:         "data/processed/instruct_absa/vsfc_train.jsonl"
+eval_jsonl:          "data/processed/instruct_absa/vsfc_val.jsonl"
+
+output_dir:          "checkpoints/vsfc/instruct_absa_best"
+
+subsample_ratio:     0.5
+max_input_length:    512
+max_target_length:   8
+
+num_train_epochs:    4
+batch_size:          2          # mT5-base 580M nặng hơn → giảm bs
+grad_accum:          8          # effective bs = 16
+learning_rate:       5.0e-5     # mT5 chưa instruct-tune → LR cao hơn
+weight_decay:        0.01
+warmup_ratio:        0.1
+fp16:                true
+early_stop_patience: 2
+seed:                42
