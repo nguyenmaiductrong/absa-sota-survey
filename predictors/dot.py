@@ -1,21 +1,16 @@
-"""DOT Predictor stub — implements the Predictor protocol.
-
-Paper: "DOT: An efficient Double Transformer for NLP tasks with tables"
-       (used here in the ABSA context as a generative seq2seq approach)
-Paradigm: Generative-Seq2Seq
-
-Replace the body of predict() with actual model inference.
-
-Usage (via evaluate.py CLI):
-  python evaluate.py \
-      --predictor predictors.dot:DOTPredictor \
-      --predictor-kwargs '{"checkpoint": "checkpoints/dot/best.pt"}' \
-      --test-set data/processed/lcf_bert/semeval14_rest_test.jsonl
-"""
 from __future__ import annotations
 import os, sys, torch
 
 PARSE_ERROR = "__PARSE_ERROR__"
+
+SENT_MAP = {
+    "great": "positive",
+    "ok": "neutral",
+    "bad": "negative",
+    "positive": "positive",
+    "neutral": "neutral",
+    "negative": "negative",
+}
 
 class DOTPredictor:
     method   = "DOT"
@@ -40,18 +35,17 @@ class DOTPredictor:
         self._extract_spans_para = extract_spans_para
         self._device = torch.device(device if torch.cuda.is_available() else "cpu")
 
-        self.tokenizer = T5Tokenizer.from_pretrained(checkpoint_phase2)
+        self.tokenizer = T5Tokenizer.from_pretrained(checkpoint_phase2, local_files_only=True)
 
-        # Phase 1 model
-        self._model1 = MyT5ForConditionalGeneration.from_pretrained(checkpoint_phase1)
+        self._model1 = MyT5ForConditionalGeneration.from_pretrained(checkpoint_phase1, local_files_only=True)
         self._model1 = self._model1.to(self._device)
         self._model1.eval()
 
-        # Phase 2 model
-        self._model2 = MyT5ForConditionalGeneration.from_pretrained(checkpoint_phase2)
+        self._model2 = MyT5ForConditionalGeneration.from_pretrained(checkpoint_phase2, local_files_only=True)
         self._model2 = self._model2.to(self._device)
         self._model2.eval()
 
+        print(f"✅ DOTPredictor loaded | device={self._device}")
 
     def _generate(self, model, text: str, max_length: int = 200) -> str:
         enc = self.tokenizer(
@@ -76,9 +70,10 @@ class DOTPredictor:
 
     def predict(self, text: str, aspect: str | None = None) -> tuple[str, str, str]:
         try:
-
+            # Phase 1: sinh order string
             order_str = self._generate(self._model1, text, max_length=130)
 
+            # Phase 2: sinh full quads
             phase2_input = f"{text} {order_str}"
             raw_output = self._generate(self._model2, phase2_input, max_length=1024)
 
@@ -86,15 +81,17 @@ class DOTPredictor:
             if not quads:
                 return PARSE_ERROR, PARSE_ERROR, raw_output
 
+            # Nếu có given aspect, tìm quad khớp
             if aspect:
                 for ac, at, sp, ot in quads:
                     if aspect.lower() in (at or "").lower() or aspect.lower() in (ac or "").lower():
-                        return at or ac, sp, raw_output
-   
-            
+                        pred_aspect    = at if at and at != "it" else ac
+                        pred_sentiment = SENT_MAP.get(sp.lower().strip() if sp else "", "neutral")
+                        return pred_aspect, pred_sentiment, raw_output
+
             ac, at, sp, ot = quads[0]
             pred_aspect    = at if at and at != "it" else ac
-            pred_sentiment = sp
+            pred_sentiment = SENT_MAP.get(sp.lower().strip() if sp else "", "neutral")
 
             return pred_aspect, pred_sentiment, raw_output
 
