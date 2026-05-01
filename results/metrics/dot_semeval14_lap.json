@@ -1,0 +1,21 @@
+{
+  "method": "DOT",
+  "paradigm": "Generative-Seq2Seq",
+  "backbone": "t5-base",
+  "dataset": "SemEval-2014-Laptop",
+  "n_samples": 637,
+  "sentiment_accuracy": 0.7284,
+  "sentiment_macro_f1": 0.6793,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "text_only_joint",
+  "given_aspect": false,
+  "avg_latency_ms": 804.705,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 1.684,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}
