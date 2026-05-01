@@ -12,7 +12,7 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 | 2 | InstructABSA | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | VietAI/vit5-base |
 | 3 | SSIN | 2024 | Graph (Syn+Sem) | bert-base-uncased + spaCy | phobert-base + VnCoreNLP |
 | 4 | DOT | 2025 | Generative-Seq2Seq | t5-base | VietAI/vit5-base |
-| 5 | LLM-Reasoning | 2025 | LLM-Reasoning | gpt-4o / llama3 | SeaLLMs/SeaLLM-7B-v2 |
+| 5 | Syn-Chain (LLM) | 2025 | LLM-Reasoning | Qwen 2.5 14B Instruct | Qwen 2.5 14B Instruct |
 
 ---
 
@@ -137,7 +137,51 @@ python evaluate.py \
 
 ---
 
-## 6. Tổng hợp kết quả
+## 6. Syn-Chain (LLM-Reasoning) (phần này tôi phụ trách)
+
+### Cài đặt
+Cài đặt các thư viện cần thiết và tải model spaCy cho phân tích cú pháp:
+
+```bash
+pip install -r requirements.txt
+pip install langchain-openai python-dotenv spacy
+python -m spacy download en_core_web_sm
+```
+
+### Cấu hình biến môi trường
+Tạo file `.env` ở thư mục gốc (hoặc export biến môi trường) để cấu hình LLM Qwen 2.5 14B Instruct:
+
+```env
+QWEN_API_BASE=http://localhost:8000/v1
+QWEN_API_KEY=EMPTY
+MODEL_NAME=qwen2.5:14b-instruct
+```
+
+### Đánh giá (Evaluate)
+Sử dụng script đánh giá của Syn-Chain để thực hiện quá trình phân tích 3 bước (Cú pháp -> Quan điểm -> Cảm xúc) bằng Qwen 2.5 14B Instruct.
+
+```bash
+# SemEval-2014 Laptop (EN)
+python models/syn-chain-LLM/evaluate.py \
+    --data data/processed/syn-chain/laps_semeval.json \
+    --out results/predictions/evaluation_logs_laps_semeval.json
+
+# SemEval-2014 Restaurant (EN)
+python models/syn-chain-LLM/evaluate.py \
+    --data data/processed/syn-chain/restaurant_semeval.json \
+    --out results/predictions/evaluation_logs_restaurant_semeval.json
+
+# UIT-VSFC (VI)
+python models/syn-chain-LLM/evaluate.py \
+    --data data/processed/syn-chain/uit_vsfc.json \
+    --out results/predictions/evaluation_logs_uit_vsfc.json
+```
+
+Logs kết quả chi tiết kèm lý luận (LLM reasoning) sẽ được lưu tại thư mục `results/predictions/`.
+
+---
+
+## 7. Tổng hợp kết quả
 
 Sau khi tất cả 5 model chạy `evaluate.py`, kết quả nằm ở `results/metrics/*.json`.
 
