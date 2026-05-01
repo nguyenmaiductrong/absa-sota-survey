@@ -6,19 +6,20 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 
 ## 1. Phương pháp khảo sát
 
-| # | Method | Year | Paradigm | Backbone EN | Backbone VI |
-|---|--------|------|----------|-------------|-------------|
-| 1 | LCF-BERT | 2019 | Discriminative | bert-base-uncased | vinai/phobert-base |
-| 2 | InstructABSA | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | VietAI/vit5-base |
-| 3 | SSIN | 2024 | Graph (Syn+Sem) | bert-base-uncased + spaCy | phobert-base + VnCoreNLP |
-| 4 | DOT | 2025 | Generative-Seq2Seq | t5-base | VietAI/vit5-base |
-| 5 | Syn-Chain (LLM) | 2025 | LLM-Reasoning | Qwen 2.5 14B Instruct | Qwen 2.5 14B Instruct |
+| #   | Method          | Year | Paradigm           | Backbone EN                      | Backbone VI              |
+| --- | --------------- | ---- | ------------------ | -------------------------------- | ------------------------ |
+| 1   | LCF-BERT        | 2019 | Discriminative     | bert-base-uncased                | vinai/phobert-base       |
+| 2   | InstructABSA    | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | VietAI/vit5-base         |
+| 3   | SSIN            | 2024 | Graph (Syn+Sem)    | bert-base-uncased + spaCy        | phobert-base + VnCoreNLP |
+| 4   | DOT             | 2025 | Generative-Seq2Seq | t5-base                          | VietAI/vit5-base         |
+| 5   | Syn-Chain (LLM) | 2025 | LLM-Reasoning      | Qwen 2.5 14B Instruct            | Qwen 2.5 14B Instruct    |
 
 ---
 
 ## 2. Dataset
 
 ### SemEval-2014 (English)
+
 - **Task**: ABSA — predict aspect category + sentiment
 - **Nhãn aspect (Restaurant)**: `food` / `service` / `price` / `ambience` / `anecdotes/miscellaneous`
 - **Nhãn aspect (Laptop)**: open vocabulary (aspect term)
@@ -26,6 +27,7 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 - **File raw**: `data/raw/semeval14/*.xml`
 
 ### UIT-VSFC (Vietnamese)
+
 - **Task**: ABSA — predict topic + sentiment (single-label per sentence)
 - **Nhãn topic**: `lecturer` / `training_program` / `facility` / `others`
 - **Nhãn sentiment**: `positive` / `negative` / `neutral`
@@ -35,11 +37,11 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 
 ## 3. Metrics so sánh chung
 
-| Metric | Ý nghĩa |
-|--------|---------|
-| `sentiment_accuracy` | % câu dự đoán đúng sentiment |
+| Metric               | Ý nghĩa                            |
+| -------------------- | ---------------------------------- |
+| `sentiment_accuracy` | % câu dự đoán đúng sentiment       |
 | `sentiment_macro_f1` | Macro-F1 trên tất cả lớp sentiment |
-| `avg_latency_ms` | Thời gian trung bình mỗi câu (ms) |
+| `avg_latency_ms`     | Thời gian trung bình mỗi câu (ms)  |
 
 ---
 
@@ -70,6 +72,7 @@ python evaluate.py \
 ```
 
 Output:
+
 - `results/predictions/<method>_<dataset>.jsonl`
 - `results/metrics/<method>_<dataset>.json`
 
@@ -137,9 +140,93 @@ python evaluate.py \
 
 ---
 
-## 6. Syn-Chain (LLM-Reasoning) (phần này tôi phụ trách)
+## 6. InstructABSA
+
+> Paper: "InstructABSA: Instruction Learning for Aspect Based Sentiment Analysis" (Scaria et al., NAACL 2024). Paradigm Instruction-Tuning, sub-task ATSC (given-aspect → predict polarity), Set-2 prompt (definition + 2 pos/neg/neu examples).
 
 ### Cài đặt
+
+```bash
+pip install -r requirements.txt
+pip install "transformers>=4.45,<5.0" accelerate sentencepiece
+```
+
+> ViT5 (VI backbone) là T5 family → cần `sentencepiece`.
+
+### Chuẩn bị dữ liệu (chạy một lần)
+
+```bash
+python scripts/prepare_instruct_absa.py    # -> data/processed/instruct_absa/{semeval14_rest,semeval14_lap,vsfc}_{train,val,test}.jsonl
+```
+
+Tái dùng split của LCF-BERT (cùng test set → so sánh trực tiếp); thêm field `prompt` theo Set-2 instruction template.
+
+### Train
+
+Backbone: EN dùng `allenai/tk-instruct-base-def-pos` (220M, đã instruct-tune Super-NaturalInstructions); VI dùng `VietAI/vit5-base` (220M, T5 pretrain trên 138GB text Việt thuần).
+
+```bash
+# SemEval-2014 Restaurant (EN)
+python -m models.instruct_absa.train --config configs/instruct_absa_en_restaurant.yaml
+
+# SemEval-2014 Laptop (EN)
+python -m models.instruct_absa.train --config configs/instruct_absa_en_laptop.yaml
+
+# UIT-VSFC (VI)
+python -m models.instruct_absa.train --config configs/instruct_absa_vi.yaml
+```
+
+Cấu hình mặc định: 100% data, fp16, batch 4 + grad accum 4 (eff. bs 16), 4 epochs, T4 16GB. Checkpoint lưu tại `checkpoints/{semeval14_rest,semeval14_lap,vsfc}/instruct_absa_best/`.
+
+### Evaluate
+
+```bash
+# SemEval-2014 Restaurant
+python evaluate.py \
+    --predictor predictors.instruct_absa:InstructABSAPredictor \
+    --predictor-kwargs '{"checkpoint":"checkpoints/semeval14_rest/instruct_absa_best","language":"en"}' \
+    --test-set data/processed/lcf_bert/semeval14_rest_test.jsonl \
+    --given-aspect --output-dir results
+
+# SemEval-2014 Laptop
+python evaluate.py \
+    --predictor predictors.instruct_absa:InstructABSAPredictor \
+    --predictor-kwargs '{"checkpoint":"checkpoints/semeval14_lap/instruct_absa_best","language":"en"}' \
+    --test-set data/processed/lcf_bert/semeval14_lap_test.jsonl \
+    --given-aspect --output-dir results
+
+# UIT-VSFC
+python evaluate.py \
+    --predictor predictors.instruct_absa:InstructABSAPredictor \
+    --predictor-kwargs '{"checkpoint":"checkpoints/vsfc/instruct_absa_best","language":"vi"}' \
+    --test-set data/processed/lcf_bert/vsfc_test.jsonl \
+    --given-aspect --output-dir results
+```
+
+> `--given-aspect`: gold aspect được truyền cho predictor; mô hình echo aspect và chỉ generate polarity (`positive`/`negative`/`neutral`).
+
+### Chạy nhanh trên Kaggle T4
+
+Cách thuận tiện nhất: dùng `notebook/02-instruct-absa-train-eval.ipynb` (đã viết sẵn upload bundle → train 3 dataset → evaluate → đóng gói results). Quy trình:
+
+```bash
+python scripts/make_colab_bundle.py        # -> instruct_absa_bundle.zip
+```
+
+Upload `instruct_absa_bundle.zip` lên Kaggle Dataset, mở notebook, Run All. Output zip xuất hiện ở tab Output → tải về.
+
+### Tổng hợp kết quả
+
+```bash
+python scripts/summarize_instruct_absa_results.py    # in bảng acc/F1/latency 3 dataset
+```
+
+---
+
+## 7. Syn-Chain (LLM-Reasoning) (phần này tôi phụ trách)
+
+### Cài đặt
+
 Cài đặt các thư viện cần thiết và tải model spaCy cho phân tích cú pháp:
 
 ```bash
@@ -149,6 +236,7 @@ python -m spacy download en_core_web_sm
 ```
 
 ### Cấu hình biến môi trường
+
 Tạo file `.env` ở thư mục gốc (hoặc export biến môi trường) để cấu hình LLM Qwen 2.5 14B Instruct:
 
 ```env
@@ -158,6 +246,7 @@ MODEL_NAME=qwen2.5:14b-instruct
 ```
 
 ### Đánh giá (Evaluate)
+
 Sử dụng script đánh giá của Syn-Chain để thực hiện quá trình phân tích 3 bước (Cú pháp -> Quan điểm -> Cảm xúc) bằng Qwen 2.5 14B Instruct.
 
 ```bash
@@ -181,7 +270,7 @@ Logs kết quả chi tiết kèm lý luận (LLM reasoning) sẽ được lưu t
 
 ---
 
-## 7. Tổng hợp kết quả
+## 8. Tổng hợp kết quả
 
 Sau khi tất cả 5 model chạy `evaluate.py`, kết quả nằm ở `results/metrics/*.json`.
 
