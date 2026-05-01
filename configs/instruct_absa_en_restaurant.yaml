@@ -7,7 +7,7 @@ eval_jsonl:          null    # auto split 10% từ train
 
 output_dir:          "checkpoints/semeval14_rest/instruct_absa_best"
 
-subsample_ratio:     1.0     # full data (v2)
+subsample_ratio:     1.0     # full data
 max_input_length:    512
 max_target_length:   8
 

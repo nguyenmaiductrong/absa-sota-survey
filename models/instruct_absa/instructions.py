@@ -10,8 +10,9 @@ Bám sát convention paper gốc (Scaria et al. 2024, NAACL):
       Output:
 
 Tách 2 ngôn ngữ: EN dùng cho tk-instruct-base-def-pos (đã instruct-tune
-tiếng Anh), VI dùng cho google/mt5-base (multilingual, không instruct-tune
-nên prompt phải bằng tiếng Việt thuần để khớp pretrain mC4).
+tiếng Anh), VI dùng cho VietAI/vit5-base (T5 pretrain trên 138GB text
+Việt thuần, không instruct-tune nên prompt phải bằng tiếng Việt thuần
+để khớp pretrain).
 
 Few-shot examples cho EN lấy từ SemEval-14 (Rest + Laptop) — in-domain;
 VI examples self-construct theo phong cách UIT-VSFC.

@@ -1,4 +1,4 @@
-# InstructABSA — UIT-VSFC (VI, ATSC) — v2: backbone ViT5-base (T5 pretrain trên 138GB text Việt)
+# InstructABSA — UIT-VSFC (VI, ATSC) — backbone ViT5-base (T5 pretrain trên 138GB text Việt)
 pretrained_model:    "VietAI/vit5-base"
 language:            "vi"
 
@@ -7,16 +7,16 @@ eval_jsonl:          "data/processed/instruct_absa/vsfc_val.jsonl"
 
 output_dir:          "checkpoints/vsfc/instruct_absa_best"
 
-subsample_ratio:     1.0           # full data (v2, was 0.3 with mT5)
+subsample_ratio:     1.0           # full data
 max_input_length:    512
 max_target_length:   8
 
 num_train_epochs:    4
 batch_size:          4             # ViT5-base 220M (giống Tk-Instruct EN)
 grad_accum:          4             # effective bs = 16
-learning_rate:       3.0e-5        # ViT5 stable hơn mT5, dùng LR chuẩn
+learning_rate:       3.0e-5        # LR chuẩn cho ViT5
 weight_decay:        0.01
 warmup_ratio:        0.1
-fp16:                true          # ViT5 stable ở fp16 (mT5 NaN trước đây)
+fp16:                true          # ViT5 stable ở fp16
 early_stop_patience: 2
 seed:                42

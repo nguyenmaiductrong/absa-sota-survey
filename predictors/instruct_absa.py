@@ -6,7 +6,7 @@ Paradigm: Instruction-Tuning (Seq2SeqLM)
 
 Hỗ trợ 2 backbone:
   - EN (SemEval-14): allenai/tk-instruct-base-def-pos
-  - VI (UIT-VSFC):   google/mt5-base
+  - VI (UIT-VSFC):   VietAI/vit5-base
 
 Chế độ vận hành: ATSC (given-aspect) — gold aspect được cung cấp ở evaluate.py
 qua flag --given-aspect; predictor echo aspect, chỉ predict polarity.
