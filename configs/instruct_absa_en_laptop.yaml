@@ -7,7 +7,7 @@ eval_jsonl:          null
 
 output_dir:          "checkpoints/semeval14_lap/instruct_absa_best"
 
-subsample_ratio:     1.0     # full data (v2)
+subsample_ratio:     1.0     # full data
 max_input_length:    512
 max_target_length:   8
 
