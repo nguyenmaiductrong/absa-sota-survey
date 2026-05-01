@@ -1,0 +1,21 @@
+{
+  "method": "DOT",
+  "paradigm": "Generative-Seq2Seq",
+  "backbone": "t5-base",
+  "dataset": "SemEval-2014-Restaurant",
+  "n_samples": 2090,
+  "sentiment_accuracy": 0.8297,
+  "sentiment_macro_f1": 0.7191,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "text_only_joint",
+  "given_aspect": false,
+  "avg_latency_ms": 1602.926,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": 1.687,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp16",
+    "batch_size_inference": 1
+  }
+}
