@@ -4,18 +4,18 @@
   "backbone": "bert-base-uncased",
   "dataset": "SemEval-2014-Laptop",
   "n_samples": 463,
-  "sentiment_accuracy": 0.8143,
-  "sentiment_macro_f1": 0.7936,
+  "sentiment_accuracy": 0.8056,
+  "sentiment_macro_f1": 0.7794,
   "parse_error_rate": 0.0,
   "evaluation_protocol": "given_aspect_absc",
   "given_aspect": true,
-  "avg_latency_ms": null,
+  "avg_latency_ms": 5.905,
   "efficiency": {
     "params_million": null,
     "gpu_mem_peak_gb": null,
     "training_hours": null,
     "hardware": "1x T4 16GB",
     "precision": "fp32",
-    "batch_size_inference": 16
+    "batch_size_inference": 1
   }
 }
