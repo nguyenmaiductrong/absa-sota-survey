@@ -269,24 +269,25 @@ python models/syn-chain-LLM/evaluate.py \
 Logs kết quả chi tiết kèm lý luận (LLM reasoning) sẽ được lưu tại thư mục `results/predictions/`.
 
 ## 8. BERT-SSIN (Fine-Tuning)
- 
+
 ### Cài đặt
 ```bash
 pip install transformers scikit-learn spacy
 python -m spacy download en_core_web_sm
 ```
- 
+
 ### Đánh giá
 Mở và chạy toàn bộ notebook trên Kaggle (yêu cầu GPU T4):
- 
+
 ```
 notebooks/Ssin_sameval.ipynb
 ```
- 
+
 Kết quả được lưu tại:
 ```
 /kaggle/working/bert_ssin_restaurant_metrics.json
 /kaggle/working/bert_ssin_laptop_metrics.json
+```
 
 ## 9. Tổng hợp kết quả
 
