@@ -223,7 +223,7 @@ python scripts/summarize_instruct_absa_results.py    # in bảng acc/F1/latency 
 
 ---
 
-## 7. Syn-Chain (LLM-Reasoning) (phần này tôi phụ trách)
+## 7. Syn-Chain (LLM-Reasoning)
 
 ### Cài đặt
 
@@ -288,7 +288,23 @@ Kết quả được lưu tại:
 /kaggle/working/bert_ssin_restaurant_metrics.json
 /kaggle/working/bert_ssin_laptop_metrics.json
 ```
-
+## DOT (Generative-Seq2Seq - 2025)
+### Trainning
+Mở và chạy toàn bộ notebook trên Kaggle (Yêu cầu GPU T4):
+```
+notebook/dot-train-laptop.ipynb
+notebook/dot-train-restaurant.ipynb
+```
+### Đánh giá
+Mở và chạy toàn bộ notebook trên Kaggle (Yêu cầu GPU T4):
+```
+notebook/eval-dot-sem.ipynb
+```
+Kết quả được lưu tại 
+```
+/kaggle/working/absa-sota-survey/results/metrics/dot_semeval14_lap.json
+/kaggle/working/absa-sota-survey/results/metrics/dot_semeval14_rest.json
+```
 ## 9. Tổng hợp kết quả
 
 Sau khi tất cả 5 model chạy `evaluate.py`, kết quả nằm ở `results/metrics/*.json`.
