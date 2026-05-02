@@ -8,10 +8,10 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 
 | # | Method | Year | Paradigm | Backbone EN | Backbone VI |
 |---|--------|------|----------|-------------|-------------|
-| 1 | LCF-BERT | 2019 | Discriminative | bert-base-uncased | vinai/phobert-base |
-| 2 | InstructABSA | 2023 | Instruction-Tuning | allenai/tk-instruct-base-def-pos | VietAI/vit5-base |
-| 3 | SSIN | 2024 | Graph (Syn+Sem) | bert-base-uncased + spaCy | phobert-base + VnCoreNLP |
-| 4 | DOT | 2025 | Generative-Seq2Seq | t5-base | VietAI/vit5-base |
+| 1 | LCF-BERT | 2019 | Discriminative | `bert-base-uncased` | PhoBERT (`vinai/phobert-base`) |
+| 2 | InstructABSA | 2024 | Instruction-Tuning | `allenai/tk-instruct-base-def-pos` | `VietAI/vit5-base` |
+| 3 | SSIN | 2024 | Graph (Syn+Sem) | `bert-base-uncased` + spaCy | PhoBERT-base + `underthesea` (tách từ) |
+| 4 | DOT | 2025 | Generative-Seq2Seq | `t5-base` | `VietAI/vit5-base` |
 | 5 | Syn-Chain (LLM) | 2025 | LLM-Reasoning | Qwen 2.5 14B Instruct | Qwen 2.5 14B Instruct |
 
 ---
@@ -35,165 +35,39 @@ Repository thực nghiệm 5 phương pháp ABSA SOTA (2019–2025) trên tiến
 
 ## 3. Metrics so sánh chung
 
-| Metric | Ý nghĩa |
-|--------|---------|
-| `sentiment_accuracy` | % câu dự đoán đúng sentiment |
-| `sentiment_macro_f1` | Macro-F1 trên tất cả lớp sentiment |
-| `avg_latency_ms` | Thời gian trung bình mỗi câu (ms) |
+Các chỉ số dưới đây thống nhất với pipeline `evaluate.py` + module chấm [`eval/score.py`](eval/score.py): mỗi dòng trong file dự đoán (JSONL) là một **mẫu ATSC** — cùng một câu đánh giá với **aspect hoặc topic đã cho** (`given_aspect`), mô hình chỉ dự đoán **cực cảm xúc** (subtask *Aspect (-Category) Sentiment Classification*).
+
+| Metric | Ý nghĩa (định nghĩa dùng trong repo) |
+|--------|--------------------------------------|
+| `sentiment_accuracy` | **Accuracy** (độ chính xác thường): tỷ số mẫu mà nhãn dự đoán `pred.sentiment` **trùng khớp** nhãn tham chiếu `gold.sentiment` trên toàn bộ tập đánh giá (\(\#\) đúng / \(\#\) mẫu). Giá trị thực trong \([0, 1]\); khi báo cáo %, nhân \(100\). *Không* phải F1 hay precision/recall riêng lẻ. |
+| `sentiment_macro_f1` | **Macro-F1** (*macro-averaged F1*): với **mỗi lớp cực cảm xúc** xuất hiện trong tập `gold`, tính F1 (harmonic mean của precision và recall lớp đó), rồi lấy **trung bình cộng** các F1 lớp. Nhạy với lớp thiểu số hơn accuracy; phù hợp SemEval khi `neutral` ít hơn `positive`. Triển khai: trung bình không trọng số theo lớp trong `eval/score.py`. |
+| `avg_latency_ms` | **Độ trễ suy luận trung bình** (*end-to-end latency*): trung bình số học của `latency_ms` trên **tất cả** mẫu test; mỗi `latency_ms` là **thời gian tường (wall-clock)** của **một lần gọi** dự đoán (forward / giải mã, có thể nhiều vòng với LLM). Các lần **warmup** trước vòng đo không tính vào danh sách latency. Đơn vị: millisecond. |
+| `parse_error_rate` | **Tỷ lệ lỗi parse / định dạng**: phần mẫu có `parse_ok = false` (đầu ra không parse được thành cặp aspect–sentiment hợp lệ); khi chấm, sentiment dự đoán bị coi là sai (`__WRONG__`). |
 
 ---
 
-## 4. Giao thức đánh giá chung
+## 4. Hướng dẫn chạy trên Kaggle (notebook)
 
-Mỗi model **phải** implement class với 3 thuộc tính + 1 method:
+Thử nghiệm nằm trong [`notebook/`](notebook/). Trên Kaggle: tạo notebook → **File** → **Import Notebook** (dán URL file `.ipynb` trên GitHub nhánh `main`, dạng `https://github.com/nguyenmaiductrong/absa-sota-survey/blob/main/notebook/<tên-file>.ipynb`) hoặc làm theo cell clone/thiết lập đầu tiên của từng file. Bật **Internet** / **GPU** khi notebook có ghi chú. **Chạy tuần tự các cell**; cài đặt, dataset, secrets và đường dẫn `/kaggle/...` đều được mô tả **trong notebook**.
 
-```python
-class MyModelPredictor:
-    method   = "TênModel"
-    paradigm = "Discriminative"
-    backbone = "bert-base-uncased"
+### 4.1. LCF-BERT
 
-    def predict(self, text: str, aspect: str | None = None) -> tuple[str, str, str]:
-        # Trả về (pred_aspect, pred_sentiment, raw_output)
-        # Nếu không parse được: return ("__PARSE_ERROR__", "__PARSE_ERROR__", raw)
-        ...
-```
+Chạy theo [`notebook/01-lcf-bert-train-eval.ipynb`](notebook/01-lcf-bert-train-eval.ipynb).
 
-Chạy đánh giá:
+### 4.2. InstructABSA
 
-```bash
-python evaluate.py \
-    --predictor predictors.<module>:<Class> \
-    --predictor-kwargs '{"checkpoint": "checkpoints/<model>/best.pt"}' \
-    --test-set data/processed/lcf_bert/semeval14_rest_test.jsonl \
-    --output-dir results
-```
+Chạy theo [`notebook/02-instruct-absa-train-eval.ipynb`](notebook/02-instruct-absa-train-eval.ipynb).
 
-Output:
-- `results/predictions/<method>_<dataset>.jsonl`
-- `results/metrics/<method>_<dataset>.json`
+### 4.3. SSIN
+
+Chạy theo [`notebook/03-Notebook_SSIN_train_SAMEVAL.ipynb`](notebook/03-Notebook_SSIN_train_SAMEVAL.ipynb) (SemEval-2014) và/hoặc [`notebook/03-Notebook_SSIN_train_UIT.ipynb`](notebook/03-Notebook_SSIN_train_UIT.ipynb) (UIT-VSFC), tùy bộ dữ liệu cần tái hiện.
+
+### 4.4. DOT
+
+Chạy theo [`notebook/04-dot-train-restaurant.ipynb`](notebook/04-dot-train-restaurant.ipynb), [`notebook/04-dot-train-laptop.ipynb`](notebook/04-dot-train-laptop.ipynb) và [`notebook/04-eval-dot-sem.ipynb`](notebook/04-eval-dot-sem.ipynb) — thứ tự, checkpoint và đánh giá nằm trong từng notebook.
+
+### 4.5. Syn-Chain (LLM)
+
+Chạy theo [`notebook/05-nlp-survey-syn-chain-absa.ipynb`](notebook/05-nlp-survey-syn-chain-absa.ipynb) (SemEval, EN) và/hoặc [`notebook/05-nlp-survey-syn-chain-absa-vi.ipynb`](notebook/05-nlp-survey-syn-chain-absa-vi.ipynb) (UIT-VSFC, VI).
 
 ---
-
-## 5. LCF-BERT (phần này tôi phụ trách)
-
-### Cài đặt
-
-```bash
-pip install -r requirements.txt
-```
-
-### Chuẩn bị dữ liệu (chạy một lần)
-
-```bash
-python scripts/prepare_semeval14_lcf_bert.py   # -> data/processed/lcf_bert/semeval14_*.jsonl
-python scripts/prepare_vsfc_lcf_bert.py        # -> data/processed/lcf_bert/vsfc_*.jsonl
-```
-
-### Train
-
-```bash
-# SemEval-2014 Restaurant (EN)
-python models/lcf_bert/train.py --config configs/lcf_bert_en_restaurant.yaml
-
-# SemEval-2014 Laptop (EN)
-python models/lcf_bert/train.py --config configs/lcf_bert_en_laptop.yaml
-
-# UIT-VSFC (VI)
-python models/lcf_bert/train.py --config configs/lcf_bert_vi.yaml
-```
-
-Checkpoint lưu tại `checkpoints/semeval14_rest/lcf_bert_best.pt`, `checkpoints/semeval14_lap/lcf_bert_best.pt`, `checkpoints/vsfc/lcf_bert_best.pt`.
-
-### Evaluate
-
-```bash
-# SemEval-2014 Restaurant
-python evaluate.py \
-    --predictor predictors.lcf_bert:LCFBertPredictor \
-    --predictor-kwargs '{"checkpoint":"checkpoints/semeval14_rest/lcf_bert_best.pt"}' \
-    --test-set data/processed/lcf_bert/semeval14_rest_test.jsonl \
-    --given-aspect \
-    --output-dir results
-
-# SemEval-2014 Laptop
-python evaluate.py \
-    --predictor predictors.lcf_bert:LCFBertPredictor \
-    --predictor-kwargs '{"checkpoint":"checkpoints/semeval14_lap/lcf_bert_best.pt"}' \
-    --test-set data/processed/lcf_bert/semeval14_lap_test.jsonl \
-    --given-aspect \
-    --output-dir results
-
-# UIT-VSFC
-python evaluate.py \
-    --predictor predictors.lcf_bert:LCFBertPredictor \
-    --predictor-kwargs '{"checkpoint":"checkpoints/vsfc/lcf_bert_best.pt"}' \
-    --test-set data/processed/lcf_bert/vsfc_test.jsonl \
-    --given-aspect \
-    --output-dir results
-```
-
-> `--given-aspect`: truyền gold aspect làm LCF anchor, model chỉ predict sentiment (chế độ ABSC chuẩn của LCF-BERT).
-
----
-
-## 6. Syn-Chain (LLM-Reasoning) (phần này tôi phụ trách)
-
-### Cài đặt
-Cài đặt các thư viện cần thiết và tải model spaCy cho phân tích cú pháp:
-
-```bash
-pip install -r requirements.txt
-pip install langchain-openai python-dotenv spacy
-python -m spacy download en_core_web_sm
-```
-
-### Cấu hình biến môi trường
-Tạo file `.env` ở thư mục gốc (hoặc export biến môi trường) để cấu hình LLM Qwen 2.5 14B Instruct:
-
-```env
-QWEN_API_BASE=http://localhost:8000/v1
-QWEN_API_KEY=EMPTY
-MODEL_NAME=qwen2.5:14b-instruct
-```
-
-### Đánh giá (Evaluate)
-Sử dụng script đánh giá của Syn-Chain để thực hiện quá trình phân tích 3 bước (Cú pháp -> Quan điểm -> Cảm xúc) bằng Qwen 2.5 14B Instruct.
-
-```bash
-# SemEval-2014 Laptop (EN)
-python models/syn-chain-LLM/evaluate.py \
-    --data data/processed/syn-chain/laps_semeval.json \
-    --out results/predictions/evaluation_logs_laps_semeval.json
-
-# SemEval-2014 Restaurant (EN)
-python models/syn-chain-LLM/evaluate.py \
-    --data data/processed/syn-chain/restaurant_semeval.json \
-    --out results/predictions/evaluation_logs_restaurant_semeval.json
-
-# UIT-VSFC (VI)
-python models/syn-chain-LLM/evaluate.py \
-    --data data/processed/syn-chain/uit_vsfc.json \
-    --out results/predictions/evaluation_logs_uit_vsfc.json
-```
-
-Logs kết quả chi tiết kèm lý luận (LLM reasoning) sẽ được lưu tại thư mục `results/predictions/`.
-
----
-
-## 7. Tổng hợp kết quả
-
-Sau khi tất cả 5 model chạy `evaluate.py`, kết quả nằm ở `results/metrics/*.json`.
-
-```bash
-# Xem nhanh bảng so sánh
-python -c "
-import json, glob
-for p in sorted(glob.glob('results/metrics/*.json')):
-    m = json.load(open(p))
-    print(f\"{m['method']:20s} {m['dataset']:30s}  sent_acc={m['sentiment_accuracy']:.3f}  macro_f1={m['sentiment_macro_f1']:.3f}  latency={m['avg_latency_ms']}ms\")
-"
-
-# Vẽ biểu đồ trade-off Latency vs Accuracy
-python scripts/plot_tradeoff.py --out results/tradeoff.png
-```
