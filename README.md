@@ -42,7 +42,6 @@ Các chỉ số dưới đây thống nhất với pipeline `evaluate.py` + modu
 | `sentiment_accuracy` | **Accuracy** (độ chính xác thường): tỷ số mẫu mà nhãn dự đoán `pred.sentiment` **trùng khớp** nhãn tham chiếu `gold.sentiment` trên toàn bộ tập đánh giá (\(\#\) đúng / \(\#\) mẫu). Giá trị thực trong \([0, 1]\); khi báo cáo %, nhân \(100\). *Không* phải F1 hay precision/recall riêng lẻ. |
 | `sentiment_macro_f1` | **Macro-F1** (*macro-averaged F1*): với **mỗi lớp cực cảm xúc** xuất hiện trong tập `gold`, tính F1 (harmonic mean của precision và recall lớp đó), rồi lấy **trung bình cộng** các F1 lớp. Nhạy với lớp thiểu số hơn accuracy; phù hợp SemEval khi `neutral` ít hơn `positive`. Triển khai: trung bình không trọng số theo lớp trong `eval/score.py`. |
 | `avg_latency_ms` | **Độ trễ suy luận trung bình** (*end-to-end latency*): trung bình số học của `latency_ms` trên **tất cả** mẫu test; mỗi `latency_ms` là **thời gian tường (wall-clock)** của **một lần gọi** dự đoán (forward / giải mã, có thể nhiều vòng với LLM). Các lần **warmup** trước vòng đo không tính vào danh sách latency. Đơn vị: millisecond. |
-| `parse_error_rate` | **Tỷ lệ lỗi parse / định dạng**: phần mẫu có `parse_ok = false` (đầu ra không parse được thành cặp aspect–sentiment hợp lệ); khi chấm, sentiment dự đoán bị coi là sai (`__WRONG__`). |
 
 ---
 
