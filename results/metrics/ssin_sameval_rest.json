@@ -3,7 +3,7 @@
   "paradigm": "Fine-Tuning",
   "backbone": "bert-base-uncased",
   "dataset": "SemEval-2014-Restaurant",
-  "n_samples": 1120,
+  "n_samples": 973,
   "sentiment_accuracy": 0.8187,
   "sentiment_macro_f1": 0.7723,
   "parse_error_rate": 0.0,
