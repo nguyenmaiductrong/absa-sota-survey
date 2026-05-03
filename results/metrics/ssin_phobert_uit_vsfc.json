@@ -1,0 +1,21 @@
+{
+  "method": "PhoBERT-SSIN",
+  "paradigm": "Fine-Tuning",
+  "backbone": "vinai/phobert-base",
+  "dataset": "UIT-VSFC",
+  "n_samples": 3166,
+  "sentiment_accuracy": 0.9397,
+  "sentiment_macro_f1": 0.8477,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_category_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 5.62,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": null,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp32",
+    "batch_size_inference": 1
+  }
+}
