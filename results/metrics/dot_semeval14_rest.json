@@ -3,7 +3,7 @@
   "paradigm": "Generative-Seq2Seq",
   "backbone": "t5-base",
   "dataset": "SemEval-2014-Restaurant",
-  "n_samples": 2090,
+  "n_samples": 973,
   "sentiment_accuracy": 0.8297,
   "sentiment_macro_f1": 0.7191,
   "parse_error_rate": 0.0,

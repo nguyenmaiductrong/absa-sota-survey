@@ -3,7 +3,7 @@
   "paradigm": "Generative-Seq2Seq",
   "backbone": "t5-base",
   "dataset": "SemEval-2014-Laptop",
-  "n_samples": 637,
+  "n_samples": 638,
   "sentiment_accuracy": 0.7284,
   "sentiment_macro_f1": 0.6793,
   "parse_error_rate": 0.0,
