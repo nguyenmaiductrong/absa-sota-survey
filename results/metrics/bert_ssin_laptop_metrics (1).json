@@ -1,0 +1,24 @@
+{
+  "method": "BERT-SSIN",
+  "paradigm": "Fine-Tuning",
+  "backbone": "bert-base-uncased",
+  "dataset": "SemEval-2014-Laptop",
+  "n_samples": 638,
+  "sentiment_accuracy": 0.7884,
+  "sentiment_macro_f1": 0.756,
+  "parse_error_rate": 0.0,
+  "evaluation_protocol": "given_aspect_absc",
+  "given_aspect": true,
+  "avg_latency_ms": 10.754,
+  "latency_p50_ms": 10.681,
+  "latency_p95_ms": 11.502,
+  "latency_p99_ms": 11.84,
+  "efficiency": {
+    "params_million": null,
+    "gpu_mem_peak_gb": null,
+    "training_hours": null,
+    "hardware": "1x T4 16GB",
+    "precision": "fp32",
+    "batch_size_inference": 1
+  }
+}
